@@ -3,15 +3,22 @@ local telescope = {}
 function telescope.telescope()
     require('telescope').setup {
         defaults = {
-            -- Default configuration for telescope goes here:
-            -- config_key = value,
             mappings = {
                 i = {
                     ["<C-v>"] = require('telescope.actions').file_vsplit,
                     ["<C-s>"] = require('telescope.actions').file_split,
                 }
             },
-            file_ignore_patterns = { "^vendor/" }
+            file_ignore_patterns = { "^vendor/" },
+            layout_strategy = 'horizontal',
+            layout_config = {
+                horizontal = {
+                    width = 0.9,
+                    height = 0.6,
+                    preview_cutoff = 50,
+                    prompt_position = "bottom",
+                }
+            }
         },
         extensions = {
             fzf = {

@@ -1,7 +1,7 @@
 vim.g.mapleader = "'"
 
 local function noremap(mode, shorcut, command)
-    vim.api.nvim_set_keymap(mode, shorcut, command, { noremap = true })
+    vim.api.nvim_set_keymap(mode, shorcut, command, { noremap = true, silent = true })
 end
 
 local function nnoremap(shortcut, command)

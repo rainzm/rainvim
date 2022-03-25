@@ -1,5 +1,6 @@
 local ui = require("modules.ui")
 local telescope = require("modules.telescope")
+local treesitter = require("modules.treesitter")
 
 vim.cmd [[packadd packer.nvim]]
 
@@ -29,4 +30,14 @@ return require('packer').startup(function ()
     use {
         'kyazdani42/nvim-web-devicons',
     }
+    use {
+        'sheerun/vim-polyglot',
+    }
+    use {
+        'neovim/nvim-lspconfig'
+    }
+    use 'hrsh7th/nvim-cmp' -- Autocompletion plugin
+    use 'hrsh7th/cmp-nvim-lsp' -- LSP source for nvim-cmp
+    use 'L3MON4D3/LuaSnip'
+    use 'saadparwaiz1/cmp_luasnip'
 end)
