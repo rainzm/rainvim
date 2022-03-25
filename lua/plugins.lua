@@ -1,4 +1,5 @@
 local ui = require("modules.ui")
+local telescope = require("modules.telescope")
 
 vim.cmd [[packadd packer.nvim]]
 
@@ -15,5 +16,17 @@ return require('packer').startup(function ()
     use {
         'itchyny/lightline.vim',
         config = ui.lightline,
+    }
+    use {
+        'nvim-telescope/telescope-fzf-native.nvim',
+        run = 'make',
+    }
+    use {
+        'nvim-telescope/telescope.nvim',
+        requires = { {'nvim-lua/plenary.nvim'} },
+        config = telescope.telescope,
+    }
+    use {
+        'kyazdani42/nvim-web-devicons',
     }
 end)

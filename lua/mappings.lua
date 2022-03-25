@@ -35,7 +35,12 @@ nnoremap('?', ':set hlsearch<cr>?')
 nnoremap('*', '*:set hlsearch<cr>')
 nnoremap('gm', ':set nohlsearch<cr>')
 
--- fzf
-nnoremap('<Leader>p', ':Files<CR>')
-nnoremap('<Leader>b', ':Buffers<CR>')
+
+-- telescope
+local function rg(opts)
+    require('telescope.builtin').grep_string({ search = opts.args })
+end
+nnoremap('<Leader>p', '<cmd>Telescope find_files<CR>')
+nnoremap('<Leader>b', '<cmd>Telescope buffers<CR>')
+vim.api.nvim_add_user_command('Rg', rg, { nargs = 1, force = true })
 nnoremap('gf', ':Rg <C-R><C-W><CR>')

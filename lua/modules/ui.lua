@@ -45,7 +45,7 @@ function ui.nvim_tree()
         actions = {
             open_file = {
                 window_picker = {
-                    enable = false,
+                    enable = true,
                 },
             },
         },
