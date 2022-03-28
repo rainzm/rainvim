@@ -44,3 +44,11 @@ nnoremap('<Leader>p', '<cmd>Telescope find_files<CR>')
 nnoremap('<Leader>b', '<cmd>Telescope buffers<CR>')
 vim.api.nvim_add_user_command('Rg', rg, { nargs = 1, force = true })
 nnoremap('gf', ':Rg <C-R><C-W><CR>')
+
+-- lsp
+nnoremap('gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
+nnoremap('gi', '<cmd>lua require("telescope.builtin").lsp_implementations()<CR>')
+nnoremap('gr', '<cmd>lua require("telescope.builtin").lsp_references()<CR>')
+nnoremap('gs', '<cmd>lua require("telescope.builtin").lsp_workspace_symbols()<CR>')
+nnoremap('<leader>e', '<cmd>lua require("telescope.builtin").diagnostics({bufnr=0})<CR>')
+nnoremap('<leader>E', '<cmd>lua require("telescope.builtin").diagnostics()<CR>')

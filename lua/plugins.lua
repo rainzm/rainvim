@@ -40,4 +40,11 @@ return require('packer').startup(function ()
     use 'hrsh7th/cmp-nvim-lsp' -- LSP source for nvim-cmp
     use 'L3MON4D3/LuaSnip'
     use 'saadparwaiz1/cmp_luasnip'
+    use {
+        'phaazon/hop.nvim',
+        branch = 'v1', -- optional but strongly recommended
+        config = function()
+            require('hop').setup()
+        end
+    }
 end)
