@@ -42,7 +42,7 @@ local function rg(opts)
 end
 nnoremap('<Leader>p', '<cmd>Telescope find_files<CR>')
 nnoremap('<Leader>b', '<cmd>Telescope buffers<CR>')
-vim.api.nvim_add_user_command('Rg', rg, { nargs = 1, force = true })
+vim.api.nvim_create_user_command('Rg', rg, { nargs = 1, force = true })
 nnoremap('gf', ':Rg <C-R><C-W><CR>')
 
 -- lsp

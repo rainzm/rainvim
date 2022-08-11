@@ -1,17 +1,6 @@
 local ui = {}
 
 function ui.nvim_tree()
-    vim.g.nvim_tree_show_icons = {
-        git = 0,
-        folders = 1,
-        files = 1,
-        folder_arrows = 0,
-    }
-    vim.g.nvim_tree_icons = {
-        default = '',
-        symlink = '',
-    }
-    vim.g.nvim_tree_special_files = {}
     local list = {
         { key = "za", action = "close_node" },
         { key = "c", action = "copy" },
@@ -35,12 +24,27 @@ function ui.nvim_tree()
 			height = 30,
 			hide_root_folder = true,
 			side = "left",
-			auto_resize = false,
 			mappings = { custom_only = false, list = list },
 			number = false,
 			relativenumber = false,
             signcolumn = "no",
 		},
+        renderer = {
+            icons = {
+                show = {
+                    git = false,
+                    folder = true,
+                    file = true,
+                    folder_arrow = false,
+                },
+                glyphs = {
+                    default = "",
+                    symlink = "",
+                },
+            },
+            special_files = {
+            },
+        },
 		trash = { cmd = "trash", require_confirm = true },
         actions = {
             open_file = {
