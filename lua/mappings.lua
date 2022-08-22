@@ -1,54 +1,55 @@
 vim.g.mapleader = "'"
+local M = {}
 
-local function noremap(mode, shorcut, command)
+function M.noremap(mode, shorcut, command)
     vim.api.nvim_set_keymap(mode, shorcut, command, { noremap = true, silent = true })
 end
 
-local function nnoremap(shortcut, command)
-    noremap("n", shortcut, command)
+function M.nnoremap(shortcut, command)
+    M.noremap("n", shortcut, command)
 end
 
-local function vnoremap(shortcut, command)
-    noremap("v", shortcut, command)
+function M.vnoremap(shortcut, command)
+    M.noremap("v", shortcut, command)
 end
 
-nnoremap('<C-A>', '^')
-nnoremap('<C-S>', '$')
-vnoremap('<Leader>y', '"+y')
-nnoremap('<Leader>p', '"+p')
-nnoremap('<Leader>s', ':w<CR>')
-nnoremap('<Leader>S', ':wa<CR>')
-nnoremap('<Leader>Q', ":wa<CR>:qa<CR>")
-nnoremap('<Leader>1', ":NvimTreeToggle<CR>")
-nnoremap('<Leader>v', ":NvimTreeFindFile<CR>")
-nnoremap('g1', ":NvimTreeFocus<CR>")
+function M.tnoremap(shorcut, command)
+    M.noremap('t', shorcut, command)
+end
 
-nnoremap('<C-[>', '<C-I>')
-nnoremap('<C-O>', '<C-T>')
-nnoremap('<C-P>', '<C-O>')
+function M.inoremap(shorcut, command)
+    M.noremap('i', shorcut, command)
+end
+
+M.nnoremap('<C-A>', '^')
+M.nnoremap('<C-S>', '$')
+M.vnoremap('<Leader>y', '"+y')
+M.nnoremap('<Leader>s', ':w<CR>')
+M.nnoremap('<Leader>S', ':wa<CR>')
+M.nnoremap('<Leader>Q', ":wa<CR>:qa<CR>")
+
+M.nnoremap('<C-[>', '<C-I>')
+M.nnoremap('<C-O>', '<C-T>')
+M.nnoremap('<C-P>', '<C-O>')
 
 -- highlight
-nnoremap('n', ':set hlsearch<cr>n')
-nnoremap('N', ':set hlsearch<cr>N')
-nnoremap('/', ':set hlsearch<cr>/')
-nnoremap('?', ':set hlsearch<cr>?')
-nnoremap('*', '*:set hlsearch<cr>')
-nnoremap('gm', ':set nohlsearch<cr>')
+M.nnoremap('n', ':set hlsearch<cr>n')
+M.nnoremap('N', ':set hlsearch<cr>N')
+M.nnoremap('/', ':set hlsearch<cr>/')
+M.nnoremap('?', ':set hlsearch<cr>?')
+M.nnoremap('*', '*:set hlsearch<cr>')
+M.nnoremap('gm', ':set nohlsearch<cr>')
 
-
--- telescope
-local function rg(opts)
-    require('telescope.builtin').grep_string({ search = opts.args })
+local function bd(_)
+    require 'util.buffer'.buf_kill(0, false)
 end
-nnoremap('<Leader>p', '<cmd>Telescope find_files<CR>')
-nnoremap('<Leader>b', '<cmd>Telescope buffers<CR>')
-vim.api.nvim_create_user_command('Rg', rg, { nargs = 1, force = true })
-nnoremap('gf', ':Rg <C-R><C-W><CR>')
+vim.api.nvim_create_user_command('Bd', bd, {})
 
--- lsp
-nnoremap('gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
-nnoremap('gi', '<cmd>lua require("telescope.builtin").lsp_implementations()<CR>')
-nnoremap('gr', '<cmd>lua require("telescope.builtin").lsp_references()<CR>')
-nnoremap('gs', '<cmd>lua require("telescope.builtin").lsp_workspace_symbols()<CR>')
-nnoremap('<leader>e', '<cmd>lua require("telescope.builtin").diagnostics({bufnr=0})<CR>')
-nnoremap('<leader>E', '<cmd>lua require("telescope.builtin").diagnostics()<CR>')
+M.nnoremap('<Leader>3', '<cmd>ToggleTerm<CR>')
+M.inoremap('<Leader>3', '<cmd>ToggleTerm<CR>')
+M.tnoremap('<Leader>3', '<cmd>ToggleTerm<CR>')
+
+vim.api.nvim_set_keymap('n', 'gwg', '<cmd>ChooseWin<cr>', { noremap = true })
+vim.api.nvim_set_keymap('n', 'gwc', '<cmd>ChooseWinCopy<cr>', { noremap = true })
+vim.api.nvim_set_keymap('n', 'gws', '<cmd>ChooseWinSwap<cr>', { noremap = true })
+return M

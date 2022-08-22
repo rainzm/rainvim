@@ -23,7 +23,7 @@ set.wildmenu = true
 set.splitright = true
 set.splitbelow = true
 
-set.fillchars:append('vert: ')
+--set.fillchars:append('vert: ')
 
 -- colorscheme
 set.termguicolors = true
@@ -40,6 +40,7 @@ vim.cmd [[
 ]]
 vim.g.gruvbox_vert_split = 'bg1'
 vim.g.gruvbox_sign_column = 'bg0'
+
 vim.g.go_highlight_variable_declarations = 0
 vim.g.go_highlight_functions = 1
 vim.g.go_highlight_function_calls = 1

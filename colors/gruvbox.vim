@@ -157,6 +157,7 @@ if g:gruvbox_undercurl == 0
 endif
 
 let s:inverse = 'inverse,'
+" let s:inverse = ''
 if g:gruvbox_inverse == 0
   let s:inverse = ''
 endif
@@ -342,7 +343,8 @@ if exists('g:gruvbox_invert_signs')
   endif
 endif
 
-let s:invert_selection = s:inverse
+" let s:invert_selection = s:inverse
+let s:invert_selection = ''
 if exists('g:gruvbox_invert_selection')
   if g:gruvbox_invert_selection == 0
     let s:invert_selection = ''
@@ -506,7 +508,7 @@ endif
 hi! link NonText GruvboxBg2
 hi! link SpecialKey GruvboxBg2
 
-call s:HL('Visual',    s:none,  s:bg3, s:invert_selection)
+call s:HL('Visual',    s:none,  s:bg2, s:invert_selection)
 hi! link VisualNOS Visual
 
 call s:HL('Search',    s:yellow, s:bg0, s:inverse)
@@ -693,6 +695,10 @@ if has("spell")
   call s:HL('SpellRare',  s:none, s:none, s:undercurl, s:purple)
 endif
 
+" }}}
+" Float Window: {{{
+hi! link FloatBorder Normal
+hi! link NormalFloat Normal
 " }}}
 
 " Plugin specific -------------------------------------------------------------
@@ -938,8 +944,21 @@ hi! link NvimTreeFolderName GruvboxAqua
 hi! link NvimTreeOpenedFolderName GruvboxAqua
 hi! link NvimTreeEmptyFolderName GruvboxAqua
 hi! link NvimTreeFolderIcon GruvboxGreen
-call s:HL('NvimTreeWindowPicker',   s:gb.darkline, s:fg0, s:inverse)
+call s:HL('NvimTreeWindowPicker',   s:gb.darkline, s:gb.bright_blue, 'inverse,bold,')
 " }}}
+" LSP: {{{
+hi! link LspSignatureActiveParameter GruvboxYellow
+" }}}
+" Leap: {{{
+call s:HL('LeapLabelPrimary', s:bg0, s:gb.bright_aqua)
+" hi! link LeapLabelSecondary GruvboxBlue
+" }}}
+" Gitsigns: {{{
+hi! link GitSignsAdd GruvboxAqua
+hi! link GitSignsChange GruvboxGreen
+hi! link GitSignsDelete GruvboxRed
+" }}}
+
 
 " Filetype specific -----------------------------------------------------------
 " Diff: {{{

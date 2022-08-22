@@ -1,4 +1,4 @@
 require("settings")
-require("plugins")
 require("mappings")
-require("lsp")
+require("plugins").setup()
+require("config.lsp").setup()
