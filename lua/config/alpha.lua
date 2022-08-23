@@ -97,6 +97,7 @@ local buttons = {
     btn_gen("  Files", " LDR p  ", "AlphaButtonLabelText", "String"),
     btn_gen("  Sessions", " LDR ls ", "AlphaButtonLabelText", "Boolean"),
     btn_gen("  Projects", " LDR lp ", "AlphaButtonLabelText", "String"),
+    --btn_gen("  Settings" , ":e $MYVIMRC | :cd %:p:h | split . | wincmd k | pwd<CR>"),
   },
   opts = {
     position = "center",

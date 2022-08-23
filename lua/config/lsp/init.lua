@@ -11,6 +11,7 @@ local servers = {
     }
   },
   sumneko_lua = {},
+  bashls = {},
 }
 
 local function on_attach(client, bufnr)
@@ -63,7 +64,7 @@ function M.setup()
     on_attach = on_attach,
     capabilities = capabilities,
     --flags = {
-     -- debounce_text_changes = 150,
+    -- debounce_text_changes = 150,
     --},
   }
   for server_name, _ in pairs(servers) do

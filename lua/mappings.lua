@@ -43,10 +43,11 @@ M.nnoremap('gm', ':set nohlsearch<cr>')
 local function bd(_)
     require 'util.buffer'.buf_kill(0, false)
 end
+
 vim.api.nvim_create_user_command('Bd', bd, {})
 
 M.nnoremap('<Leader>3', '<cmd>ToggleTerm<CR>')
-M.inoremap('<Leader>3', '<cmd>ToggleTerm<CR>')
+--M.inoremap('<Leader>3', '<cmd>ToggleTerm<CR>')
 M.tnoremap('<Leader>3', '<cmd>ToggleTerm<CR>')
 
 vim.api.nvim_set_keymap('n', 'gwg', '<cmd>ChooseWin<cr>', { noremap = true })
