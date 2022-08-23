@@ -23,15 +23,27 @@ function M.setup()
     },
     sections = {
       lualine_a = { 'mode' },
-      lualine_b = { '%f%m' },
-      lualine_c = { 'diagnostics'},
+      lualine_b = {
+        {
+          'filename',
+          file_status = true,
+          path = 1,
+        }
+      },
+      lualine_c = { 'diagnostics' },
       lualine_x = {},
       lualine_y = { 'vim.bo.filetype', 'progress' },
       lualine_z = {}
     },
     inactive_sections = {
       lualine_a = {},
-      lualine_b = { '%f%m' },
+      lualine_b = {
+        {
+          'filename',
+          file_status = true,
+          path = 1,
+        }
+      },
       lualine_c = {},
       lualine_x = {},
       lualine_y = { 'progress' },
