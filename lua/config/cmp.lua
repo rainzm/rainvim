@@ -72,7 +72,7 @@ function M.config()
         else
           fallback()
         end
-      end, {"i", "s"}),
+      end, { "i", "s" }),
     },
     formatting = {
       format = function(entry, vim_item)
@@ -93,7 +93,7 @@ function M.config()
     window = {
       documentation = cmp.config.disable,
     },
-    preselect = cmp.PreselectMode.Item,
+    preselect = cmp.PreselectMode.None,
     completion = {
       completeopt = "menu,menuone"
     },
@@ -101,6 +101,7 @@ function M.config()
     sources = {
       { name = 'nvim_lsp' },
       { name = 'luasnip' },
+      { name = 'buffer' },
       --{ name = 'nvim_lsp_signature_help' },
     },
   }
