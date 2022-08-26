@@ -27,7 +27,7 @@ local function on_attach(client, bufnr)
       style = "minimal",
     },
     max_height = 4,
-    transparency = 30,
+    --transparency = 30,
     toggle_key = '<C-t>',
     select_signature_key = '<C-n>',
   }, bufnr)
