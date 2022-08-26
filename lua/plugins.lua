@@ -57,6 +57,9 @@ function M.setup()
     -- Better reg
     use {
       "tversteeg/registers.nvim",
+      setup = function()
+        vim.g.registers_window_border = "rounded"
+      end,
       keys = { { 'n', '"' } }
     }
 
