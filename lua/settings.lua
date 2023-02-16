@@ -56,4 +56,3 @@ set.cmdheight = 1
 set.updatetime = 200
 set.shortmess:append('c')
 set.signcolumn = 'number'
-

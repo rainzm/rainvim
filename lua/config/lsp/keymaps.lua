@@ -12,15 +12,13 @@ local function keymappings(client, bufnr)
   buf_keymap(bufnr, 'n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
   buf_keymap(bufnr, 'n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   buf_keymap(bufnr, 'n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  buf_keymap(bufnr, 'n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+  buf_keymap(bufnr, 'n', '<leader>f', '<cmd>lua vim.lsp.buf.format({async=true})<CR>', opts)
 
   mapping.nnoremap('gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
   mapping.nnoremap('gi', '<cmd>lua require("telescope.builtin").lsp_implementations({ show_line = false })<CR>')
   mapping.nnoremap('gr', '<cmd>lua require("telescope.builtin").lsp_references({ show_line = false })<CR>')
   --nnoremap('gs', '<cmd>lua require("telescope.builtin").lsp_workspace_symbols()<CR>')
   mapping.nnoremap('<leader>2', '<cmd>lua require("telescope.builtin").lsp_document_symbols()<CR>')
-  mapping.nnoremap('<leader>e', '<cmd>lua require("telescope.builtin").diagnostics({bufnr=0})<CR>')
-  mapping.nnoremap('<leader>E', '<cmd>lua require("telescope.builtin").diagnostics()<CR>')
 end
 
 function M.setup(client, bufnr)

@@ -10,6 +10,7 @@ end
 function M.config()
   local list = {
     { key = "za", action = "close_node" },
+    { key = "m", action = "move" },
     { key = "c", action = "copy" },
     { key = "p", action = "paste" },
     { key = "v", action = "vsplit" },
@@ -29,7 +30,6 @@ function M.config()
     git = { enable = false },
     view = {
       width = 30,
-      height = 30,
       hide_root_folder = true,
       side = "left",
       mappings = { custom_only = false, list = list },
