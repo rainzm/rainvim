@@ -1,21 +1,26 @@
-## install
+## Install
 
 ```bash
 git clone https://github.com/rainzm/rainvim.git ~/.config/nvim
 ```
 
-### install packer.nvim
+### Recommended neovim version
 
-```bash
-git clone --depth 1 https://github.com/wbthomason/packer.nvim\
- ~/.local/share/nvim/site/pack/packer/start/packer.nvim
-```
+v0.7.2
 
-### install all plugin
+### Install packer.nvim
 
-`nvim` open neovim, and then `:PackerInstall`
+[package.nvim quickstart](https://github.com/wbthomason/packer.nvim#Quickstart)
+
+### Install all plugin
+
+`nvim` open neovim, and then `:PackerSync`
+
+### Install lsp server
+
+see [mason.nvim](https://github.com/williamboman/mason.nvim)
 
 ## TODO
 
 1. use [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) 
-and [gruvbox-material](https://github.com/sainnhe/gruvbox-material)
+2. use [gruvbox-material](https://github.com/sainnhe/gruvbox-material)
