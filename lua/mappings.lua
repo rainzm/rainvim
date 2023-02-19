@@ -21,6 +21,10 @@ function M.inoremap(shorcut, command)
     M.noremap('i', shorcut, command)
 end
 
+function M.cnoremap(shorcut, command)
+    M.noremap('c', shorcut, command)
+end
+
 M.nnoremap('<C-A>', '^')
 M.nnoremap('<C-S>', '$')
 M.vnoremap('<Leader>y', '"+y')
@@ -41,13 +45,23 @@ M.nnoremap('*', '*:set hlsearch<cr>')
 M.nnoremap('gm', ':set nohlsearch<cr>')
 
 local function bd(_)
-    require 'util.buffer'.buf_kill(0, false)
+    require("mini.bufremove").delete(0, false)
+end
+
+local function bdforce()
+    require("mini.bufremove").delete(0, true)
+end
+
+local function rg(opts)
+    -- 这里引用了telescope，就算telescope没有被load，也会自动load，lazy.nvim的功劳
+    require('telescope.builtin').grep_string({ search = opts.args, disable_coordinates = true })
 end
 
 vim.api.nvim_create_user_command('Bd', bd, {})
+vim.api.nvim_create_user_command('BD', bdforce, {})
+vim.api.nvim_create_user_command('Rg', rg, { nargs = 1, force = true })
 
 M.nnoremap('<Leader>3', '<cmd>ToggleTerm<CR>')
---M.inoremap('<Leader>3', '<cmd>ToggleTerm<CR>')
 M.tnoremap('<Leader>3', '<cmd>ToggleTerm<CR>')
 
 vim.api.nvim_set_keymap('n', 'gwg', '<cmd>ChooseWin<cr>', { noremap = true })
