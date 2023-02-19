@@ -437,6 +437,7 @@ call s:HL('GruvboxBg2', s:bg2)
 call s:HL('GruvboxBg3', s:bg3)
 call s:HL('GruvboxBg4', s:bg4)
 
+call s:HL('GruvboxNormal', s:fg1)
 call s:HL('GruvboxRed', s:red)
 call s:HL('GruvboxRedBold', s:red, s:none, s:bold)
 call s:HL('GruvboxGreen', s:green)
@@ -479,7 +480,7 @@ endif
 
 if version >= 700
   " Screen line that the cursor is
-  call s:HL('CursorLine',   s:none, s:bg1)
+  call s:HL('CursorLine',  s:none, s:bg1)
   " Screen column that the cursor is
   hi! link CursorColumn CursorLine
 
@@ -583,6 +584,9 @@ if g:gruvbox_improved_strings == 0
 else
   call s:HL('Special', s:orange, s:bg1, s:italicize_strings)
 endif
+" hi link Special GruvboxNormal
+hi! link @punctuation.bracket GruvboxNormal
+hi! link @punctuation.delimiter GruvboxNormal
 
 call s:HL('Comment', s:gray, s:none, s:italicize_comments)
 call s:HL('Todo', s:vim_fg, s:vim_bg, s:bold . s:italic)
@@ -605,18 +609,23 @@ hi! link Operator GruvboxAqua
 hi! link Keyword GruvboxRed
 
 " Variable name
-hi! link Identifier GruvboxBlue
+" hi! link Identifier GruvboxBlue
+hi! link Identifier GruvboxNormal
 " Function name
 " hi! link Function GruvboxGreenBold
 hi! link Function GruvboxPurple
 
+
 " Function Call
-hi! link FunctionCall GruvboxBlue
+" hi! link FunctionCall GruvboxBlue
+hi! link @function.call GruvboxBlue
+hi! link @method.call GruvboxBlue
 
 " Generic preprocessor
 hi! link PreProc GruvboxAqua
 " Preprocessor #include
-hi! link Include GruvboxAqua
+" hi! link Include GruvboxAqua
+hi! link @include Keyword
 " Preprocessor #define
 hi! link Define GruvboxAqua
 " Same as Define
@@ -625,7 +634,9 @@ hi! link Macro GruvboxAqua
 hi! link PreCondit GruvboxAqua
 
 " Generic constant
-hi! link Constant GruvboxPurple
+hi! link @constant GruvboxNormal
+hi! link @constant.builtin GruvboxPurple
+hi! link @constant.macro GruvboxPurple
 " Character constant: 'c', '/n'
 hi! link Character GruvboxPurple
 " String constant: "this is a string"
@@ -641,14 +652,18 @@ hi! link Number GruvboxPurple
 " Floating point constant: 2.3e10
 hi! link Float GruvboxPurple
 
+hi! link @namespace GruvboxAqua
+
 " Generic type
+" hi! link Type GruvboxYellow
 hi! link Type GruvboxYellow
+" hi! link @type.builtin GruvboxYellow
+" hi! link @type.definition GruvboxOrange
 " static, register, volatile, etc
 hi! link StorageClass GruvboxOrange
+" hi! link StorageClass Normal
 " struct, union, enum, etc.
 hi! link Structure GruvboxAqua
-" typedef
-hi! link Typedef GruvboxYellow
 
 " }}}
 " Completion Menu: {{{
@@ -957,6 +972,10 @@ call s:HL('LeapLabelPrimary', s:bg0, s:gb.bright_aqua)
 hi! link GitSignsAdd GruvboxAqua
 hi! link GitSignsChange GruvboxGreen
 hi! link GitSignsDelete GruvboxRed
+" }}}
+" Noice: {{{
+hi! link NoiceCmdlinePopupBorder FloatBorder
+hi! link NoicePopupmenu GruvboxNormal
 " }}}
 
 
@@ -1301,14 +1320,6 @@ hi! link objcDirective GruvboxBlue
 " }}}
 " Go: {{{
 
-hi! link goDirective GruvboxAqua
-hi! link goConstants GruvboxPurple
-hi! link goDeclaration GruvboxRed
-hi! link goDeclType GruvboxBlue
-hi! link goBuiltins GruvboxOrange
-hi! link goFunctionCall GruvboxBlue
-hi! link goFunction GruvboxPurple
-hi! link goOperator GruvboxAqua
 
 " }}}
 " Lua: {{{
