@@ -28,6 +28,7 @@ set.splitbelow = true
 -- colorscheme
 set.termguicolors = true
 set.background = "dark"
+vim.cmd("autocmd Filetype norg setlocal conceallevel=2")
 vim.cmd([[
     syntax on
     syntax enable
@@ -38,14 +39,8 @@ vim.cmd([[
     set number
     set relativenumber
 ]])
-vim.g.gruvbox_vert_split = "bg1"
-vim.g.gruvbox_sign_column = "bg0"
 
-vim.g.go_highlight_variable_declarations = 0
-vim.g.go_highlight_functions = 1
-vim.g.go_highlight_function_calls = 1
-vim.g.go_highlight_operators = 1
-
+set.ea = false
 set.numberwidth = 3
 set.cursorline = true
 set.hidden = true

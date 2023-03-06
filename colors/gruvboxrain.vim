@@ -8,14 +8,6 @@
 
 " Supporting code -------------------------------------------------------------
 " Initialisation: {{{
-
-if version > 580
-  hi clear
-  if exists("syntax_on")
-    syntax reset
-  endif
-endif
-
 let g:colors_name='gruvbox'
 
 if !(has('termguicolors') && &termguicolors) && !has('gui_running') && &t_Co != 256
@@ -25,6 +17,7 @@ endif
 " }}}
 " Global Settings: {{{
 
+let g:gruvbox_italic = 1
 if !exists('g:gruvbox_bold')
   let g:gruvbox_bold=1
 endif
@@ -82,6 +75,47 @@ let s:is_dark=(&background == 'dark')
 " }}}
 " Palette: {{{
 
+let palette1 = {
+            \ 'bg_dim':           ['#1b1b1b',   '233'],
+            \ 'bg0':              ['#282828',   '235'],
+            \ 'bg1':              ['#32302f',   '236'],
+            \ 'bg2':              ['#32302f',   '236'],
+            \ 'bg3':              ['#45403d',   '237'],
+            \ 'bg4':              ['#45403d',   '237'],
+            \ 'bg5':              ['#5a524c',   '239'],
+            \ 'bg_statusline1':   ['#32302f',   '236'],
+            \ 'bg_statusline2':   ['#3a3735',   '236'],
+            \ 'bg_statusline3':   ['#504945',   '240'],
+            \ 'bg_diff_green':    ['#34381b',   '22'],
+            \ 'bg_visual_green':  ['#3b4439',   '22'],
+            \ 'bg_diff_red':      ['#402120',   '52'],
+            \ 'bg_visual_red':    ['#4c3432',   '52'],
+            \ 'bg_diff_blue':     ['#0e363e',   '17'],
+            \ 'bg_visual_blue':   ['#374141',   '17'],
+            \ 'bg_visual_yellow': ['#4f422e',   '94'],
+            \ 'bg_current_word':  ['#3c3836',   '237']
+            \ }
+
+let palette2 = {
+            \ 'fg0':              ['#e2cca9',   '223'],
+            \ 'fg1':              ['#e2cca9',   '223'],
+            \ 'red':              ['#f2594b',   '167'],
+            \ 'orange':           ['#f28534',   '208'],
+            \ 'yellow':           ['#e9b143',   '214'],
+            \ 'green':            ['#b0b846',   '142'],
+            \ 'aqua':             ['#8bba7f',   '108'],
+            \ 'blue':             ['#80aa9e',   '109'],
+            \ 'purple':           ['#d3869b',   '175'],
+            \ 'bg_red':           ['#db4740',   '167'],
+            \ 'bg_green':         ['#b0b846',   '142'],
+            \ 'bg_yellow':        ['#e9b143',   '214']
+            \ }
+let palette3 = {
+          \ 'grey0':            ['#7c6f64',   '243'],
+          \ 'grey1':            ['#928374',   '245'],
+          \ 'grey2':            ['#a89984',   '246'],
+          \ 'none':             ['NONE',      'NONE']
+          \ }
 " setup palette dictionary
 let s:gb = {}
 
@@ -109,13 +143,24 @@ let s:gb.light3      = ['#bdae93', 248]     " 189-174-147
 let s:gb.light4      = ['#a89984', 246]     " 168-153-132
 let s:gb.light4_256  = ['#a89984', 246]     " 168-153-132
 
-let s:gb.bright_red     = ['#fb4934', 167]     " 251-73-52
-let s:gb.bright_green   = ['#b8bb26', 142]     " 184-187-38
-let s:gb.bright_yellow  = ['#fabd2f', 214]     " 250-189-47
-let s:gb.bright_blue    = ['#83a598', 109]     " 131-165-152
-let s:gb.bright_purple  = ['#d3869b', 175]     " 211-134-155
-let s:gb.bright_aqua    = ['#8ec07c', 108]     " 142-192-124
-let s:gb.bright_orange  = ['#fe8019', 208]     " 254-128-25
+" let s:gb.bright_red     = ['#fb4934', 167]     " 251-73-52
+" let s:gb.bright_green   = ['#b8bb26', 142]     " 184-187-38
+" let s:gb.bright_yellow  = ['#fabd2f', 214]     " 250-189-47
+" let s:gb.bright_blue    = ['#83a598', 109]     " 131-165-152
+" let s:gb.bright_purple  = ['#d3869b', 175]     " 211-134-155
+" let s:gb.bright_aqua    = ['#8ec07c', 108]     " 142-192-124
+" let s:gb.bright_orange  = ['#fe8019', 208]     " 254-128-25
+
+let s:gb.bright_red =              ['#f2594b',   '167']
+let s:gb.bright_orange =           ['#f28534',   '208']
+" let s:gb.bright_yellow =           ['#e9b143',   '214']
+let s:gb.bright_yellow =           ['#e4b048',   '214']
+" let s:gb.bright_yellow =           ['#e4ac3e',   '214']
+let s:gb.bright_green =            ['#b0b846',   '142']
+let s:gb.bright_aqua  =            ['#8bba7f',   '108']
+let s:gb.bright_blue   =          ['#81a89b',   '109']
+" let s:gb.bright_blue    = ['#83a598', '109']     " 131-165-152
+let s:gb.bright_purple =          ['#d3869b',   '175']
 
 let s:gb.neutral_red    = ['#cc241d', 124]     " 204-36-29
 let s:gb.neutral_green  = ['#98971a', 106]     " 152-151-26
@@ -183,6 +228,19 @@ if s:is_dark
   let s:bg3  = s:gb.dark3
   let s:bg4  = s:gb.dark4
 
+  " let s:bg0 =  ['#282828',   '235']
+  " let s:bg1 =              ['#32302f',   '236']
+  "           let s:bg2 =              ['#32302f',   '236']
+  "           let s:bg3 =              ['#45403d',   '237']
+  "           let s:bg4 =              ['#45403d',   '237']
+  "           let s:bg5 =              ['#5a524c',   '239']
+  " let s:bg0 =             ['#1d2021',   '234']
+  " let s:bg1  =             ['#282828',   '235']
+  " let s:bg2  =             ['#282828',   '235']
+  " let s:bg3  =             ['#3c3836',   '237']
+  " let s:bg4 =             ['#3c3836',   '237']
+  " let s:bg5 =             ['#504945',   '239']
+
   let s:gray = s:gb.gray_245
 
   let s:fg0 = s:gb.light0
@@ -191,6 +249,9 @@ if s:is_dark
   let s:fg3 = s:gb.light3
   let s:fg4 = s:gb.light4
 
+  let s:fg0  =             ['#e2cca9',   '223']
+  let s:fg1  =             ['#e2cca9',   '223']
+  
   let s:fg4_256 = s:gb.light4_256
 
   let s:red    = s:gb.bright_red
@@ -358,6 +419,7 @@ if exists('g:gruvbox_invert_tabline')
   endif
 endif
 
+let g:gruvbox_italicize_comments = 0
 let s:italicize_comments = s:italic
 if exists('g:gruvbox_italicize_comments')
   if g:gruvbox_italicize_comments == 0
@@ -437,7 +499,7 @@ call s:HL('GruvboxBg2', s:bg2)
 call s:HL('GruvboxBg3', s:bg3)
 call s:HL('GruvboxBg4', s:bg4)
 
-call s:HL('GruvboxNormal', s:fg1)
+call s:HL('GruvboxNone', s:none, s:none, '')
 call s:HL('GruvboxRed', s:red)
 call s:HL('GruvboxRedBold', s:red, s:none, s:bold)
 call s:HL('GruvboxGreen', s:green)
@@ -528,7 +590,7 @@ call s:HL('StatusLineNC', s:gb.darkline, s:fg4, s:inverse)
 
 " The column separating vertically split windows
 "call s:HL('VertSplit', s:bg3, s:vert_split)
-call s:HL('VertSplit', s:bg3, s:gb.darkline)
+call s:HL('VertSplit', s:gb.darkline, s:gb.darkline)
 
 " Current match in wildmenu completion
 call s:HL('WildMenu', s:blue, s:bg2, s:bold)
@@ -584,10 +646,8 @@ if g:gruvbox_improved_strings == 0
 else
   call s:HL('Special', s:orange, s:bg1, s:italicize_strings)
 endif
-" hi link Special GruvboxNormal
-hi! link @punctuation.bracket GruvboxNormal
-hi! link @punctuation.delimiter GruvboxNormal
 
+" call s:HL('Comment', s:gray, s:none, s:italicize_comments)
 call s:HL('Comment', s:gray, s:none, s:italicize_comments)
 call s:HL('Todo', s:vim_fg, s:vim_bg, s:bold . s:italic)
 call s:HL('Error', s:red, s:vim_bg, s:bold . s:inverse)
@@ -610,33 +670,26 @@ hi! link Keyword GruvboxRed
 
 " Variable name
 " hi! link Identifier GruvboxBlue
-hi! link Identifier GruvboxNormal
+hi! link Identifier GruvboxFg1
 " Function name
-" hi! link Function GruvboxGreenBold
 hi! link Function GruvboxPurple
 
-
-" Function Call
-" hi! link FunctionCall GruvboxBlue
-hi! link @function.call GruvboxBlue
-hi! link @method.call GruvboxBlue
+" hi! link DiagnosticError GruvboxRed
+hi! link DiagnosticHint GruvboxGreen
+hi! link DiagnosticInfo GruvboxBlue
+hi! link DiagnosticWarn GruvboxYellow
+hi! link DiagnosticError GruvboxRed
 
 " Generic preprocessor
 hi! link PreProc GruvboxAqua
 " Preprocessor #include
-" hi! link Include GruvboxAqua
-hi! link @include Keyword
+hi! link Include GruvboxAqua
 " Preprocessor #define
 hi! link Define GruvboxAqua
 " Same as Define
 hi! link Macro GruvboxAqua
 " Preprocessor #if, #else, #endif, etc.
 hi! link PreCondit GruvboxAqua
-
-" Generic constant
-hi! link @constant GruvboxNormal
-hi! link @constant.builtin GruvboxPurple
-hi! link @constant.macro GruvboxPurple
 " Character constant: 'c', '/n'
 hi! link Character GruvboxPurple
 " String constant: "this is a string"
@@ -651,17 +704,10 @@ hi! link Boolean GruvboxPurple
 hi! link Number GruvboxPurple
 " Floating point constant: 2.3e10
 hi! link Float GruvboxPurple
-
-hi! link @namespace GruvboxAqua
-
 " Generic type
-" hi! link Type GruvboxYellow
 hi! link Type GruvboxYellow
-" hi! link @type.builtin GruvboxYellow
-" hi! link @type.definition GruvboxOrange
 " static, register, volatile, etc
 hi! link StorageClass GruvboxOrange
-" hi! link StorageClass Normal
 " struct, union, enum, etc.
 hi! link Structure GruvboxAqua
 
@@ -717,16 +763,94 @@ hi! link NormalFloat Normal
 " }}}
 
 " Plugin specific -------------------------------------------------------------
-" EasyMotion: {{{
+" nvim-treesitter/nvim-treesitter {{{
+call s:HL('TSStrong', s:none, s:none, s:bold)
+call s:HL('TSEmphasis', s:none, s:none, s:italic)
+call s:HL('TSUnderline', s:none, s:none, s:underline)
+call s:HL('TSNote', s:bg0, s:green, s:bold)
+call s:HL('TSWarning', s:bg0, s:yellow, s:bold)
+call s:HL('TSDanger', s:bg0, s:red, s:bold)
 
-hi! link EasyMotionTarget Search
-hi! link EasyMotionShade Comment
-
-" }}}
-" Sneak: {{{
-
-hi! link Sneak Search
-hi! link SneakLabel Search
+highlight! link @annotation GruvboxPurple
+highlight! link @attribute GruvboxPurple
+highlight! link @boolean GruvboxPurple
+highlight! link @character GruvboxAqua
+highlight! link @character.special SpecialChar
+highlight! link @comment Comment
+highlight! link @conceal Conceal
+highlight! link @conditional GruvboxRed
+highlight! link @constant GruvboxFg1
+highlight! link @constant.builtin GruvboxPurple
+highlight! link @constant.macro GruvboxPurple
+highlight! link @constructor GruvboxGreen
+highlight! link @debug Debug
+highlight! link @text.environment Macro
+highlight! link @text.environment.name Type
+highlight! link @define Define
+" highlight! link @error Error
+highlight! link @exception GruvboxRed
+highlight! link @field GruvboxFg1
+highlight! link @float GruvboxPurple
+highlight! link @function Function
+highlight! link @function.builtin Function
+highlight! link @function.call GruvboxBlue
+highlight! link @function.macro Function
+highlight! link @include GruvboxRed
+highlight! link @keyword GruvboxRed
+highlight! link @keyword.function GruvboxRed
+highlight! link @keyword.operator GruvboxOrange
+highlight! link @keyword.return GruvboxRed
+highlight! link @label GruvboxOrange
+highlight! link @text.literal String
+highlight! link @math GruvboxBlue
+highlight! link @method GruvboxPurple
+highlight! link @method.call GruvboxBlue
+highlight! link @namespace GruvboxFg1
+highlight! link @none GruvboxFg1
+highlight! link @number GruvboxPurple
+highlight! link @operator GruvboxAqua
+highlight! link @parameter GruvboxFg1
+highlight! link @parameter.reference GruvboxFg1
+highlight! link @preproc PreProc
+highlight! link @property GruvboxFg1
+highlight! link @punctuation.bracket GruvboxFg1
+highlight! link @punctuation.delimiter GruvboxAqua
+highlight! link @punctuation.special GruvboxBlue
+highlight! link @repeat GruvboxRed
+highlight! link @storageclass GruvboxOrange
+highlight! link @storageclass.lifetime GruvboxOrange
+highlight! link @strike GruvboxFg1
+highlight! link @string GruvboxGreen
+highlight! link @string.escape GruvboxOrange
+highlight! link @string.regex GruvboxOrange
+highlight! link @string.special SpecialChar
+highlight! link @symbol GruvboxFg1
+highlight! link @tag GruvboxOrange
+highlight! link @tag.attribute GruvboxGreen
+highlight! link @tag.delimiter GruvboxGreen
+highlight! link @text GruvboxGreen
+highlight! link @text.reference GruvboxAqua
+highlight! link @text.danger TSDanger
+highlight! link @text.diff.add diffAdded
+highlight! link @text.diff.delete diffRemoved
+highlight! link @text.emphasis TSEmphasis
+highlight! link @text.math GruvboxBlue
+highlight! link @text.note TSNote
+highlight! link @text.strike GruvboxFg1
+highlight! link @text.strong TSStrong
+highlight! link @text.title Title
+highlight! link @text.todo Todo
+highlight! link @text.underline TSUnderline
+highlight! link @text.warning TSWarning
+highlight! link @text.uri GruvboxBlue
+highlight! link @uri GruvboxPurple
+highlight! link @todo Todo
+highlight! link @type GruvboxYellow
+highlight! link @type.builtin GruvboxYellow
+highlight! link @type.definition GruvboxPurple
+highlight! link @type.qualifier GruvboxOrange
+" highlight! link @variable GruvboxFg1
+highlight! link @variable.builtin GruvboxPurple
 
 " }}}
 " Indent Guides: {{{
@@ -783,171 +907,16 @@ let g:niji_dark_colours = g:rbpt_colorpairs
 let g:niji_light_colours = g:rbpt_colorpairs
 
 "}}}
-" GitGutter: {{{
-
-hi! link GitGutterAdd GruvboxGreenSign
-hi! link GitGutterChange GruvboxAquaSign
-hi! link GitGutterDelete GruvboxRedSign
-hi! link GitGutterChangeDelete GruvboxAquaSign
-
-" }}}
 " GitCommit: "{{{
 
 hi! link gitcommitSelectedFile GruvboxGreen
 hi! link gitcommitDiscardedFile GruvboxRed
 
 " }}}
-" Signify: {{{
-
-hi! link SignifySignAdd GruvboxGreenSign
-hi! link SignifySignChange GruvboxAquaSign
-hi! link SignifySignDelete GruvboxRedSign
-
-" }}}
-" Syntastic: {{{
-
-call s:HL('SyntasticError', s:none, s:none, s:undercurl, s:red)
-call s:HL('SyntasticWarning', s:none, s:none, s:undercurl, s:yellow)
-
-hi! link SyntasticErrorSign GruvboxRedSign
-hi! link SyntasticWarningSign GruvboxYellowSign
-
-" }}}
-" Signature: {{{
-hi! link SignatureMarkText   GruvboxBlueSign
-hi! link SignatureMarkerText GruvboxPurpleSign
-
-" }}}
-" ShowMarks: {{{
-
-hi! link ShowMarksHLl GruvboxBlueSign
-hi! link ShowMarksHLu GruvboxBlueSign
-hi! link ShowMarksHLo GruvboxBlueSign
-hi! link ShowMarksHLm GruvboxBlueSign
-
-" }}}
-" CtrlP: {{{
-
-hi! link CtrlPMatch GruvboxYellow
-hi! link CtrlPNoEntries GruvboxRed
-hi! link CtrlPPrtBase GruvboxBg2
-hi! link CtrlPPrtCursor GruvboxBlue
-hi! link CtrlPLinePre GruvboxBg2
-
-call s:HL('CtrlPMode1', s:blue, s:bg2, s:bold)
-call s:HL('CtrlPMode2', s:bg0, s:blue, s:bold)
-call s:HL('CtrlPStats', s:fg4, s:bg2, s:bold)
-
-" }}}
-" Startify: {{{
-
-hi! link StartifyBracket GruvboxFg3
-hi! link StartifyFile GruvboxFg1
-hi! link StartifyNumber GruvboxBlue
-hi! link StartifyPath GruvboxGray
-hi! link StartifySlash GruvboxGray
-hi! link StartifySection GruvboxYellow
-hi! link StartifySpecial GruvboxBg2
-hi! link StartifyHeader GruvboxOrange
-hi! link StartifyFooter GruvboxBg2
-
-" }}}
-" Vimshell: {{{
-
-let g:vimshell_escape_colors = [
-  \ s:bg4[0], s:red[0], s:green[0], s:yellow[0],
-  \ s:blue[0], s:purple[0], s:aqua[0], s:fg4[0],
-  \ s:bg0[0], s:red[0], s:green[0], s:orange[0],
-  \ s:blue[0], s:purple[0], s:aqua[0], s:fg0[0]
-  \ ]
-
-" }}}
-" BufTabLine: {{{
-
-call s:HL('BufTabLineCurrent', s:bg0, s:fg4)
-call s:HL('BufTabLineActive', s:fg4, s:bg2)
-call s:HL('BufTabLineHidden', s:bg4, s:bg1)
-call s:HL('BufTabLineFill', s:bg0, s:bg0)
-
-" }}}
-" Asynchronous Lint Engine: {{{
-
-call s:HL('ALEError', s:none, s:none, s:undercurl, s:red)
-call s:HL('ALEWarning', s:none, s:none, s:undercurl, s:yellow)
-call s:HL('ALEInfo', s:none, s:none, s:undercurl, s:blue)
-
-hi! link ALEErrorSign GruvboxRedSign
-hi! link ALEWarningSign GruvboxYellowSign
-hi! link ALEInfoSign GruvboxBlueSign
-
-" }}}
-" Dirvish: {{{
-
-hi! link DirvishPathTail GruvboxAqua
-hi! link DirvishArg GruvboxYellow
-
-" }}}
-" Netrw: {{{
-
-hi! link netrwDir GruvboxAqua
-hi! link netrwClassify GruvboxAqua
-hi! link netrwLink GruvboxGray
-hi! link netrwSymLink GruvboxFg1
-hi! link netrwExe GruvboxYellow
-hi! link netrwComment GruvboxGray
-hi! link netrwList GruvboxBlue
-hi! link netrwHelpCmd GruvboxAqua
-hi! link netrwCmdSep GruvboxFg3
-hi! link netrwVersion GruvboxGreen
-
-" }}}
-" NERDTree: {{{
-
-hi! link NERDTreeDir GruvboxAqua
-hi! link NERDTreeDirSlash GruvboxAqua
-
-hi! link NERDTreeOpenable GruvboxOrange
-hi! link NERDTreeClosable GruvboxOrange
-
-hi! link NERDTreeFile GruvboxFg1
-hi! link NERDTreeExecFile GruvboxYellow
-
-hi! link NERDTreeUp GruvboxGray
-hi! link NERDTreeCWD GruvboxGreen
-hi! link NERDTreeHelp GruvboxFg1
-
-hi! link NERDTreeToggleOn GruvboxGreen
-hi! link NERDTreeToggleOff GruvboxRed
-
-" }}}
 " Vim Multiple Cursors: {{{
 
 call s:HL('multiple_cursors_cursor', s:none, s:none, s:inverse)
 call s:HL('multiple_cursors_visual', s:none, s:bg2)
-
-" }}}
-" coc.nvim: {{{
-
-hi! link CocErrorSign GruvboxRedSign
-hi! link CocWarningSign GruvboxOrangeSign
-hi! link CocInfoSign GruvboxYellowSign
-hi! link CocHintSign GruvboxBlueSign
-hi! link CocErrorFloat GruvboxRed
-hi! link CocWarningFloat GruvboxOrange
-hi! link CocInfoFloat GruvboxYellow
-hi! link CocHintFloat GruvboxBlue
-hi! link CocDiagnosticsError GruvboxRed
-hi! link CocDiagnosticsWarning GruvboxOrange
-hi! link CocDiagnosticsInfo GruvboxYellow
-hi! link CocDiagnosticsHint GruvboxBlue
-
-hi! link CocSelectedText GruvboxRed
-hi! link CocCodeLens GruvboxGray
-
-call s:HL('CocErrorHighlight', s:none, s:none, s:undercurl, s:red)
-call s:HL('CocWarningHighlight', s:none, s:none, s:undercurl, s:orange)
-call s:HL('CocInfoHighlight', s:none, s:none, s:undercurl, s:yellow)
-call s:HL('CocHintHighlight', s:none, s:none, s:undercurl, s:blue)
 
 " }}}
 " nvim-dap: {{{
@@ -975,7 +944,12 @@ hi! link GitSignsDelete GruvboxRed
 " }}}
 " Noice: {{{
 hi! link NoiceCmdlinePopupBorder FloatBorder
-hi! link NoicePopupmenu GruvboxNormal
+hi! link NoicePopupmenu GruvboxFg1
+" }}}
+" Neorg: {{{
+call s:HL('TSStrike', s:none, s:none, 'strikethrough,')
+hi! link @neorg.definitions.content GruvboxNone
+hi! link @neorg.markup.strikethrough TSStrike
 " }}}
 
 
@@ -992,472 +966,8 @@ hi! link diffNewFile GruvboxYellow
 hi! link diffLine GruvboxBlue
 
 " }}}
-" Html: {{{
-
-hi! link htmlTag GruvboxBlue
-hi! link htmlEndTag GruvboxBlue
-
-hi! link htmlTagName GruvboxAquaBold
-hi! link htmlArg GruvboxAqua
-
-hi! link htmlScriptTag GruvboxPurple
-hi! link htmlTagN GruvboxFg1
-hi! link htmlSpecialTagName GruvboxAquaBold
-
-call s:HL('htmlLink', s:fg4, s:none, s:underline)
-
-hi! link htmlSpecialChar GruvboxOrange
-
-call s:HL('htmlBold', s:vim_fg, s:vim_bg, s:bold)
-call s:HL('htmlBoldUnderline', s:vim_fg, s:vim_bg, s:bold . s:underline)
-call s:HL('htmlBoldItalic', s:vim_fg, s:vim_bg, s:bold . s:italic)
-call s:HL('htmlBoldUnderlineItalic', s:vim_fg, s:vim_bg, s:bold . s:underline . s:italic)
-
-call s:HL('htmlUnderline', s:vim_fg, s:vim_bg, s:underline)
-call s:HL('htmlUnderlineItalic', s:vim_fg, s:vim_bg, s:underline . s:italic)
-call s:HL('htmlItalic', s:vim_fg, s:vim_bg, s:italic)
-
-" }}}
-" Xml: {{{
-
-hi! link xmlTag GruvboxBlue
-hi! link xmlEndTag GruvboxBlue
-hi! link xmlTagName GruvboxBlue
-hi! link xmlEqual GruvboxBlue
-hi! link docbkKeyword GruvboxAquaBold
-
-hi! link xmlDocTypeDecl GruvboxGray
-hi! link xmlDocTypeKeyword GruvboxPurple
-hi! link xmlCdataStart GruvboxGray
-hi! link xmlCdataCdata GruvboxPurple
-hi! link dtdFunction GruvboxGray
-hi! link dtdTagName GruvboxPurple
-
-hi! link xmlAttrib GruvboxAqua
-hi! link xmlProcessingDelim GruvboxGray
-hi! link dtdParamEntityPunct GruvboxGray
-hi! link dtdParamEntityDPunct GruvboxGray
-hi! link xmlAttribPunct GruvboxGray
-
-hi! link xmlEntity GruvboxOrange
-hi! link xmlEntityPunct GruvboxOrange
-" }}}
-" Vim: {{{
-
-call s:HL('vimCommentTitle', s:fg4_256, s:none, s:bold . s:italicize_comments)
-
-hi! link vimNotation GruvboxOrange
-hi! link vimBracket GruvboxOrange
-hi! link vimMapModKey GruvboxOrange
-hi! link vimFuncSID GruvboxFg3
-hi! link vimSetSep GruvboxFg3
-hi! link vimSep GruvboxFg3
-hi! link vimContinue GruvboxFg3
-
-" }}}
-" Clojure: {{{
-
-hi! link clojureKeyword GruvboxBlue
-hi! link clojureCond GruvboxOrange
-hi! link clojureSpecial GruvboxOrange
-hi! link clojureDefine GruvboxOrange
-
-hi! link clojureFunc GruvboxYellow
-hi! link clojureRepeat GruvboxYellow
-hi! link clojureCharacter GruvboxAqua
-hi! link clojureStringEscape GruvboxAqua
-hi! link clojureException GruvboxRed
-
-hi! link clojureRegexp GruvboxAqua
-hi! link clojureRegexpEscape GruvboxAqua
-call s:HL('clojureRegexpCharClass', s:fg3, s:none, s:bold)
-hi! link clojureRegexpMod clojureRegexpCharClass
-hi! link clojureRegexpQuantifier clojureRegexpCharClass
-
-hi! link clojureParen GruvboxFg3
-hi! link clojureAnonArg GruvboxYellow
-hi! link clojureVariable GruvboxBlue
-hi! link clojureMacro GruvboxOrange
-
-hi! link clojureMeta GruvboxYellow
-hi! link clojureDeref GruvboxYellow
-hi! link clojureQuote GruvboxYellow
-hi! link clojureUnquote GruvboxYellow
-
-" }}}
-" C: {{{
-
-hi! link cOperator GruvboxPurple
-hi! link cStructure GruvboxOrange
-
-" }}}
-" Python: {{{
-
-hi! link pythonBuiltin GruvboxOrange
-hi! link pythonBuiltinObj GruvboxOrange
-hi! link pythonBuiltinFunc GruvboxOrange
-hi! link pythonFunction GruvboxAqua
-hi! link pythonDecorator GruvboxRed
-hi! link pythonInclude GruvboxBlue
-hi! link pythonImport GruvboxBlue
-hi! link pythonRun GruvboxBlue
-hi! link pythonCoding GruvboxBlue
-hi! link pythonOperator GruvboxRed
-hi! link pythonException GruvboxRed
-hi! link pythonExceptions GruvboxPurple
-hi! link pythonBoolean GruvboxPurple
-hi! link pythonDot GruvboxFg3
-hi! link pythonConditional GruvboxRed
-hi! link pythonRepeat GruvboxRed
-hi! link pythonDottedName GruvboxGreenBold
-
-" }}}
-" CSS: {{{
-
-hi! link cssBraces GruvboxBlue
-hi! link cssFunctionName GruvboxYellow
-hi! link cssIdentifier GruvboxOrange
-hi! link cssClassName GruvboxGreen
-hi! link cssColor GruvboxBlue
-hi! link cssSelectorOp GruvboxBlue
-hi! link cssSelectorOp2 GruvboxBlue
-hi! link cssImportant GruvboxGreen
-hi! link cssVendor GruvboxFg1
-
-hi! link cssTextProp GruvboxAqua
-hi! link cssAnimationProp GruvboxAqua
-hi! link cssUIProp GruvboxYellow
-hi! link cssTransformProp GruvboxAqua
-hi! link cssTransitionProp GruvboxAqua
-hi! link cssPrintProp GruvboxAqua
-hi! link cssPositioningProp GruvboxYellow
-hi! link cssBoxProp GruvboxAqua
-hi! link cssFontDescriptorProp GruvboxAqua
-hi! link cssFlexibleBoxProp GruvboxAqua
-hi! link cssBorderOutlineProp GruvboxAqua
-hi! link cssBackgroundProp GruvboxAqua
-hi! link cssMarginProp GruvboxAqua
-hi! link cssListProp GruvboxAqua
-hi! link cssTableProp GruvboxAqua
-hi! link cssFontProp GruvboxAqua
-hi! link cssPaddingProp GruvboxAqua
-hi! link cssDimensionProp GruvboxAqua
-hi! link cssRenderProp GruvboxAqua
-hi! link cssColorProp GruvboxAqua
-hi! link cssGeneratedContentProp GruvboxAqua
-
-" }}}
-" JavaScript: {{{
-
-hi! link javaScriptBraces GruvboxFg1
-hi! link javaScriptFunction GruvboxAqua
-hi! link javaScriptIdentifier GruvboxRed
-hi! link javaScriptMember GruvboxBlue
-hi! link javaScriptNumber GruvboxPurple
-hi! link javaScriptNull GruvboxPurple
-hi! link javaScriptParens GruvboxFg3
-
-" }}}
-" YAJS: {{{
-
-hi! link javascriptImport GruvboxAqua
-hi! link javascriptExport GruvboxAqua
-hi! link javascriptClassKeyword GruvboxAqua
-hi! link javascriptClassExtends GruvboxAqua
-hi! link javascriptDefault GruvboxAqua
-
-hi! link javascriptClassName GruvboxYellow
-hi! link javascriptClassSuperName GruvboxYellow
-hi! link javascriptGlobal GruvboxYellow
-
-hi! link javascriptEndColons GruvboxFg1
-hi! link javascriptFuncArg GruvboxFg1
-hi! link javascriptGlobalMethod GruvboxFg1
-hi! link javascriptNodeGlobal GruvboxFg1
-hi! link javascriptBOMWindowProp GruvboxFg1
-hi! link javascriptArrayMethod GruvboxFg1
-hi! link javascriptArrayStaticMethod GruvboxFg1
-hi! link javascriptCacheMethod GruvboxFg1
-hi! link javascriptDateMethod GruvboxFg1
-hi! link javascriptMathStaticMethod GruvboxFg1
-
-" hi! link javascriptProp GruvboxFg1
-hi! link javascriptURLUtilsProp GruvboxFg1
-hi! link javascriptBOMNavigatorProp GruvboxFg1
-hi! link javascriptDOMDocMethod GruvboxFg1
-hi! link javascriptDOMDocProp GruvboxFg1
-hi! link javascriptBOMLocationMethod GruvboxFg1
-hi! link javascriptBOMWindowMethod GruvboxFg1
-hi! link javascriptStringMethod GruvboxFg1
-
-hi! link javascriptVariable GruvboxOrange
-" hi! link javascriptVariable GruvboxRed
-" hi! link javascriptIdentifier GruvboxOrange
-" hi! link javascriptClassSuper GruvboxOrange
-hi! link javascriptIdentifier GruvboxOrange
-hi! link javascriptClassSuper GruvboxOrange
-
-" hi! link javascriptFuncKeyword GruvboxOrange
-" hi! link javascriptAsyncFunc GruvboxOrange
-hi! link javascriptFuncKeyword GruvboxAqua
-hi! link javascriptAsyncFunc GruvboxAqua
-hi! link javascriptClassStatic GruvboxOrange
-
-hi! link javascriptOperator GruvboxRed
-hi! link javascriptForOperator GruvboxRed
-hi! link javascriptYield GruvboxRed
-hi! link javascriptExceptions GruvboxRed
-hi! link javascriptMessage GruvboxRed
-
-hi! link javascriptTemplateSB GruvboxAqua
-hi! link javascriptTemplateSubstitution GruvboxFg1
-
-" hi! link javascriptLabel GruvboxBlue
-" hi! link javascriptObjectLabel GruvboxBlue
-" hi! link javascriptPropertyName GruvboxBlue
-hi! link javascriptLabel GruvboxFg1
-hi! link javascriptObjectLabel GruvboxFg1
-hi! link javascriptPropertyName GruvboxFg1
-
-hi! link javascriptLogicSymbols GruvboxFg1
-hi! link javascriptArrowFunc GruvboxYellow
-
-hi! link javascriptDocParamName GruvboxFg4
-hi! link javascriptDocTags GruvboxFg4
-hi! link javascriptDocNotation GruvboxFg4
-hi! link javascriptDocParamType GruvboxFg4
-hi! link javascriptDocNamedParamType GruvboxFg4
-
-hi! link javascriptBrackets GruvboxFg1
-hi! link javascriptDOMElemAttrs GruvboxFg1
-hi! link javascriptDOMEventMethod GruvboxFg1
-hi! link javascriptDOMNodeMethod GruvboxFg1
-hi! link javascriptDOMStorageMethod GruvboxFg1
-hi! link javascriptHeadersMethod GruvboxFg1
-
-hi! link javascriptAsyncFuncKeyword GruvboxRed
-hi! link javascriptAwaitFuncKeyword GruvboxRed
-
-" }}}
-" PanglossJS: {{{
-
-hi! link jsClassKeyword GruvboxAqua
-hi! link jsExtendsKeyword GruvboxAqua
-hi! link jsExportDefault GruvboxAqua
-hi! link jsTemplateBraces GruvboxAqua
-hi! link jsGlobalNodeObjects GruvboxFg1
-hi! link jsGlobalObjects GruvboxFg1
-hi! link jsFunction GruvboxAqua
-hi! link jsFuncParens GruvboxFg3
-hi! link jsParens GruvboxFg3
-hi! link jsNull GruvboxPurple
-hi! link jsUndefined GruvboxPurple
-hi! link jsClassDefinition GruvboxYellow
-
-" }}}
-" TypeScript: {{{
-
-hi! link typeScriptReserved GruvboxAqua
-hi! link typeScriptLabel GruvboxAqua
-hi! link typeScriptFuncKeyword GruvboxAqua
-hi! link typeScriptIdentifier GruvboxOrange
-hi! link typeScriptBraces GruvboxFg1
-hi! link typeScriptEndColons GruvboxFg1
-hi! link typeScriptDOMObjects GruvboxFg1
-hi! link typeScriptAjaxMethods GruvboxFg1
-hi! link typeScriptLogicSymbols GruvboxFg1
-hi! link typeScriptDocSeeTag Comment
-hi! link typeScriptDocParam Comment
-hi! link typeScriptDocTags vimCommentTitle
-hi! link typeScriptGlobalObjects GruvboxFg1
-hi! link typeScriptParens GruvboxFg3
-hi! link typeScriptOpSymbols GruvboxFg3
-hi! link typeScriptHtmlElemProperties GruvboxFg1
-hi! link typeScriptNull GruvboxPurple
-hi! link typeScriptInterpolationDelimiter GruvboxAqua
-
-" }}}
-" PureScript: {{{
-
-hi! link purescriptModuleKeyword GruvboxAqua
-hi! link purescriptModuleName GruvboxFg1
-hi! link purescriptWhere GruvboxAqua
-hi! link purescriptDelimiter GruvboxFg4
-hi! link purescriptType GruvboxFg1
-hi! link purescriptImportKeyword GruvboxAqua
-hi! link purescriptHidingKeyword GruvboxAqua
-hi! link purescriptAsKeyword GruvboxAqua
-hi! link purescriptStructure GruvboxAqua
-hi! link purescriptOperator GruvboxBlue
-
-hi! link purescriptTypeVar GruvboxFg1
-hi! link purescriptConstructor GruvboxFg1
-hi! link purescriptFunction GruvboxFg1
-hi! link purescriptConditional GruvboxOrange
-hi! link purescriptBacktick GruvboxOrange
-
-" }}}
-" CoffeeScript: {{{
-
-hi! link coffeeExtendedOp GruvboxFg3
-hi! link coffeeSpecialOp GruvboxFg3
-hi! link coffeeCurly GruvboxOrange
-hi! link coffeeParen GruvboxFg3
-hi! link coffeeBracket GruvboxOrange
-
-" }}}
-" Ruby: {{{
-
-hi! link rubyStringDelimiter GruvboxGreen
-hi! link rubyInterpolationDelimiter GruvboxAqua
-
-" }}}
-" ObjectiveC: {{{
-
-hi! link objcTypeModifier GruvboxRed
-hi! link objcDirective GruvboxBlue
-
-" }}}
 " Go: {{{
-
-
-" }}}
-" Lua: {{{
-
-hi! link luaIn GruvboxRed
-hi! link luaFunction GruvboxAqua
-hi! link luaTable GruvboxOrange
-
-" }}}
-" MoonScript: {{{
-
-hi! link moonSpecialOp GruvboxFg3
-hi! link moonExtendedOp GruvboxFg3
-hi! link moonFunction GruvboxFg3
-hi! link moonObject GruvboxYellow
-
-" }}}
-" Java: {{{
-
-hi! link javaAnnotation GruvboxBlue
-hi! link javaDocTags GruvboxAqua
-hi! link javaCommentTitle vimCommentTitle
-hi! link javaParen GruvboxFg3
-hi! link javaParen1 GruvboxFg3
-hi! link javaParen2 GruvboxFg3
-hi! link javaParen3 GruvboxFg3
-hi! link javaParen4 GruvboxFg3
-hi! link javaParen5 GruvboxFg3
-hi! link javaOperator GruvboxOrange
-
-hi! link javaVarArg GruvboxGreen
-
-" }}}
-" Elixir: {{{
-
-hi! link elixirDocString Comment
-
-hi! link elixirStringDelimiter GruvboxGreen
-hi! link elixirInterpolationDelimiter GruvboxAqua
-
-hi! link elixirModuleDeclaration GruvboxYellow
-
-" }}}
-" Scala: {{{
-
-" NB: scala vim syntax file is kinda horrible
-hi! link scalaNameDefinition GruvboxFg1
-hi! link scalaCaseFollowing GruvboxFg1
-hi! link scalaCapitalWord GruvboxFg1
-hi! link scalaTypeExtension GruvboxFg1
-
-hi! link scalaKeyword GruvboxRed
-hi! link scalaKeywordModifier GruvboxRed
-
-hi! link scalaSpecial GruvboxAqua
-hi! link scalaOperator GruvboxFg1
-
-hi! link scalaTypeDeclaration GruvboxYellow
-hi! link scalaTypeTypePostDeclaration GruvboxYellow
-
-hi! link scalaInstanceDeclaration GruvboxFg1
-hi! link scalaInterpolation GruvboxAqua
-
-" }}}
-" Markdown: {{{
-
-call s:HL('markdownItalic', s:fg3, s:none, s:italic)
-
-hi! link markdownH1 GruvboxGreenBold
-hi! link markdownH2 GruvboxGreenBold
-hi! link markdownH3 GruvboxYellowBold
-hi! link markdownH4 GruvboxYellowBold
-hi! link markdownH5 GruvboxYellow
-hi! link markdownH6 GruvboxYellow
-
-hi! link markdownCode GruvboxAqua
-hi! link markdownCodeBlock GruvboxAqua
-hi! link markdownCodeDelimiter GruvboxAqua
-
-hi! link markdownBlockquote GruvboxGray
-hi! link markdownListMarker GruvboxGray
-hi! link markdownOrderedListMarker GruvboxGray
-hi! link markdownRule GruvboxGray
-hi! link markdownHeadingRule GruvboxGray
-
-hi! link markdownUrlDelimiter GruvboxFg3
-hi! link markdownLinkDelimiter GruvboxFg3
-hi! link markdownLinkTextDelimiter GruvboxFg3
-
-hi! link markdownHeadingDelimiter GruvboxOrange
-hi! link markdownUrl GruvboxPurple
-hi! link markdownUrlTitleDelimiter GruvboxGreen
-
-call s:HL('markdownLinkText', s:gray, s:none, s:underline)
-hi! link markdownIdDeclaration markdownLinkText
-
-" }}}
-" Haskell: {{{
-
-" hi! link haskellType GruvboxYellow
-" hi! link haskellOperators GruvboxOrange
-" hi! link haskellConditional GruvboxAqua
-" hi! link haskellLet GruvboxOrange
-"
-hi! link haskellType GruvboxFg1
-hi! link haskellIdentifier GruvboxFg1
-hi! link haskellSeparator GruvboxFg1
-hi! link haskellDelimiter GruvboxFg4
-hi! link haskellOperators GruvboxBlue
-"
-hi! link haskellBacktick GruvboxOrange
-hi! link haskellStatement GruvboxOrange
-hi! link haskellConditional GruvboxOrange
-
-hi! link haskellLet GruvboxAqua
-hi! link haskellDefault GruvboxAqua
-hi! link haskellWhere GruvboxAqua
-hi! link haskellBottom GruvboxAqua
-hi! link haskellBlockKeywords GruvboxAqua
-hi! link haskellImportKeywords GruvboxAqua
-hi! link haskellDeclKeyword GruvboxAqua
-hi! link haskellDeriving GruvboxAqua
-hi! link haskellAssocType GruvboxAqua
-
-hi! link haskellNumber GruvboxPurple
-hi! link haskellPragma GruvboxPurple
-
-hi! link haskellString GruvboxGreen
-hi! link haskellChar GruvboxGreen
-
-" }}}
-" Json: {{{
-
-hi! link jsonKeyword GruvboxGreen
-hi! link jsonQuote GruvboxGreen
-hi! link jsonBraces GruvboxFg1
-hi! link jsonString GruvboxFg1
-
+hi! link @label.go GruvboxFg1
 " }}}
 
 

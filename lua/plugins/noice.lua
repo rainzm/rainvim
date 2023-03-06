@@ -28,6 +28,9 @@ function M.config()
 				enabled = true,
 				auto_open = {
 					enabled = false,
+					trigger = true, -- Automatically show signature help when typing a trigger character from the LSP
+					luasnip = true, -- Will open signature help when jumping to Luasnip insert nodes
+					throttle = 50,
 				},
 			},
 		},
@@ -45,6 +48,46 @@ function M.config()
 					event = "msg_show",
 					kind = "",
 					find = "已写入",
+				},
+				opts = { skip = true },
+			},
+			{
+				filter = {
+					event = "msg_show",
+					kind = "",
+					find = "1行发生改变",
+				},
+				opts = { skip = true },
+			},
+			{
+				filter = {
+					event = "msg_show",
+					kind = "",
+					find = "1行被去掉",
+				},
+				opts = { skip = true },
+			},
+			{
+				filter = {
+					event = "msg_show",
+					kind = "",
+					find = "lines yanked",
+				},
+				opts = { skip = true },
+			},
+			{
+				filter = {
+					event = "msg_show",
+					kind = "",
+					find = "fewer lines",
+				},
+				opts = { skip = true },
+			},
+			{
+				filter = {
+					event = "msg_show",
+					kind = "",
+					find = "more lines",
 				},
 				opts = { skip = true },
 			},

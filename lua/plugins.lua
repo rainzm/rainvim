@@ -1,18 +1,4 @@
 return {
-	--{ "sheerun/vim-polyglot" },
-	-- {
-	-- 	"ellisonleao/gruvbox.nvim",
-	-- 	config = function()
-	-- 		require("gruvbox").setup({})
-	-- 		--vim.cmd("colorscheme gruvbox")
-	-- 	end,
-	-- },
-	-- {
-	-- 	"RRethy/nvim-base16",
-	-- 	config = function()
-	-- 		vim.cmd("colorscheme gruvboxrain")
-	-- 	end,
-	-- },
 	-- Library used by other plugins
 	{ "nvim-lua/plenary.nvim", module = "plenary", lazy = true },
 	-- Git
@@ -30,6 +16,32 @@ return {
 			},
 		},
 		keys = { { '"' } },
+	},
+	-- Better IM
+	{
+		"rlue/vim-barbaric",
+		init = function()
+			vim.opt.ttimeoutlen = 10
+			vim.g.barbaric_ime = "macos"
+			vim.g.barbaric_default = "com.apple.keylayout.ABC"
+		end,
+		--"lyokha/vim-xkbswitch",
+		-- init = function()
+		-- 	vim.g.XkbSwitchEnabled = 1
+		-- end,
+		ft = "norg",
+	},
+	-- Better replace
+	{
+		"nvim-pack/nvim-spectre",
+		opts = {},
+		keys = {
+			{
+				"<Leader>rc",
+				"<cmd>lua require('spectre').open_file_search()<CR>",
+				desc = "Replace iterm in current file",
+			},
+		},
 	},
 	-- Better windows
 	{
