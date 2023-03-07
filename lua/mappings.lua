@@ -61,19 +61,7 @@ vim.api.nvim_create_user_command("Bd", bd, {})
 vim.api.nvim_create_user_command("BD", bdforce, {})
 vim.api.nvim_create_user_command("Rg", rg, { nargs = 1, force = true })
 
--- terminal
-vim.api.nvim_set_keymap("t", "<Esc>", [[<C-\><C-n>]], {})
-M.nnoremap("<Leader>3", "<cmd>ToggleTerm<CR>")
-M.tnoremap("<Leader>3", "<cmd>ToggleTerm<CR>")
-
 vim.api.nvim_set_keymap("n", "gwg", "<cmd>ChooseWin<cr>", { noremap = true })
 vim.api.nvim_set_keymap("n", "gwc", "<cmd>ChooseWinCopy<cr>", { noremap = true })
 vim.api.nvim_set_keymap("n", "gws", "<cmd>ChooseWinSwap<cr>", { noremap = true })
-
-vim.api.nvim_set_keymap(
-	"n",
-	"<leader>wd",
-	":lua require('bufresize').block_register()<cr>" .. "<C-w>c" .. ":lua require('bufresize').resize_close()<cr>",
-	{ noremap = true, silent = true }
-)
 return M

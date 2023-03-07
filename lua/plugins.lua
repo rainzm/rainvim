@@ -50,6 +50,11 @@ return {
 			vim.g.choosewin_blink_on_land = 0
 		end,
 		cmd = { "ChooseWin", "ChooseWinCopy", "ChooseWinSwap" },
+		-- keys = {
+		-- 	{ "gwg", "<cmd>ChooseWin<cr>", desc = "Choose window to focus" },
+		-- 	{ "gwc", "<cmd>ChooseWinCopy<cr>", desc = "Choose window to copy" },
+		-- 	{ "gws", "<cmd>ChooseWinSwap<cr>", desc = "Choose window to swap" },
+		-- },
 	},
 	-- Better icons
 	{

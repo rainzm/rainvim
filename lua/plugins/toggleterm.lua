@@ -35,6 +35,7 @@ function M.config()
 			end,
 		},
 	})
+	vim.api.nvim_set_keymap("t", "<Esc>", [[<C-\><C-n>]], {})
 	vim.api.nvim_set_keymap("t", "<leader>3", "<cmd>ToggleTerm<CR>", { noremap = true, silent = true })
 	local Terminal = require("toggleterm.terminal").Terminal
 	local vertTerm = Terminal:new({
