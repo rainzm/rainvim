@@ -25,6 +25,96 @@ function M.cnoremap(shorcut, command)
 	M.noremap("c", shorcut, command)
 end
 
+local rhs_options = {}
+
+function rhs_options:new()
+	local instance = {
+		cmd = "",
+		options = { noremap = false, silent = false, expr = false, nowait = false },
+	}
+	setmetatable(instance, self)
+	self.__index = self
+	return instance
+end
+
+function rhs_options:map_cmd(cmd_string)
+	self.cmd = cmd_string
+	return self
+end
+
+function rhs_options:map_cr(cmd_string)
+	self.cmd = (":%s<CR>"):format(cmd_string)
+	return self
+end
+
+function rhs_options:map_args(cmd_string)
+	self.cmd = (":%s<Space>"):format(cmd_string)
+	return self
+end
+
+function rhs_options:map_cu(cmd_string)
+	self.cmd = (":<C-u>%s<CR>"):format(cmd_string)
+	return self
+end
+
+function rhs_options:with_silent()
+	self.options.silent = true
+	return self
+end
+
+function rhs_options:with_noremap()
+	self.options.noremap = true
+	return self
+end
+
+function rhs_options:with_expr()
+	self.options.expr = true
+	return self
+end
+
+function rhs_options:with_nowait()
+	self.options.nowait = true
+	return self
+end
+
+function M.map_cr(cmd_string)
+	local ro = rhs_options:new()
+	return ro:map_cr(cmd_string)
+end
+
+function M.map_cmd(cmd_string)
+	local ro = rhs_options:new()
+	return ro:map_cmd(cmd_string)
+end
+
+function M.map_cu(cmd_string)
+	local ro = rhs_options:new()
+	return ro:map_cu(cmd_string)
+end
+
+function M.map_args(cmd_string)
+	local ro = rhs_options:new()
+	return ro:map_args(cmd_string)
+end
+
+function M.nvim_load_mapping(mapping)
+	for key, value in pairs(mapping) do
+		local mode, keymap = key:match("([^|]*)|?(.*)")
+		if type(value) == "string" then
+			value = M.map_cr(value):with_noremap():with_silent()
+		end
+		if type(value) == "table" and value.f then
+			local m = value.m or "n"
+			vim.keymap.set(m, key, value.f)
+		end
+		if type(value) == "table" and value.cmd then
+			local rhs = value.cmd
+			local options = value.options
+			vim.api.nvim_set_keymap(mode, keymap, rhs, options)
+		end
+	end
+end
+
 M.nnoremap("<C-A>", "^")
 M.nnoremap("<C-S>", "$")
 M.vnoremap("<Leader>y", '"+y')
@@ -44,24 +134,10 @@ M.nnoremap("?", ":set hlsearch<cr>?")
 M.nnoremap("*", "*:set hlsearch<cr>")
 M.nnoremap("gm", ":set nohlsearch<cr>")
 
-local function bd(_)
-	require("mini.bufremove").delete(0, false)
-end
+M.nvim_load_mapping({
+	["n|gwg"] = "ChooseWin",
+	["n|gwc"] = "ChooseWinCopy",
+	["n|gws"] = "ChooseWinSwap",
+})
 
-local function bdforce()
-	require("mini.bufremove").delete(0, true)
-end
-
-local function rg(opts)
-	-- 这里引用了telescope，就算telescope没有被load，也会自动load，lazy.nvim的功劳
-	require("telescope.builtin").grep_string({ search = opts.args, disable_coordinates = true })
-end
-
-vim.api.nvim_create_user_command("Bd", bd, {})
-vim.api.nvim_create_user_command("BD", bdforce, {})
-vim.api.nvim_create_user_command("Rg", rg, { nargs = 1, force = true })
-
-vim.api.nvim_set_keymap("n", "gwg", "<cmd>ChooseWin<cr>", { noremap = true })
-vim.api.nvim_set_keymap("n", "gwc", "<cmd>ChooseWinCopy<cr>", { noremap = true })
-vim.api.nvim_set_keymap("n", "gws", "<cmd>ChooseWinSwap<cr>", { noremap = true })
 return M

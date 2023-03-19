@@ -28,7 +28,7 @@ set.splitbelow = true
 -- colorscheme
 set.termguicolors = true
 set.background = "dark"
-vim.cmd("autocmd Filetype norg setlocal conceallevel=2")
+-- vim.cmd("autocmd Filetype norg setlocal conceallevel=2")
 vim.cmd([[
     syntax on
     syntax enable
@@ -40,8 +40,9 @@ vim.cmd([[
     set relativenumber
 ]])
 
-set.ea = false
-set.numberwidth = 3
+-- 不自动windows equal
+-- set.ea = false
+-- set.numberwidth = 3
 set.cursorline = true
 set.hidden = true
 set.backup = false
@@ -49,4 +50,4 @@ set.writebackup = false
 set.cmdheight = 1
 set.updatetime = 200
 set.shortmess:append("c")
-set.signcolumn = "number"
+set.signcolumn = "yes"

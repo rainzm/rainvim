@@ -62,11 +62,38 @@ function M.config()
 
 	local luasnip = require("luasnip")
 	local cmp = require("cmp")
+	local compare = require("cmp.config.compare")
 	cmp.setup({
 		snippet = {
 			expand = function(args)
 				require("luasnip").lsp_expand(args.body)
 			end,
+		},
+		-- sorting = {
+		-- 	comparators = {
+		-- 		--compare.sort_text,
+		-- 		compare.score,
+		-- 		compare.offset,
+		-- 		--compare.exact,
+		-- 		--compare.recently_used,
+		-- 		--compare.locality,
+		-- 		compare.kind,
+		-- 		--compare.length,
+		-- 		--compare.order,
+		-- 	},
+		-- },
+		sorting = {
+			comparators = {
+				compare.sort_text,
+				compare.offset,
+				compare.exact,
+				compare.score,
+				compare.recently_used,
+				compare.locality,
+				compare.kind,
+				compare.length,
+				compare.order,
+			},
 		},
 		mapping = {
 			["<Down>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
@@ -77,6 +104,21 @@ function M.config()
 				behavior = cmp.ConfirmBehavior.Replace,
 				select = true,
 			}),
+			-- ["<CR>"] = cmp.mapping(function(fallback)
+			-- 	local entry = cmp.get_selected_entry()
+			-- 	if entry then
+			-- 		if entry.source.name == "nvim_lsp" and entry.source.source.client.name == "rime_ls" then
+			-- 			cmp.close()
+			-- 		else
+			-- 			cmp.confirm({
+			-- 				behavior = cmp.ConfirmBehavior.Replace,
+			-- 				select = true,
+			-- 			})
+			-- 		end
+			-- 	else
+			-- 		fallback()
+			-- 	end
+			-- end, { "i", "s" }),
 			["<Tab>"] = cmp.mapping(function(fallback)
 				if cmp.visible() then
 					cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
@@ -86,6 +128,17 @@ function M.config()
 					luasnip.expand_or_jump()
 				elseif has_words_before() then
 					cmp.complete()
+				else
+					fallback()
+				end
+			end, { "i", "s" }),
+			["<Space>"] = cmp.mapping(function(fallback)
+				local entry = cmp.get_selected_entry()
+				if entry and entry.source.name == "nvim_lsp" and entry.source.source.client.name == "rime_ls" then
+					cmp.confirm({
+						behavior = cmp.ConfirmBehavior.Replace,
+						select = true,
+					})
 				else
 					fallback()
 				end

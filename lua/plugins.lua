@@ -18,19 +18,20 @@ return {
 		keys = { { '"' } },
 	},
 	-- Better IM
-	{
-		"rlue/vim-barbaric",
-		init = function()
-			vim.opt.ttimeoutlen = 10
-			vim.g.barbaric_ime = "macos"
-			vim.g.barbaric_default = "com.apple.keylayout.ABC"
-		end,
-		--"lyokha/vim-xkbswitch",
-		-- init = function()
-		-- 	vim.g.XkbSwitchEnabled = 1
-		-- end,
-		ft = "norg",
-	},
+	-- {
+	-- 	"rlue/vim-barbaric",
+	-- 	init = function()
+	-- 		vim.opt.ttimeoutlen = 10
+	-- 		vim.g.barbaric_ime = "macos"
+	-- 		vim.g.barbaric_default = "com.apple.keylayout.ABC"
+	-- 		vim.g.barbaric_timeout = -1
+	-- 	end,
+	-- 	-- "lyokha/vim-xkbswitch",
+	-- 	-- init = function()
+	-- 	-- 	vim.g.XkbSwitchEnabled = 1
+	-- 	-- end,
+	-- 	ft = "markdown",
+	-- },
 	-- Better replace
 	{
 		"nvim-pack/nvim-spectre",
@@ -50,11 +51,6 @@ return {
 			vim.g.choosewin_blink_on_land = 0
 		end,
 		cmd = { "ChooseWin", "ChooseWinCopy", "ChooseWinSwap" },
-		-- keys = {
-		-- 	{ "gwg", "<cmd>ChooseWin<cr>", desc = "Choose window to focus" },
-		-- 	{ "gwc", "<cmd>ChooseWinCopy<cr>", desc = "Choose window to copy" },
-		-- 	{ "gws", "<cmd>ChooseWinSwap<cr>", desc = "Choose window to swap" },
-		-- },
 	},
 	-- Better icons
 	{

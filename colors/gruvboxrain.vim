@@ -619,7 +619,8 @@ hi! link WarningMsg GruvboxRedBold
 call s:HL('LineNr', s:bg4, s:number_column)
 
 " Column where signs are displayed
-call s:HL('SignColumn', s:none, s:sign_column)
+" call s:HL('SignColumn', s:none, s:sign_column)
+call s:HL('SignColumn', s:none, s:number_column)
 
 " Line used for closed folds
 call s:HL('Folded', s:gray, s:bg1, s:italic)
@@ -920,8 +921,8 @@ call s:HL('multiple_cursors_visual', s:none, s:bg2)
 
 " }}}
 " nvim-dap: {{{
-hi! link DapBreakpoint GruvboxRedSign
-hi! link DapStopped GruvboxRedSign
+hi! link DapBreakpoint GruvboxRed
+hi! link DapStopped GruvboxGreen
 " }}}
 " NVIMTree: {{{
 hi! link NvimTreeFolderName GruvboxAqua

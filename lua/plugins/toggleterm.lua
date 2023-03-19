@@ -1,6 +1,6 @@
 local M = {
 	"akinsho/toggleterm.nvim",
-	tag = "v2.*",
+	version = "*",
 	cmd = "ToggleTerm",
 	keys = {
 		{ "<Leader>3", "<cmd>ToggleTerm<CR>", desc = "Toggle float terminal" },
