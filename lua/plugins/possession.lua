@@ -26,10 +26,11 @@ function M.config()
 			list = "SList",
 		},
 		plugins = {
+			delete_hidden_buffers = false,
 			nvim_tree = true,
-			delete_hidden_buffers = {
-				force = true, -- or fun(buf): boolean
-			},
+			tabby = true,
+			dap = true,
+			delete_buffers = false,
 		},
 	})
 	require("telescope").load_extension("possession")
