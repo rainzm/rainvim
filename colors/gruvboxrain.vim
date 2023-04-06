@@ -846,7 +846,7 @@ highlight! link @text.warning TSWarning
 highlight! link @text.uri GruvboxBlue
 highlight! link @uri GruvboxPurple
 highlight! link @todo Todo
-highlight! link @type GruvboxYellow
+highlight! link @type GruvboxFg1
 highlight! link @type.builtin GruvboxYellow
 highlight! link @type.definition GruvboxPurple
 highlight! link @type.qualifier GruvboxOrange
