@@ -61,9 +61,6 @@ function M.config()
 	ms.nvim_load_mapping(keys)
 
 	--local dap = require("dap")
-	--vim.fn.sign_define('DapBreakpoint', { text = '⛔', texthl = '', linehl = '', numhl = '' })
-	--vim.fn.sign_define('DapStopped', { text = '👉', texthl = '', linehl = '', numhl = '' })
-
 	vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "DapBreakpoint", linehl = "", numhl = "" })
 	vim.fn.sign_define("DapBreakpointCondition", { text = "ﳁ", texthl = "DapBreakpoint", linehl = "", numhl = "" })
 	vim.fn.sign_define("DapBreakpointRejected", { text = "", texthl = "DapBreakpoint", linehl = "", numhl = "" })
