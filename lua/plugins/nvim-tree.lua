@@ -3,7 +3,6 @@ local M = {
 	dependencies = {
 		"kyazdani42/nvim-web-devicons", -- optional, for file icon
 	},
-	--cmd = { 'NvimTreeToggle', 'NvimTreeFindFile' }
 	keys = {
 		{ "<Leader>1", "<cmd>NvimTreeToggle<CR>", desc = "toggle nvim tree" },
 		{ "<Leader>v", "<cmd>NvimTreeFindFile<CR>", desc = "find current file in nvim tree" },
