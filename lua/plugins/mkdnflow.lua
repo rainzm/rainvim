@@ -103,6 +103,22 @@ return {
 				MkdnFoldSection = false,
 				MkdnUnfoldSection = false,
 			},
+			new_file_template = {
+				use_template = true,
+				template = [[
+---
+title: {{ title }}
+date: {{ date }}
+---
+]],
+				placeholders = {
+					before = {
+						date = function()
+							return os.date("%A, %B %d, %Y") -- Wednesday, March 1, 2023
+						end,
+					},
+				},
+			},
 		},
 	},
 }
