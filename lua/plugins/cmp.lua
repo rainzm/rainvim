@@ -9,15 +9,7 @@ local M = {
 		{ "hrsh7th/cmp-buffer" },
 		{ "saadparwaiz1/cmp_luasnip" },
 		"hrsh7th/cmp-nvim-lsp",
-		{
-			"L3MON4D3/LuaSnip",
-			config = function()
-				-- local luasnip = require "luasnip"
-				-- luasnip.filetype_extend("vimwiki", { "markdown" })
-				require("luasnip.loaders.from_vscode").lazy_load()
-			end,
-		},
-		"rafamadriz/friendly-snippets",
+		"L3MON4D3/LuaSnip",
 	},
 	event = "InsertEnter *",
 }
@@ -200,6 +192,18 @@ function M.config()
 				end
 				return vim_item
 			end,
+		},
+		sources = {
+			{ name = "nvim_lsp", priority = 80 },
+			{ name = "luasnip", priority = 100 },
+			{
+				name = "buffer",
+				option = {
+					get_bufnrs = function()
+						return vim.api.nvim_list_bufs()
+					end,
+				},
+			},
 		},
 	})
 	local cmp_autopairs = require("nvim-autopairs.completion.cmp")
