@@ -1,6 +1,7 @@
 local M = {
 	englishLayout = "com.apple.keylayout.ABC",
-	chineseLayout = "com.apple.inputmethod.SCIM.ITABC",
+	-- chineseLayout = "com.apple.inputmethod.SCIM.ITABC",
+	chineseLayout = "im.rime.inputmethod.Squirrel.Hans",
 }
 
 function M.switchEnglish()
@@ -10,10 +11,7 @@ end
 function M.switchChinese()
 	local cmd = string.format("xkbswitch -s %s", M.chineseLayout)
 	local status = os.execute(cmd)
-	vim.notify(string.format("exec cmd: %s", cmd), "info")
-	if status == 0 then
-		vim.notify("switch chinese success.", "info")
-	else
+	if status ~= 0 then
 		vim.notify("switch chinese failed.", "error")
 	end
 end

@@ -19,7 +19,18 @@ local M = {
 			"tpope/vim-repeat",
 		},
 		keys = {
-			-- { mode = { "n" }, "t", "<cmd>lua require('plugins.move').leapChinese()<cr>", desc = "Leap Chinese" },
+			{
+				mode = { "n", "v" },
+				"t",
+				"<cmd>lua require('plugins.move').leapChineseForward()<cr>",
+				desc = "Leap Chinese Forward",
+			},
+			{
+				mode = { "n", "v" },
+				"T",
+				"<cmd>lua require('plugins.move').leapChineseBackward()<cr>",
+				desc = "Leap Chinese Backward",
+			},
 			{ "s", mode = { "n", "x", "o", "v" }, desc = "Leap forward to" },
 			{ "S", mode = { "n", "x", "o", "v" }, desc = "Leap backward to" },
 			{ "gs", mode = { "n", "x", "o", "v" }, desc = "Leap from windows" },
@@ -32,13 +43,22 @@ local M = {
 			leap.add_default_mappings(true)
 			vim.keymap.del({ "x", "o" }, "x")
 			vim.keymap.del({ "x", "o" }, "X")
+			vim.api.nvim_create_autocmd("User", {
+				pattern = "LeapPatternPost",
+				callback = require("input").switchEnglish,
+			})
 		end,
 	},
 }
 
-function M.leapChinese()
-	require("leap").leap({})
+function M.leapChineseForward()
 	require("input").switchChinese()
+	require("leap").leap({})
+end
+
+function M.leapChineseBackward()
+	require("input").switchChinese()
+	require("leap").leap({ backward = true })
 end
 
 return M
