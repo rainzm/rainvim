@@ -2,10 +2,15 @@ local M = {
 	englishLayout = "com.apple.keylayout.ABC",
 	-- chineseLayout = "com.apple.inputmethod.SCIM.ITABC",
 	chineseLayout = "im.rime.inputmethod.Squirrel.Hans",
+	switchChineseCall = false,
 }
 
 function M.switchEnglish()
-	os.execute(string.format("xkbswitch -s %s", M.englishLayout))
+	if M.switchChineseCall then
+		os.execute(string.format("xkbswitch -s %s", M.englishLayout))
+		M.switchChineseCall = false
+		vim.notify("switch english")
+	end
 end
 
 function M.switchChinese()
@@ -14,6 +19,7 @@ function M.switchChinese()
 	if status ~= 0 then
 		vim.notify("switch chinese failed.", "error")
 	end
+	M.switchChineseCall = true
 end
 
 return M

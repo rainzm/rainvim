@@ -17,8 +17,6 @@ vim.api.nvim_create_user_command("Mkdn2HTML", require("markdown").cToHTML, {})
 vim.api.nvim_create_user_command("Mkdn2HTMLBrowse", require("markdown").cToHTMLOpen, {})
 vim.api.nvim_create_user_command("Mkdn2HTMLAll", require("markdown").allToHTML, {})
 vim.api.nvim_create_user_command("MkdnBrowse", require("markdown").browse, {})
-vim.api.nvim_create_user_command("English", require("input").switchEnglish, {})
-vim.api.nvim_create_user_command("Chinese", require("input").switchChinese, {})
 vim.api.nvim_create_user_command("Rg", rg, { nargs = 1, force = true })
 
 vim.api.nvim_command("augroup Markdown")
