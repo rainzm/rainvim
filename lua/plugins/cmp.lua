@@ -137,7 +137,6 @@ function M.config()
 				compare.exact,
 				compare.score,
 				compare.recently_used,
-				compare.locality,
 				compare.kind,
 				compare.length,
 				compare.order,
@@ -145,6 +144,10 @@ function M.config()
 		},
 		mapping = {
 			["<C-e>"] = cmp.mapping.abort(),
+			-- ["<CR>"] = cmp.mapping.confirm({
+			-- 	behavior = cmp.ConfirmBehavior.Replace,
+			-- 	select = true,
+			-- }),
 			["<Space>"] = cmp.mapping(function(fallback)
 				local entry = cmp.get_selected_entry()
 				if entry and entry.source.name == "nvim_lsp" and entry.source.source.client.name == "rime_ls" then
