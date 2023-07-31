@@ -1,6 +1,6 @@
 return {
 	{
-		"ray-x/go.nvim",
+		"rainzm/go.nvim",
 		dependencies = { -- optional packages
 			"ray-x/guihua.lua",
 			"neovim/nvim-lspconfig",
