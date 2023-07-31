@@ -38,6 +38,7 @@ vim.cmd([[
     filetype plugin indent on
     set number
     set relativenumber
+    language messages en_US.UTF-8
 ]])
 
 -- 不自动windows equal
