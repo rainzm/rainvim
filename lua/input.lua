@@ -9,7 +9,6 @@ function M.switchEnglish()
 	if M.switchChineseCall then
 		os.execute(string.format("xkbswitch -s %s", M.englishLayout))
 		M.switchChineseCall = false
-		vim.notify("switch english")
 	end
 end
 
