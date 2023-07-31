@@ -1,6 +1,6 @@
 return {
 	{
-		"jakewvincent/mkdnflow.nvim",
+		"rainzm/mkdnflow.nvim",
 		rocks = "luautf8",
 		opts = {
 			modules = {
@@ -120,5 +120,19 @@ date: {{ date }}
 				},
 			},
 		},
+	},
+	{
+		"iamcco/markdown-preview.nvim",
+		build = function()
+			vim.fn["mkdp#util#install"]()
+		end,
+		ft = "markdown",
+		cmd = { "MarkdownPreview" },
+		init = function()
+			vim.g.mkdp_theme = "light"
+		end,
+		config = function()
+			vim.g.mkdp_filetypes = { "markdown", "vimwiki" }
+		end,
 	},
 }
