@@ -49,6 +49,7 @@ function M.config()
 			c = { bg = colors.inactivegray, fg = colors.black },
 		},
 	}
+	local icons = require("plugins.utils.icons")
 	require("lualine").setup({
 		options = {
 			icons_enabled = true,
@@ -77,7 +78,21 @@ function M.config()
 					path = 1,
 				},
 			},
-			lualine_c = { "diagnostics" },
+			lualine_c = {
+				{
+					"diagnostics",
+					sources = { "nvim_lsp" },
+					sections = { "error", "warn", "info", "hint" },
+					symbols = {
+						error = icons.diagnostics.Error,
+						warn = icons.diagnostics.Warning,
+						info = icons.diagnostics.Information,
+						hint = icons.diagnostics.Hint,
+					},
+					colored = true,
+					update_in_insert = true,
+				},
+			},
 			lualine_x = {},
 			lualine_y = { "vim.bo.filetype", "progress" },
 			lualine_z = {},
