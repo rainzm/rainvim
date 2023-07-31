@@ -31,6 +31,7 @@ local servers = {
 		},
 	},
 	bashls = {},
+	marksman = {},
 }
 
 local function on_attach(client, bufnr)
