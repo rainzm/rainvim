@@ -33,4 +33,8 @@ require("lazy").setup("plugins", {
 			},
 		},
 	},
+	change_detection = {
+		-- https://github.com/folke/lazy.nvim/issues/32
+		notify = false,
+	},
 })
