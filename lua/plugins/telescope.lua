@@ -24,6 +24,11 @@ local M = {
 			desc = "Find current word",
 		},
 		{
+			"gd",
+			'<cmd>lua require("telescope.builtin").lsp_definitions({ show_line = false })<CR>',
+			desc = "Show lsp_definitions",
+		},
+		{
 			"gi",
 			'<cmd>lua require("telescope.builtin").lsp_implementations({ show_line = false })<CR>',
 			desc = "Show lsp_implementations",
