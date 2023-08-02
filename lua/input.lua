@@ -7,13 +7,13 @@ local M = {
 
 function M.switchEnglish()
 	if M.switchChineseCall then
-		os.execute(string.format("xkbswitch -s %s", M.englishLayout))
+		os.execute(string.format("im-select %s", M.englishLayout))
 		M.switchChineseCall = false
 	end
 end
 
 function M.switchChinese()
-	local cmd = string.format("xkbswitch -s %s", M.chineseLayout)
+	local cmd = string.format("im-select %s", M.chineseLayout)
 	local status = os.execute(cmd)
 	if status ~= 0 then
 		vim.notify("switch chinese failed.", "error")
