@@ -783,7 +783,7 @@ highlight! link @conditional GruvboxRed
 highlight! link @constant GruvboxFg1
 highlight! link @constant.builtin GruvboxPurple
 highlight! link @constant.macro GruvboxPurple
-highlight! link @constructor GruvboxGreen
+highlight! link @constructor GruvboxBlue
 highlight! link @debug Debug
 highlight! link @text.environment Macro
 highlight! link @text.environment.name Type

@@ -43,6 +43,7 @@ return {
 				desc = "Replace iterm in current file",
 			},
 		},
+		cmd = { "Spectre" },
 	},
 	-- Better windows
 	{
@@ -60,10 +61,21 @@ return {
 	-- commentary
 	{
 		"echasnovski/mini.comment",
-		config = function()
-			require("mini.comment").setup()
-		end,
+		-- config = function()
+		-- 	require("mini.comment").setup()
+		-- end,
 		keys = { { mode = { "v", "n" }, "gc" } },
+		opts = {
+			options = {
+				custom_commentstring = function()
+					if vim.bo.filetype == "objc" then
+						return "// %s"
+					else
+						return vim.bo.commentstring
+					end
+				end,
+			},
+		},
 	},
 	{
 		"ethanholz/nvim-lastplace",
@@ -77,5 +89,12 @@ return {
 	{
 		"echasnovski/mini.bufremove",
 		lazy = true,
+	},
+	"folke/trouble.nvim",
+	dependencies = { "nvim-tree/nvim-web-devicons" },
+	opts = {
+		-- your configuration comes here
+		-- or leave it empty to use the default settings
+		-- refer to the configuration section below
 	},
 }

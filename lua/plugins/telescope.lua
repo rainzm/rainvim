@@ -43,6 +43,11 @@ local M = {
 			'<cmd>lua require("telescope.builtin").lsp_document_symbols()<CR>',
 			desc = "Show lsp_document_symbols",
 		},
+		-- {
+		-- 	"<Leader>rr",
+		-- 	'<cmd>lua require("telescope").extensions.refactoring.refactors()<CR>',
+		-- 	desc = "refactor code",
+		-- },
 	},
 	cmd = { "Telescope" },
 }
@@ -52,6 +57,8 @@ function M.config()
 	local icons = require("plugins.utils.icons")
 	vim.cmd("autocmd User TelescopePreviewerLoaded setlocal number")
 	local actions = require("telescope.actions")
+	local trouble = require("trouble.providers.telescope")
+
 	require("telescope").setup({
 		defaults = {
 			prompt_prefix = icons.ui.Telescope .. " ",
@@ -63,7 +70,11 @@ function M.config()
 					["<C-s>"] = require("telescope.actions").file_split,
 					["<C-p>"] = require("telescope.actions").preview_scrolling_up,
 					["<C-n>"] = require("telescope.actions").preview_scrolling_down,
+					["<C-y>"] = "which_key",
+					["<C-Q>"] = require("telescope.actions").smart_send_to_qflist,
+					["<c-t>"] = trouble.open_with_trouble,
 				},
+				n = { ["<c-t>"] = trouble.open_with_trouble },
 			},
 			file_ignore_patterns = { "^vendor/" },
 			--layout_strategy = 'horizontal',
@@ -110,6 +121,8 @@ function M.config()
 	-- load_extension, somewhere after setup function:
 	require("telescope").load_extension("fzf")
 	require("telescope").load_extension("project")
+	-- require("telescope").load_extension("refactoring")
+
 	vim.api.nvim_set_keymap(
 		"n",
 		"<leader>lp",

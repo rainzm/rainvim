@@ -5,6 +5,7 @@ local servers = {
 		cmd = { "gopls", "-remote=auto" },
 		settings = {
 			gopls = {
+				-- --tags=linux
 				env = { GOFLAGS = "-mod=mod" },
 				directoryFilters = { "-vendor", "-docs", "-scripts" },
 			},
@@ -35,6 +36,8 @@ local servers = {
 	},
 	bashls = {},
 	marksman = {},
+	clangd = {},
+	pyright = {},
 }
 
 local function on_attach(client, bufnr)

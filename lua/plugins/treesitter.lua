@@ -36,10 +36,14 @@ return {
 			highlight = { enable = true, dditional_vim_regex_highlighting = false },
 			--indent = { enable = true, disable = { "python" } },
 			--context_commentstring = { enable = true, enable_autocmd = false },
+			context_commentstring = {
+				enable = true,
+			},
 			ensure_installed = {
 				"bash",
 				"help",
 				"go",
+				"objc",
 				"json",
 				"lua",
 				"markdown",
