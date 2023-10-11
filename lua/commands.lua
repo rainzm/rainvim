@@ -18,8 +18,3 @@ vim.api.nvim_create_user_command("Mkdn2HTMLBrowse", require("markdown").cToHTMLO
 vim.api.nvim_create_user_command("Mkdn2HTMLAll", require("markdown").allToHTML, {})
 vim.api.nvim_create_user_command("MkdnBrowse", require("markdown").browse, {})
 vim.api.nvim_create_user_command("Rg", rg, { nargs = 1, force = true })
-
-vim.api.nvim_command("augroup Markdown")
-vim.api.nvim_command("autocmd!")
-vim.api.nvim_command("autocmd FileType markdown setlocal colorcolumn=80")
-vim.api.nvim_command("augroup Markdown")
