@@ -854,6 +854,10 @@ highlight! link @type.qualifier GruvboxOrange
 highlight! link @variable.builtin GruvboxPurple
 
 " }}}
+" LSP: {{{
+hi! link LspSignatureActiveParameter GruvboxYellow
+" hi! link @lsp.type.struct GruvboxFg1
+" }}}
 " Indent Guides: {{{
 
 if !exists('g:indent_guides_auto_colors')
@@ -881,33 +885,6 @@ if !exists('g:indentLine_color_gui')
 endif
 
 " }}}
-" Rainbow Parentheses: {{{
-
-if !exists('g:rbpt_colorpairs')
-  let g:rbpt_colorpairs =
-    \ [
-      \ ['blue', '#458588'], ['magenta', '#b16286'],
-      \ ['red',  '#cc241d'], ['166',     '#d65d0e']
-    \ ]
-endif
-
-let g:rainbow_guifgs = [ '#d65d0e', '#cc241d', '#b16286', '#458588' ]
-let g:rainbow_ctermfgs = [ '166', 'red', 'magenta', 'blue' ]
-
-if !exists('g:rainbow_conf')
-   let g:rainbow_conf = {}
-endif
-if !has_key(g:rainbow_conf, 'guifgs')
-   let g:rainbow_conf['guifgs'] = g:rainbow_guifgs
-endif
-if !has_key(g:rainbow_conf, 'ctermfgs')
-   let g:rainbow_conf['ctermfgs'] = g:rainbow_ctermfgs
-endif
-
-let g:niji_dark_colours = g:rbpt_colorpairs
-let g:niji_light_colours = g:rbpt_colorpairs
-
-"}}}
 " GitCommit: "{{{
 
 hi! link gitcommitSelectedFile GruvboxGreen
@@ -931,9 +908,6 @@ hi! link NvimTreeEmptyFolderName GruvboxAqua
 hi! link NvimTreeFolderIcon GruvboxGreen
 call s:HL('NvimTreeWindowPicker',   s:gb.darkline, s:gb.bright_blue, 'inverse,bold,')
 " }}}
-" LSP: {{{
-hi! link LspSignatureActiveParameter GruvboxYellow
-" }}}
 " Leap: {{{
 call s:HL('LeapLabelPrimary', s:bg0, s:gb.bright_aqua)
 " hi! link LeapLabelSecondary GruvboxBlue
@@ -949,8 +923,13 @@ hi! link NoicePopupmenu GruvboxFg1
 " }}}
 " Neorg: {{{
 call s:HL('TSStrike', s:none, s:none, 'strikethrough,')
-hi! link @neorg.definitions.content GruvboxNone
+" hi! link @neorg.definitions.content GruvboxNone
 hi! link @neorg.markup.strikethrough TSStrike
+" hi! link @neorg.headings.3.title GruvboxYellow
+" }}}
+" flash.nvim {{{
+call s:HL('FlashLabel', s:bg0, s:gb.bright_aqua)
+call s:HL('FlashCurrent', s:bg0, s:gb.bright_aqua)
 " }}}
 
 

@@ -2,6 +2,7 @@ return {
 	{
 		"rainzm/mkdnflow.nvim",
 		rocks = "luautf8",
+		ft = { "markdown", "vimwiki" },
 		opts = {
 			modules = {
 				bib = true,
