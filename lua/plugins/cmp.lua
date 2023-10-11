@@ -20,31 +20,31 @@ end
 
 function M.config()
 	local kind_icons = {
-		Text = "",
-		Method = "",
-		Function = "",
-		Constructor = "",
-		Field = "",
-		Variable = "",
-		Class = "ﴯ",
-		Interface = "",
-		Module = "",
-		Property = "ﰠ",
-		Unit = "",
-		Value = "",
-		Enum = "",
-		Keyword = "",
-		Snippet = "",
-		Color = "",
-		File = "",
-		Reference = "",
-		Folder = "",
-		EnumMember = "",
-		Constant = "",
-		Struct = "",
+		Text = " ",
+		Method = " ",
+		Function = "󰊕 ",
+		Constructor = " ",
+		Field = "󰇽 ",
+		Variable = "󰂡 ",
+		Class = "󰠱 ",
+		Interface = " ",
+		Module = " ",
+		Property = "󰜢 ",
+		Unit = " ",
+		Value = "󰎠 ",
+		Enum = " ",
+		Keyword = "󰌋 ",
+		Snippet = " ",
+		Color = "󰏘 ",
+		File = "󰈙 ",
+		Reference = " ",
+		Folder = "󰉋 ",
+		EnumMember = " ",
+		Constant = "󰏿 ",
+		Struct = " ",
 		Event = "",
-		Operator = "",
-		TypeParameter = "",
+		Operator = "󰆕 ",
+		TypeParameter = "󰅲 ",
 	}
 
 	local has_words_before = function()
@@ -84,6 +84,13 @@ function M.config()
 				behavior = cmp.ConfirmBehavior.Replace,
 				select = true,
 			}),
+			["<C-d>"] = function()
+				if cmp.visible_docs() then
+					cmp.close_docs()
+				else
+					cmp.open_docs()
+				end
+			end,
 			["<Tab>"] = cmp.mapping(function(fallback)
 				if cmp.visible() then
 					cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
@@ -108,7 +115,7 @@ function M.config()
 		formatting = {
 			format = function(entry, vim_item)
 				-- Kind icons
-				vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
+				-- vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
 				-- Source
 				-- vim_item.menu = entry:get_completion_item().detail
 				vim_item.menu = ({
@@ -121,8 +128,14 @@ function M.config()
 				return vim_item
 			end,
 		},
+		view = {
+			docs = {
+				auto_open = false,
+			},
+		},
 		window = {
-			documentation = cmp.config.disable,
+			-- documentation = cmp.config.disable,
+			documentation = cmp.config.window.bordered(),
 		},
 		preselect = cmp.PreselectMode.None,
 		completion = {
@@ -142,7 +155,7 @@ function M.config()
 			},
 		},
 	})
-	cmp.setup.filetype({ "markdown", "gitcommit" }, {
+	cmp.setup.filetype({ "markdown", "gitcommit", "norg" }, {
 		sorting = {
 			comparators = {
 				compare.sort_text,
@@ -172,21 +185,24 @@ function M.config()
 					fallback()
 				end
 			end, { "i", "s" }),
-			-- ["<CR>"] = cmp.mapping(function(fallback)
-			-- 	local entry = cmp.get_selected_entry()
-			-- 	if entry then
-			-- 		if entry.source.name == "nvim_lsp" and entry.source.source.client.name == "rime_ls" then
-			-- 			cmp.close()
-			-- 		else
-			-- 			cmp.confirm({
-			-- 				behavior = cmp.ConfirmBehavior.Replace,
-			-- 				select = true,
-			-- 			})
-			-- 		end
-			-- 	else
-			-- 		fallback()
-			-- 	end
-			-- end, { "i", "s" }),
+			["<CR>"] = cmp.mapping(function(fallback)
+				local entry = cmp.get_selected_entry()
+				if entry == nil then
+					entry = cmp.core.view:get_first_entry()
+				end
+				if entry and entry.source.name == "nvim_lsp" and entry.source.source.client.name == "rime_ls" then
+					cmp.abort()
+				else
+					if entry ~= nil then
+						cmp.confirm({
+							behavior = cmp.ConfirmBehavior.Replace,
+							select = true,
+						})
+					else
+						fallback()
+					end
+				end
+			end, { "i", "s" }),
 		},
 		formatting = {
 			format = function(entry, vim_item)
@@ -199,17 +215,20 @@ function M.config()
 					luasnip = "[LuaSnip]",
 					nvim_lua = "[Lua]",
 					latex_symbols = "[LaTeX]",
+					neorg = "[Neorg]",
 				})[entry.source.name]
 				if entry.source.name == "nvim_lsp" and entry.source.source.client.name == "rime_ls" then
-					vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
+					-- vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
+					vim_item.kind = ""
 					vim_item.menu = "[Rime]"
-				else
-					vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind], vim_item.kind)
+					-- else
+					-- vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind], vim_item.kind)
 				end
 				return vim_item
 			end,
 		},
 		sources = {
+			{ name = "neorg", priority = 90 },
 			{ name = "nvim_lsp", priority = 80 },
 			{ name = "luasnip", priority = 100 },
 			{
