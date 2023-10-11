@@ -48,4 +48,36 @@ return {
 			},
 		},
 	},
+	-- commentary
+	{
+		"echasnovski/mini.comment",
+		-- config = function()
+		-- 	require("mini.comment").setup()
+		-- end,
+		keys = { { mode = { "v", "n" }, "gc" } },
+		opts = {
+			options = {
+				custom_commentstring = function()
+					if vim.bo.filetype == "objc" then
+						return "// %s"
+					else
+						return vim.bo.commentstring
+					end
+				end,
+			},
+		},
+	},
+	-- Better replace
+	{
+		"nvim-pack/nvim-spectre",
+		opts = {},
+		keys = {
+			{
+				"<Leader>rc",
+				"<cmd>lua require('spectre').open_file_search()<CR>",
+				desc = "Replace iterm in current file",
+			},
+		},
+		cmd = { "Spectre" },
+	},
 }
