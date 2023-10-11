@@ -25,7 +25,11 @@ return {
 				return vim.fn["codeium#Accept"]()
 			end, { expr = true, silent = true })
 			vim.keymap.set("i", "<c-]>", function()
-				return vim.fn["codeium#CycleCompletions"](1)
+				vim.fn["codeium#CycleCompletions"](1)
+				require("lualine").refresh({
+					scope = "window",
+					place = { "statusline" },
+				})
 			end, { expr = true, silent = true })
 			-- vim.keymap.set("i", "<c-\\>", function()
 			-- 	return vim.fn["codeium#CycleCompletions"](-1)

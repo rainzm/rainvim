@@ -1,7 +1,32 @@
 local M = {
 	"nvim-lualine/lualine.nvim",
 	dependencies = { "kyazdani42/nvim-web-devicons", opt = true },
+	show_current_function = false,
 }
+
+function M._codeium()
+	local status = vim.api.nvim_call_function("codeium#GetStatusString", {})
+	if string.find(status, "/") then
+		return string.format("%s %s", "{…}", status)
+	end
+	return ""
+end
+
+-- update lualine
+function M._rime_status()
+	if vim.g.rime_enabled then
+		return "ㄓ"
+	else
+		return ""
+	end
+end
+
+function M._current_function()
+	if M.show_current_function then
+		return vim.b.lsp_current_function
+	end
+	return ""
+end
 
 function M.config()
 	local colors = {
@@ -22,6 +47,7 @@ function M.config()
 			a = { bg = colors.blue, fg = colors.black },
 			b = { bg = colors.gray, fg = colors.black },
 			c = { bg = colors.lightgray, fg = colors.midfont },
+			x = { bg = colors.lightgray, fg = colors.midfont },
 		},
 		insert = {
 			a = { bg = colors.blue, fg = colors.black },
@@ -49,6 +75,24 @@ function M.config()
 			c = { bg = colors.inactivegray, fg = colors.black },
 		},
 	}
+	local keys = {
+		["<leader>lf"] = {
+			f = function()
+				if M.show_current_function then
+					M.show_current_function = false
+				else
+					require("lsp-status").update_current_function()
+					M.show_current_function = true
+				end
+				require("lualine").refresh({
+					scope = "window",
+					place = { "statusline" },
+				})
+			end,
+		},
+	}
+	require("mappings").nvim_load_mapping(keys)
+
 	local icons = require("plugins.utils.icons")
 	require("lualine").setup({
 		options = {
@@ -92,9 +136,16 @@ function M.config()
 					colored = true,
 					update_in_insert = true,
 				},
+				{ M._current_function },
+				{ M._codeium },
 			},
-			lualine_x = {},
-			lualine_y = { "vim.bo.filetype", "progress" },
+			lualine_x = {
+				M._rime_status,
+			},
+			lualine_y = {
+				"vim.bo.filetype",
+				"progress",
+			},
 			lualine_z = {},
 		},
 		inactive_sections = {
