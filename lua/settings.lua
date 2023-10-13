@@ -19,6 +19,7 @@ vim.cmd("autocmd Filetype yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2 exp
 
 set.incsearch = true
 set.wildmenu = true
+set.shell = "/opt/homebrew/bin/fish"
 
 set.splitright = true
 set.splitbelow = true
