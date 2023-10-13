@@ -864,6 +864,8 @@ highlight! link @variable.builtin GruvboxPurple
 " }}}
 " LSP: {{{
 hi! link LspSignatureActiveParameter GruvboxYellow
+call s:HL('DiagnosticUnderlineError', s:none, s:none, s:undercurl, s:red)
+"hi DiagnosticUnderlineError guisp='GruvboxRed' gui=undercurl
 " hi! link @lsp.type.struct GruvboxFg1
 " }}}
 " Indent Guides: {{{
