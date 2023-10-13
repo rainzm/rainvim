@@ -4,8 +4,8 @@ local M = {
 	cmd = "ToggleTerm",
 	keys = {
 		{ "<Leader>3", "<cmd>ToggleTerm<CR>", desc = "Toggle float terminal" },
-		{ "<Leader>tv", "<cmd>lua _vertterm_toggle()<CR>", desc = "Toggle vert termianl" },
-		{ "<Leader>ts", "<cmd>lua _horiterm_toggle()<CR>", desc = "Toggle hori termianl" },
+		{ "<Leader>tv", "<cmd>lua vertterm_toggle()<CR>", desc = "Toggle vert termianl" },
+		{ "<Leader>ts", "<cmd>lua horiterm_toggle()<CR>", desc = "Toggle hori termianl" },
 	},
 }
 
@@ -47,16 +47,16 @@ function M.config()
 		hidden = true,
 	})
 
-	_vertterm_toggle = function()
+	vertterm_toggle = function()
 		vertTerm:toggle()
 	end
-	_horiterm_toggle = function()
+	horiterm_toggle = function()
 		horiTerm:toggle()
 	end
 
 	-- vim.api.nvim_set_keymap("n", "<leader>tv", "<cmd>lua _vertterm_toggle()<CR>", { noremap = true, silent = true })
-	vim.api.nvim_set_keymap("t", "<leader>tv", "<cmd>lua _vertterm_toggle()<CR>", { noremap = true, silent = true })
-	vim.api.nvim_set_keymap("t", "<leader>ts", "<cmd>lua _horiterm_toggle()<CR>", { noremap = true, silent = true })
+	vim.api.nvim_set_keymap("t", "<leader>tv", "<cmd>lua vertterm_toggle()<CR>", { noremap = true, silent = true })
+	vim.api.nvim_set_keymap("t", "<leader>ts", "<cmd>lua horiterm_toggle()<CR>", { noremap = true, silent = true })
 end
 
 return M
