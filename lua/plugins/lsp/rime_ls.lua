@@ -29,7 +29,6 @@ A language server for librime
 	end
 
 	local rime_on_attach = function(client, _)
-		vim.g.rime_enabled = true
 		local toggle_rime = function()
 			client.request("workspace/executeCommand", { command = "rime-ls.toggle-rime" }, function(_, result, ctx, _)
 				if ctx.client_id == client.id then
@@ -37,6 +36,17 @@ A language server for librime
 				end
 			end)
 		end
+		local rime_toggle_group = vim.api.nvim_create_augroup("RimeToggleGroup", { clear = true })
+		vim.api.nvim_create_autocmd("BufEnter", {
+			group = rime_toggle_group,
+			pattern = "*.norg",
+			callback = function()
+				if vim.g.rime_enabled then
+					return
+				end
+				toggle_rime()
+			end,
+		})
 		-- keymaps for executing command
 		vim.keymap.set("n", "<leader><space>", function()
 			toggle_rime()
@@ -57,9 +67,9 @@ A language server for librime
 		name = "rime_ls",
 		cmd = vim.lsp.rpc.connect("127.0.0.1", 9257),
 		-- cmd = { "/Users/rain/.local/bin/rime_ls" },
-		filetypes = { "markdown", "gitcommit", "norg" },
+		filetypes = { "markdown", "gitcommit", "norg", "TelescopePrompt" },
 		init_options = {
-			enabled = true, -- 初始关闭, 手动开启
+			enabled = false, -- 初始关闭, 手动开启
 			shared_data_dir = "/Library/Input Methods/Squirrel.app/Contents/SharedSupport", -- rime 公共目录
 			user_data_dir = "~/.local/share/rime-ls", -- 指定用户目录, 最好新建一个
 			log_dir = "~/.local/share/rime-ls/log", -- 日志目录

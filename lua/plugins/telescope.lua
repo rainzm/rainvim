@@ -14,6 +14,16 @@ local M = {
 			desc = "Find files",
 		},
 		{
+			"<Leader>lg",
+			"<cmd>Telescope live_grep<CR>",
+			desc = "Find files",
+		},
+		{
+			"<Leader>ll",
+			"<cmd>Telescope grep_string<CR>",
+			desc = "Find files",
+		},
+		{
 			"<Leader>b",
 			'<cmd>lua require("telescope.builtin").buffers({ sort_mru = true, ignore_current_buffer = true })<CR>',
 			desc = "Find buffers",
@@ -74,7 +84,29 @@ end
 -- ms.nnoremap('gf', ':Rg <C-R><C-W><CR>')
 function M.config()
 	local icons = require("plugins.utils.icons")
-	vim.cmd("autocmd User TelescopePreviewerLoaded setlocal number")
+	vim.api.nvim_create_autocmd("User", {
+		pattern = "TelescopePreviewerLoaded",
+		callback = function(args)
+			if args == nil or args.data == nil then
+				return
+			end
+			if args.data.filetype ~= "help" then
+				vim.wo.number = true
+			elseif args.data.bufname:match("*.csv") then
+				vim.wo.wrap = false
+			end
+		end,
+	})
+	vim.api.nvim_create_autocmd("User", {
+		pattern = "TelescopeFindPre",
+		callback = function()
+			if vim.bo.filetype == "markdown" or vim.bo.filetype == "norg" then
+				vim.g.cmp_enabled = true
+			else
+				vim.g.cmp_enabled = false
+			end
+		end,
+	})
 	local actions = require("telescope.actions")
 	local trouble = require("trouble.providers.telescope")
 
@@ -117,6 +149,12 @@ function M.config()
 						["<c-d>"] = actions.delete_buffer,
 					},
 				},
+			},
+			live_grep = {
+				layout_config = { width = 0.5, preview_height = 0.6 },
+			},
+			grep_string = {
+				layout_config = { width = 0.5, preview_height = 0.6 },
 			},
 			lsp_document_symbols = {
 				previewer = false,

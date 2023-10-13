@@ -10,6 +10,7 @@ local M = {
 		{ "saadparwaiz1/cmp_luasnip" },
 		"hrsh7th/cmp-nvim-lsp",
 		"L3MON4D3/LuaSnip",
+		-- "hrsh7th/cmp-cmdline",
 	},
 	event = "InsertEnter *",
 }
@@ -155,6 +156,81 @@ function M.config()
 			},
 		},
 	})
+	cmp.setup.filetype({ "TelescopePrompt" }, {
+		sorting = {
+			comparators = {
+				compare.sort_text,
+				compare.offset,
+				compare.exact,
+				compare.score,
+				compare.recently_used,
+				compare.kind,
+				compare.length,
+				compare.order,
+			},
+		},
+		enabled = function()
+			return vim.g.cmp_enabled
+		end,
+		mapping = {
+			["<C-e>"] = cmp.mapping.abort(),
+			["<Space>"] = cmp.mapping(function(fallback)
+				local entry = cmp.get_selected_entry()
+				if entry and entry.source.name == "nvim_lsp" and entry.source.source.client.name == "rime_ls" then
+					cmp.confirm({
+						behavior = cmp.ConfirmBehavior.Replace,
+						select = true,
+					})
+				else
+					fallback()
+				end
+			end, { "i", "s" }),
+			["<CR>"] = cmp.mapping(function(fallback)
+				local entry = cmp.get_selected_entry()
+				if entry == nil then
+					entry = cmp.core.view:get_first_entry()
+				end
+				if entry and entry.source.name == "nvim_lsp" and entry.source.source.client.name == "rime_ls" then
+					cmp.abort()
+				else
+					if entry ~= nil then
+						cmp.confirm({
+							behavior = cmp.ConfirmBehavior.Replace,
+							select = true,
+						})
+					else
+						fallback()
+					end
+				end
+			end, { "i", "s" }),
+		},
+		formatting = {
+			format = function(entry, vim_item)
+				-- Kind icons
+				-- Source
+				-- vim_item.menu = entry:get_completion_item().detail
+				vim_item.menu = ({
+					buffer = "[Buffer]",
+					nvim_lsp = "[LSP]",
+					luasnip = "[LuaSnip]",
+					nvim_lua = "[Lua]",
+					latex_symbols = "[LaTeX]",
+					neorg = "[Neorg]",
+				})[entry.source.name]
+				if entry.source.name == "nvim_lsp" and entry.source.source.client.name == "rime_ls" then
+					-- vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
+					vim_item.kind = ""
+					vim_item.menu = "[Rime]"
+					-- else
+					-- vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind], vim_item.kind)
+				end
+				return vim_item
+			end,
+		},
+		sources = {
+			{ name = "nvim_lsp", priority = 80 },
+		},
+	})
 	cmp.setup.filetype({ "markdown", "gitcommit", "norg" }, {
 		sorting = {
 			comparators = {
@@ -168,6 +244,7 @@ function M.config()
 				compare.order,
 			},
 		},
+		enabled = true,
 		mapping = {
 			["<C-e>"] = cmp.mapping.abort(),
 			-- ["<CR>"] = cmp.mapping.confirm({
@@ -176,6 +253,9 @@ function M.config()
 			-- }),
 			["<Space>"] = cmp.mapping(function(fallback)
 				local entry = cmp.get_selected_entry()
+				if entry == nil then
+					entry = cmp.core.view:get_first_entry()
+				end
 				if entry and entry.source.name == "nvim_lsp" and entry.source.source.client.name == "rime_ls" then
 					cmp.confirm({
 						behavior = cmp.ConfirmBehavior.Replace,
@@ -241,6 +321,41 @@ function M.config()
 			},
 		},
 	})
+	-- cmp.setup.cmdline(":", {
+	-- 	mapping = cmp.mapping.preset.cmdline({
+	-- 		["<CR>"] = {
+	-- 			c = cmp.mapping.confirm({ select = false }),
+	-- 		},
+	-- 		["<Down>"] = {
+	-- 			c = function(fallback)
+	-- 				if cmp.visible() then
+	-- 					cmp.select_next_item()
+	-- 				else
+	-- 					fallback()
+	-- 				end
+	-- 			end,
+	-- 		},
+	-- 		["<Up>"] = {
+	-- 			c = function(fallback)
+	-- 				if cmp.visible() then
+	-- 					cmp.select_prev_item()
+	-- 				else
+	-- 					fallback()
+	-- 				end
+	-- 			end,
+	-- 		},
+	-- 	}),
+	-- 	sources = cmp.config.sources({
+	-- 		{ name = "path" },
+	-- 	}, {
+	-- 		{
+	-- 			name = "cmdline",
+	-- 			option = {
+	-- 				ignore_cmds = { "Man", "!" },
+	-- 			},
+	-- 		},
+	-- 	}),
+	-- })
 	local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 	cmp.event:on(
 		"confirm_done",
