@@ -6,10 +6,11 @@ local M = {
 
 function M._codeium()
 	local status = vim.api.nvim_call_function("codeium#GetStatusString", {})
-	if string.find(status, "/") then
-		return string.format("%s %s", "{…}", status)
-	end
-	return ""
+	return string.format("%s %s", "{…}", status)
+	-- if string.find(status, "/") then
+	-- 	return string.format("%s %s", "{…}", status)
+	-- end
+	-- return ""
 end
 
 -- update lualine
