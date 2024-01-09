@@ -7,11 +7,14 @@ return {
 			"nvim-treesitter/nvim-treesitter",
 		},
 		opts = {
-			lsp_diag_hdlr = false,
 			luasnip = true,
 			icons = false, -- { breakpoint = "⛔", currentpos = "👉" },
 			verbose = true,
 			dap_debug_keymap = false,
+			log_path = vim.fn.expand("$HOME") .. "/.gonvim.log",
+			diagnostic = {
+				hdlr = false,
+			},
 			dap_debug_gui = {
 				icons = {
 					expanded = "",
