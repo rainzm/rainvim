@@ -76,4 +76,22 @@ return {
 			})
 		end,
 	},
+	{
+		"dfendr/clipboard-image.nvim",
+		ft = "norg",
+		config = function()
+			require("clipboard-image").setup({
+				default = {
+					img_dir = "/Users/rain/Documents/neorg/images", -- Use table for nested dir (New feature form PR #20)
+					img_dir_txt = "/Users/rain/Documents/neorg/images", -- Use table for nested dir (New feature form PR #20)
+					affix = ".image %s",
+				},
+				-- norg = {
+				-- 	img_dir = "/Users/rain/Documents/neorg/images", -- Use table for nested dir (New feature form PR #20)
+				-- 	img_dir_txt = "/Users/rain/Documents/neorg/images", -- Use table for nested dir (New feature form PR #20)
+				-- 	affix = ".image %s",
+				-- },
+			})
+		end,
+	},
 }

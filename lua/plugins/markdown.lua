@@ -1,6 +1,7 @@
 return {
 	{
 		"rainzm/mkdnflow.nvim",
+		enabled = false,
 		rocks = "luautf8",
 		ft = { "markdown", "vimwiki" },
 		opts = {
