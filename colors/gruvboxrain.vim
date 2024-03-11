@@ -804,6 +804,7 @@ highlight! link @function Function
 highlight! link @function.builtin Function
 highlight! link @function.call GruvboxBlue
 highlight! link @function.macro Function
+highlight! link @function.method.call GruvboxBlue
 highlight! link @include GruvboxRed
 highlight! link @keyword GruvboxRed
 highlight! link @keyword.function GruvboxRed
