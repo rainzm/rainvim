@@ -20,33 +20,7 @@ function M.init()
 end
 
 function M.config()
-	local kind_icons = {
-		Text = " ",
-		Method = " ",
-		Function = "󰊕 ",
-		Constructor = " ",
-		Field = "󰇽 ",
-		Variable = "󰂡 ",
-		Class = "󰠱 ",
-		Interface = " ",
-		Module = " ",
-		Property = "󰜢 ",
-		Unit = " ",
-		Value = "󰎠 ",
-		Enum = " ",
-		Keyword = "󰌋 ",
-		Snippet = " ",
-		Color = "󰏘 ",
-		File = "󰈙 ",
-		Reference = " ",
-		Folder = "󰉋 ",
-		EnumMember = " ",
-		Constant = "󰏿 ",
-		Struct = " ",
-		Event = "",
-		Operator = "󰆕 ",
-		TypeParameter = "󰅲 ",
-	}
+	local kind_icons = require("plugins.utils.icons").kinds
 
 	local has_words_before = function()
 		unpack = unpack or table.unpack
