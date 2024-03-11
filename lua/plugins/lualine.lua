@@ -1,6 +1,9 @@
 local M = {
 	"nvim-lualine/lualine.nvim",
-	dependencies = { "kyazdani42/nvim-web-devicons", opt = true },
+	dependencies = {
+		{ "kyazdani42/nvim-web-devicons", opt = true },
+		{ "AndreM222/copilot-lualine" },
+	},
 	show_current_function = false,
 }
 
@@ -138,7 +141,8 @@ function M.config()
 					update_in_insert = true,
 				},
 				{ M._current_function },
-				{ M._codeium },
+				{ "copilot" },
+				-- { M._codeium },
 			},
 			lualine_x = {
 				M._rime_status,

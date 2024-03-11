@@ -1,5 +1,45 @@
 return {
 	{
+		"zbirenbaum/copilot.lua",
+		cmd = "Copilot",
+		event = "InsertEnter",
+		init = function()
+			vim.g.copilot_proxy = "127.0.0.1:7890"
+			vim.g.copilot_no_tab_map = true
+		end,
+		-- enabled = false,
+		opts = {
+			panel = {
+				enabled = true,
+				auto_refresh = false,
+				keymap = {
+					jump_prev = "[[",
+					jump_next = "]]",
+					accept = "<CR>",
+					refresh = "gr",
+					open = "<M-CR>",
+				},
+				layout = {
+					position = "bottom", -- | top | left | right
+					ratio = 0.4,
+				},
+			},
+			suggestion = {
+				enabled = true,
+				auto_trigger = true,
+				debounce = 75,
+				keymap = {
+					accept = "<C-n>",
+					accept_word = false,
+					accept_line = false,
+					next = "<C-]>",
+					-- prev = "<C-[>",
+					dismiss = "<C-\\>",
+				},
+			},
+		},
+	},
+	{
 		"github/copilot.vim",
 		enabled = false,
 		init = function()
@@ -19,6 +59,7 @@ return {
 	},
 	{
 		"Exafunction/codeium.vim",
+		enabled = false,
 		init = function()
 			vim.g.codeium_no_map_tab = true
 			vim.keymap.set("i", "<C-g>", function()
