@@ -3,6 +3,7 @@ local M = {
 	dependencies = {
 		"kyazdani42/nvim-web-devicons", -- optional, for file icon
 	},
+	version = "1.*",
 	keys = {
 		{ "<Leader>1", "<cmd>NvimTreeToggle<CR>", desc = "toggle nvim tree" },
 		{ "<Leader>v", "<cmd>NvimTreeFindFile<CR>", desc = "find current file in nvim tree" },
@@ -88,21 +89,12 @@ local function on_attach(bufnr)
 	vim.keymap.set("n", "n", api.fs.create, opts("Create"))
 end
 
-function M.config()
+function M.init()
 	local ms = require("mappings")
 	ms.nnoremap("g1", ":NvimTreeFocus<CR>")
-	-- local list = {
-	-- 	{ key = "za", action = "close_node" },
-	-- 	{ key = "m", action = "move" },
-	-- 	{ key = "c", action = "copy" },
-	-- 	{ key = "p", action = "paste" },
-	-- 	{ key = "v", action = "vsplit" },
-	-- 	{ key = "s", action = "split" },
-	-- 	{ key = "d", action = "remove" },
-	-- 	{ key = "r", action = "rename" },
-	-- 	{ key = "R", action = "refresh" },
-	-- 	{ key = "n", action = "create" },
-	-- }
+end
+
+function M.config()
 	require("nvim-tree").setup({
 		on_attach = on_attach,
 		disable_netrw = true,
@@ -142,6 +134,9 @@ function M.config()
 			},
 		},
 	})
+	vim.cmd([[
+        :hi link NvimTreeExecFile Title
+]])
 end
 
 return M
