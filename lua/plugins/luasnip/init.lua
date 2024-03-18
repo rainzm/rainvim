@@ -4,7 +4,7 @@ local function config()
 
 	-- ls.add_snippets("all", require("plugins.luasnip.all"))
 	ls.add_snippets("go", require("plugins.luasnip.go"))
-	ls.add_snippets("rust", require("plugins.luasnip.rust"))
+	-- ls.add_snippets("rust", require("plugins.luasnip.rust"))
 	ls.add_snippets("lua", require("plugins.luasnip.lua"))
 	ls.add_snippets("gitcommit", require("plugins.luasnip.gitcommit"))
 	ls.add_snippets("markdown", require("plugins.luasnip.markdown"))
@@ -33,6 +33,7 @@ end
 return {
 	"L3MON4D3/LuaSnip",
 	dependencies = { "rafamadriz/friendly-snippets" },
+	version = "v2.*",
 	lazy = true,
 	config = config,
 	-- stylua: ignore
