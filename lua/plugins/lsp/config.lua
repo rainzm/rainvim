@@ -78,6 +78,26 @@ local function showLineDiagnostic(_)
 	vim.diagnostic.open_float(0, { scope = "line" })
 end
 
+function M.attachbuffer()
+	local bufnr = vim.api.nvim_get_current_buf()
+
+	local clients = vim.lsp.get_active_clients()
+	local client_id
+	for _, client in ipairs(clients) do
+		if client.name == "rime_ls" then
+			client_id = client.id
+			break
+		end
+	end
+
+	if vim.lsp.buf_is_attached(bufnr, client_id) then
+		return
+	end
+	if client_id then
+		vim.lsp.buf_attach_client(bufnr, client_id)
+	end
+end
+
 function M.setup()
 	-- require("neodev").setup({})
 	-- Setup LSP handlers
@@ -93,6 +113,7 @@ function M.setup()
 	mapping.nnoremap("<leader>e", '<cmd>lua require("telescope.builtin").diagnostics({bufnr=0})<CR>')
 	mapping.nnoremap("<leader>E", '<cmd>lua require("telescope.builtin").diagnostics()<CR>')
 	vim.api.nvim_create_user_command("DiagnosticLine", showLineDiagnostic, { force = true })
+	vim.api.nvim_create_user_command("RimeAttach", M.attachbuffer, { force = true })
 
 	opts = {
 		on_attach = on_attach,

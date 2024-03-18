@@ -4,7 +4,7 @@ return {
 		cmd = "Copilot",
 		event = "InsertEnter",
 		init = function()
-			vim.g.copilot_proxy = "127.0.0.1:7890"
+			-- vim.g.copilot_proxy = "127.0.0.1:7890"
 			vim.g.copilot_no_tab_map = true
 		end,
 		-- enabled = false,
@@ -82,5 +82,94 @@ return {
 				return vim.fn["codeium#Clear"]()
 			end, { expr = true, silent = true })
 		end,
+	},
+	{
+		"CopilotC-Nvim/CopilotChat.nvim",
+		--enabled = false,
+		branch = "canary",
+		--version = "2.0.0-1",
+		dependencies = {
+			{ "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
+			{ "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
+			{ "nvim-telescope/telescope.nvim" },
+		},
+		event = "VeryLazy",
+		config = function()
+			-- local select = require("CopilotChat.select")
+			require("CopilotChat").setup({
+				-- debug = true, -- Enable debugging
+				window = {
+					layout = "float", -- 'vertical', 'horizontal', 'float'
+				},
+				show_help = false,
+				prompts = {
+					Explain = {
+						prompt = "/COPILOT_EXPLAIN 为上述代码写一段文字说明。",
+					},
+					Tests = {
+						prompt = "/COPILOT_TESTS 为上述代码编写一套详细的单元测试函数。",
+					},
+					Fix = {
+						prompt = "/COPILOT_FIX 这段代码存在一个问题。请重写代码，展示修复后的结果。",
+					},
+					Optimize = {
+						prompt = "/COPILOT_REFACTOR 优化选定的代码以提高性能和可读性。",
+					},
+					Docs = {
+						prompt = "/COPILOT_REFACTOR Write documentation for the selected code. The reply should be a codeblock containing the original code with the documentation added as comments. Use the most appropriate documentation style for the programming language used (e.g. JSDoc for JavaScript, docstrings for Python etc.",
+					},
+					BeterNamings = {
+						prompt = "Please provide better names for the following variables and functions.",
+					},
+				},
+				-- See Configuration section for rest
+			})
+			-- See Commands section for default commands if you want to lazy load on them
+		end,
+		keys = {
+			{
+				"<leader>a",
+				function()
+					local chat = require("CopilotChat")
+					chat.open()
+					require("plugins.lsp.config").attachbuffer()
+				end,
+			},
+			{
+				"<leader>ae",
+				"<cmd>CopilotChatExplain<cr>",
+				mode = { "n", "v" },
+				desc = "CopilotChat - Explain the selected code",
+			},
+			{
+				"<leader>am",
+				"<cmd>CopilotChatCommit<cr>",
+				desc = "CopilotChat - Generate commit message for all changes",
+			},
+			{
+				"<leader>aM",
+				"<cmd>CopilotChatCommitStaged<cr>",
+				desc = "CopilotChat - Generate commit message for staged changes",
+			},
+			{
+				"<leader>ah",
+				function()
+					local actions = require("CopilotChat.actions")
+					require("CopilotChat.integrations.telescope").pick(actions.help_actions())
+				end,
+				mode = { "n", "v" },
+				desc = "CopilotChat - Help actions",
+			},
+			-- Show prompts actions with telescope
+			{
+				"<leader>ap",
+				function()
+					local actions = require("CopilotChat.actions")
+					require("CopilotChat.integrations.telescope").pick(actions.prompt_actions())
+				end,
+				mode = { "n", "v" },
+				desc = "CopilotChat - Prompt actions",
+			},
+		},
 	},
 }

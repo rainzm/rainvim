@@ -12,18 +12,18 @@ function M.setup_rime()
 		configs.rime_ls = {
 			default_config = {
 				name = "rime_ls",
-				cmd = { "rime_ls" },
-				-- cmd = vim.lsp.rpc.connect('127.0.0.1', 9257),
+				-- cmd = { "rime_ls" },
+				cmd = vim.lsp.rpc.connect("127.0.0.1", 9257),
 				filetypes = { "*" },
 				single_file_support = true,
 			},
 			settings = {},
 			docs = {
 				description = [[
-https://www.github.com/wlh320/rime-ls
+	https://www.github.com/wlh320/rime-ls
 
-A language server for librime
-]],
+	A language server for librime
+	]],
 			},
 		}
 	end
@@ -39,12 +39,21 @@ A language server for librime
 		local rime_toggle_group = vim.api.nvim_create_augroup("RimeToggleGroup", { clear = true })
 		vim.api.nvim_create_autocmd("BufEnter", {
 			group = rime_toggle_group,
-			pattern = "*.norg",
+			pattern = { "*.norg", "*.md" },
 			callback = function()
 				if vim.g.rime_enabled then
 					return
 				end
 				toggle_rime()
+			end,
+		})
+		vim.api.nvim_create_autocmd("BufEnter", {
+			group = rime_toggle_group,
+			pattern = { "*.go", "*.sh" },
+			callback = function()
+				if vim.g.rime_enabled then
+					toggle_rime()
+				end
 			end,
 		})
 		-- keymaps for executing command
@@ -67,9 +76,10 @@ A language server for librime
 		name = "rime_ls",
 		cmd = vim.lsp.rpc.connect("127.0.0.1", 9257),
 		-- cmd = { "/Users/rain/.local/bin/rime_ls" },
-		filetypes = { "markdown", "gitcommit", "norg", "TelescopePrompt" },
+		-- filetypes = { "markdown", "gitcommit", "norg", "TelescopePrompt", "go" },
+		filetypes = { "*" },
 		init_options = {
-			enabled = false, -- 初始关闭, 手动开启
+			enabled = vim.g.rime_enabled, -- 初始关闭, 手动开启
 			shared_data_dir = "/Library/Input Methods/Squirrel.app/Contents/SharedSupport", -- rime 公共目录
 			user_data_dir = "~/.local/share/rime-ls", -- 指定用户目录, 最好新建一个
 			log_dir = "~/.local/share/rime-ls/log", -- 日志目录
