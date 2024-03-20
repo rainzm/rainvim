@@ -3,6 +3,7 @@ local M = {
 		"nvim-neorg/neorg",
 		build = ":Neorg sync-parsers",
 		-- event = "VeryLazy",
+		tag = "v7.0.0",
 		ft = "norg",
 		dependencies = { "nvim-lua/plenary.nvim", "folke/zen-mode.nvim", "nvim-neorg/neorg-telescope" },
 		keys = {
