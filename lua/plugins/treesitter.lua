@@ -40,6 +40,7 @@ return {
 				"regex",
 				"rust",
 				"fish",
+				"vimdoc",
 			},
 			textobjects = {
 				select = {
