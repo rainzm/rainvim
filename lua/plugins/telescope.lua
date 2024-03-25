@@ -10,7 +10,11 @@ local M = {
 	keys = {
 		{
 			"<Leader>p",
-			"<cmd>Telescope find_files<CR>",
+			function()
+				require("telescope.builtin").find_files({
+					no_ignore_parent = true,
+				})
+			end,
 			desc = "Find files",
 		},
 		{
@@ -25,7 +29,12 @@ local M = {
 		},
 		{
 			"<Leader>b",
-			'<cmd>lua require("telescope.builtin").buffers({ sort_mru = true, ignore_current_buffer = true })<CR>',
+			function()
+				require("telescope.builtin").buffers({
+					sort_mru = true,
+					ignore_current_buffer = true,
+				})
+			end,
 			desc = "Find buffers",
 		},
 		{
@@ -35,22 +44,38 @@ local M = {
 		},
 		{
 			"gd",
-			'<cmd>lua require("telescope.builtin").lsp_definitions({ show_line = false })<CR>',
+			function()
+				require("telescope.builtin").lsp_definitions({
+					show_line = false,
+				})
+			end,
 			desc = "Show lsp_definitions",
 		},
 		{
 			"gi",
-			'<cmd>lua require("telescope.builtin").lsp_implementations({ show_line = false })<CR>',
+			function()
+				require("telescope.builtin").lsp_implementations({
+					show_line = false,
+				})
+			end,
 			desc = "Show lsp_implementations",
 		},
 		{
 			"gr",
-			'<cmd>lua require("telescope.builtin").lsp_references({ show_line = false })<CR>',
+			function()
+				require("telescope.builtin").lsp_references({
+					show_line = false,
+				})
+			end,
 			desc = "Show lsp_references",
 		},
 		{
 			"<Leader>2",
-			'<cmd>lua require("telescope.builtin").lsp_document_symbols()<CR>',
+			function()
+				require("telescope.builtin").lsp_workspace_symbols({
+					show_line = false,
+				})
+			end,
 			desc = "Show lsp_document_symbols",
 		},
 		-- {

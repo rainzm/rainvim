@@ -8,7 +8,11 @@ end
 
 local function rg(opts)
 	-- 这里引用了telescope，就算telescope没有被load，也会自动load，lazy.nvim的功劳
-	require("telescope.builtin").grep_string({ search = opts.args, disable_coordinates = true })
+	require("telescope.builtin").grep_string({
+		search = opts.args,
+		disable_coordinates = true,
+		additional_args = { "--no-ignore-parent" },
+	})
 end
 
 vim.api.nvim_create_user_command("Bd", bd, {})
