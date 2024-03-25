@@ -86,8 +86,9 @@ return {
 	{
 		"CopilotC-Nvim/CopilotChat.nvim",
 		--enabled = false,
-		branch = "canary",
+		--branch = "canary",
 		--version = "2.0.0-1",
+		version = "v2.*",
 		dependencies = {
 			{ "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
 			{ "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
