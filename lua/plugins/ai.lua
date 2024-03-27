@@ -123,6 +123,16 @@ return {
 						prompt = "Please provide better names for the following variables and functions.",
 					},
 				},
+				mappings = {
+					close = {
+						normal = "q",
+						insert = "<C-c>",
+					},
+					submit_prompt = {
+						normal = "<CR>",
+						insert = "<leader>m",
+					},
+				},
 				-- See Configuration section for rest
 			})
 			-- See Commands section for default commands if you want to lazy load on them
@@ -133,7 +143,7 @@ return {
 				function()
 					local chat = require("CopilotChat")
 					chat.open()
-					require("plugins.lsp.config").attachbuffer()
+					--require("plugins.lsp.config").attachbuffer()
 				end,
 			},
 			{

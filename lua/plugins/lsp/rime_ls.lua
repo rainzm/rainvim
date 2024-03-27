@@ -1,9 +1,61 @@
-local M = {}
+local M = {
+	-- hack, wiat for neovim 0.10 vim.lsp.get_clients
+	_rimels_clients = {},
+}
+
+local global_rime_status = "nvim_rime#global_rime_enabled"
+local buffer_rime_status = "buf_rime_enabled"
+
+function M.global_rime_enabled()
+	local exist, status = pcall(vim.api.nvim_get_var, global_rime_status)
+	return (exist and status)
+end
+
+function M.buf_rime_enabled(bufnr)
+	bufnr = bufnr or vim.api.nvim_get_current_buf()
+	local exist, status = pcall(vim.api.nvim_buf_get_var, bufnr, buffer_rime_status)
+	return exist, status
+end
+
+function M.buf_toggle_rime(bufnr)
+	bufnr = bufnr or vim.api.nvim_get_current_buf()
+
+	local init, buf_rime_enabled = M.buf_rime_enabled(bufnr)
+	if not init then
+		vim.notify("Rime is not init for this buffer", vim.log.levels.Warning)
+		return
+	end
+	if buf_rime_enabled ~= M.global_rime_enabled() then
+		vim.api.nvim_buf_set_var(bufnr, buffer_rime_status, not buf_rime_enabled)
+		return
+	end
+
+	local client = M.buf_get_rime_ls_client(bufnr)
+	if not client then
+		M.buf_attach_rime_ls(bufnr)
+		client = M.buf_get_rime_ls_client(bufnr)
+	end
+	if not client then
+		vim.notify("Failed to get rime_ls client", vim.log.levels.ERROR)
+		return
+	end
+
+	M.toggle_rime(client, function()
+		vim.api.nvim_buf_set_var(bufnr, buffer_rime_status, not buf_rime_enabled)
+	end)
+end
+
+function M.buf_on_rime(client, bufnr)
+	if not M.global_rime_enabled() then
+		M.toggle_rime(client, function()
+			vim.api.nvim_buf_set_var(bufnr, buffer_rime_status, true)
+		end)
+	else
+		vim.api.nvim_buf_set_var(bufnr, buffer_rime_status, true)
+	end
+end
 
 function M.setup_rime()
-	-- global status
-	vim.g.rime_enabled = false
-
 	-- add rime-ls to lspconfig as a custom server
 	-- see `:h lspconfig-new`
 	local lspconfig = require("lspconfig")
@@ -28,41 +80,17 @@ function M.setup_rime()
 		}
 	end
 
-	local rime_on_attach = function(client, _)
-		local toggle_rime = function()
-			client.request("workspace/executeCommand", { command = "rime-ls.toggle-rime" }, function(_, result, ctx, _)
-				if ctx.client_id == client.id then
-					vim.g.rime_enabled = result
-				end
-			end)
+	local rime_on_attach = function(client, bufnr)
+		local ft = vim.api.nvim_buf_get_option(bufnr, "filetype")
+		if ft == "markdown" or ft == "norg" or ft == "copilot-chat" then
+			M.buf_on_rime(client, bufnr)
+		else
+			vim.api.nvim_buf_set_var(bufnr, buffer_rime_status, false)
 		end
-		local rime_toggle_group = vim.api.nvim_create_augroup("RimeToggleGroup", { clear = true })
-		vim.api.nvim_create_autocmd("BufEnter", {
-			group = rime_toggle_group,
-			pattern = { "*.norg", "*.md" },
-			callback = function()
-				if vim.g.rime_enabled then
-					return
-				end
-				toggle_rime()
-			end,
-		})
-		vim.api.nvim_create_autocmd("BufEnter", {
-			group = rime_toggle_group,
-			pattern = { "*.go", "*.sh" },
-			callback = function()
-				if vim.g.rime_enabled then
-					toggle_rime()
-				end
-			end,
-		})
-		-- keymaps for executing command
-		vim.keymap.set("n", "<leader><space>", function()
-			toggle_rime()
-		end)
-		-- vim.keymap.set("i", "<C-x>", function()
-		-- 	toggle_rime()
-		-- end)
+		M._rimels_clients[bufnr] = client
+		--M.create_autocmd_toggle_rime_according_buffer_status()
+		vim.keymap.set("n", "<leader><space>", M.buf_toggle_rime)
+		vim.keymap.set("n", "<leader>rp", M.buf_get_rime_ls_client)
 		vim.keymap.set("n", "<leader>rs", function()
 			vim.lsp.buf.execute_command({ command = "rime-ls.sync-user-data" })
 		end)
@@ -79,7 +107,7 @@ function M.setup_rime()
 		-- filetypes = { "markdown", "gitcommit", "norg", "TelescopePrompt", "go" },
 		filetypes = { "*" },
 		init_options = {
-			enabled = vim.g.rime_enabled, -- 初始关闭, 手动开启
+			enabled = M.global_rime_enabled(), -- 初始关闭, 手动开启
 			shared_data_dir = "/Library/Input Methods/Squirrel.app/Contents/SharedSupport", -- rime 公共目录
 			user_data_dir = "~/.local/share/rime-ls", -- 指定用户目录, 最好新建一个
 			log_dir = "~/.local/share/rime-ls/log", -- 日志目录
@@ -92,6 +120,101 @@ function M.setup_rime()
 		on_attach = rime_on_attach,
 		capabilities = capabilities,
 	})
+	M.create_autocmd_toggle_rime_according_buffer_status()
+end
+
+function M.create_autocmd_toggle_rime_according_buffer_status()
+	-- Close rime_ls when opening a new window
+	local rime_group = vim.api.nvim_create_augroup("RimeAutoToggle", { clear = true })
+	vim.api.nvim_create_autocmd({ "BufEnter" }, {
+		pattern = "*",
+		group = rime_group,
+		callback = function(ev)
+			local bufnr = ev.buf
+			local client = M.buf_get_rime_ls_client(bufnr)
+			if not client then
+				local ft = vim.api.nvim_buf_get_option(bufnr, "filetype")
+				-- hack
+				if ft == "copilot-chat" then
+					M.buf_attach_rime_ls(bufnr)
+					client = M.buf_get_rime_ls_client(bufnr)
+				end
+				if not client then
+					return
+				end
+			end
+			local init, buf_rime_enabled = M.buf_rime_enabled(bufnr)
+			if not init then
+				return
+			end
+			local global_rime_enabled = M.global_rime_enabled()
+			if buf_rime_enabled ~= global_rime_enabled then
+				-- hack for copilot-chat which will exec twice
+				vim.api.nvim_buf_set_var(bufnr, buffer_rime_status, global_rime_enabled)
+				M.toggle_rime(client, function()
+					vim.api.nvim_buf_set_var(bufnr, buffer_rime_status, M.global_rime_enabled())
+				end)
+			end
+		end,
+		desc = "Start or stop rime_ls according current buffer",
+	})
+	vim.api.nvim_create_autocmd("BufDelete", {
+		pattern = "*",
+		group = rime_group,
+		callback = function(ev)
+			M._rimels_clients[ev.buf] = nil
+		end,
+	})
+end
+
+function M.toggle_rime(client, callback)
+	client = client or M.buf_get_rime_ls_client()
+	if not client or client.name ~= "rime_ls" then
+		return
+	end
+	client.request("workspace/executeCommand", { command = "rime-ls.toggle-rime" }, function(_, result, ctx, _)
+		if ctx.client_id == client.id then
+			vim.api.nvim_set_var(global_rime_status, result)
+			if callback then
+				callback()
+			end
+		end
+	end)
+end
+
+function M.buf_attach_rime_ls(bufnr)
+	bufnr = bufnr or vim.api.nvim_get_current_buf()
+
+	if M.buf_get_rime_ls_client(bufnr) then
+		return
+	end
+
+	local active_clients = vim.lsp.get_active_clients()
+	if #active_clients > 0 then
+		for _, client in ipairs(active_clients) do
+			if client.name == "rime_ls" then
+				vim.lsp.buf_attach_client(bufnr, client.id)
+				return
+			end
+		end
+	end
+end
+
+function M.buf_get_rime_ls_client(bufnr)
+	bufnr = bufnr or vim.api.nvim_get_current_buf()
+	local client = M._rimels_clients[bufnr]
+	if client then
+		return client
+	end
+	local current_buffer_clients = vim.lsp.buf_get_clients(bufnr)
+	if #current_buffer_clients > 0 then
+		for _, pclient in ipairs(current_buffer_clients) do
+			if pclient.name == "rime_ls" then
+				return client
+			end
+		end
+	end
+	return nil
 end
 
 return M
