@@ -72,9 +72,7 @@ local M = {
 		{
 			"<Leader>2",
 			function()
-				require("telescope.builtin").lsp_workspace_symbols({
-					show_line = false,
-				})
+				require("telescope.builtin").lsp_document_symbols({ show_line = false })
 			end,
 			desc = "Show lsp_document_symbols",
 		},
