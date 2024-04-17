@@ -100,7 +100,8 @@ return {
 			require("CopilotChat").setup({
 				-- debug = true, -- Enable debugging
 				window = {
-					layout = "float", -- 'vertical', 'horizontal', 'float'
+					--layout = "float", -- 'vertical', 'horizontal', 'float'
+					layout = "horizontal", -- 'vertical', 'horizontal', 'float'
 				},
 				show_help = false,
 				prompts = {
@@ -139,11 +140,25 @@ return {
 		end,
 		keys = {
 			{
-				"<leader>a",
+				"<leader>as",
 				function()
 					local chat = require("CopilotChat")
-					chat.open()
-					--require("plugins.lsp.config").attachbuffer()
+					chat.open({
+						window = {
+							layout = "horizontal",
+						},
+					})
+				end,
+			},
+			{
+				"<leader>av",
+				function()
+					local chat = require("CopilotChat")
+					chat.open({
+						window = {
+							layout = "vertical",
+						},
+					})
 				end,
 			},
 			{
