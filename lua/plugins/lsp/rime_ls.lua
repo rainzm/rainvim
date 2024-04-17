@@ -17,6 +17,32 @@ function M.buf_rime_enabled(bufnr)
 	return exist, status
 end
 
+local function change_buf_rime_flag(bufnr, value, with_key)
+	bufnr = bufnr or vim.api.nvim_get_current_buf()
+	if with_key then
+		if value then
+			vim.keymap.set({ "i", "s" }, "<Space>", function()
+				local cmp = require("cmp")
+				local entry = cmp.get_selected_entry()
+				if entry == nil then
+					entry = cmp.core.view:get_first_entry()
+				end
+				if entry and entry.source.name == "nvim_lsp" and entry.source.source.client.name == "rime_ls" then
+					cmp.confirm({
+						behavior = cmp.ConfirmBehavior.Replace,
+						select = true,
+					})
+				else
+					vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Space>", true, true, true), "ni", false)
+				end
+			end, { buffer = bufnr })
+		else
+			vim.keymap.del({ "i", "s" }, "<Space>", { buffer = bufnr })
+		end
+	end
+	vim.api.nvim_buf_set_var(bufnr, buffer_rime_status, value)
+end
+
 function M.buf_toggle_rime(bufnr)
 	bufnr = bufnr or vim.api.nvim_get_current_buf()
 
@@ -26,7 +52,7 @@ function M.buf_toggle_rime(bufnr)
 		return
 	end
 	if buf_rime_enabled ~= M.global_rime_enabled() then
-		vim.api.nvim_buf_set_var(bufnr, buffer_rime_status, not buf_rime_enabled)
+		change_buf_rime_flag(bufnr, not buf_rime_enabled, true)
 		return
 	end
 
@@ -41,17 +67,17 @@ function M.buf_toggle_rime(bufnr)
 	end
 
 	M.toggle_rime(client, function()
-		vim.api.nvim_buf_set_var(bufnr, buffer_rime_status, not buf_rime_enabled)
+		change_buf_rime_flag(bufnr, not buf_rime_enabled, true)
 	end)
 end
 
 function M.buf_on_rime(client, bufnr)
 	if not M.global_rime_enabled() then
 		M.toggle_rime(client, function()
-			vim.api.nvim_buf_set_var(bufnr, buffer_rime_status, true)
+			change_buf_rime_flag(bufnr, true, true)
 		end)
 	else
-		vim.api.nvim_buf_set_var(bufnr, buffer_rime_status, true)
+		change_buf_rime_flag(bufnr, true, true)
 	end
 end
 
@@ -85,7 +111,7 @@ function M.setup_rime()
 		if ft == "markdown" or ft == "norg" or ft == "copilot-chat" then
 			M.buf_on_rime(client, bufnr)
 		else
-			vim.api.nvim_buf_set_var(bufnr, buffer_rime_status, false)
+			change_buf_rime_flag(bufnr, false, false)
 		end
 		M._rimels_clients[bufnr] = client
 		--M.create_autocmd_toggle_rime_according_buffer_status()
@@ -152,7 +178,7 @@ function M.create_autocmd_toggle_rime_according_buffer_status()
 				-- hack for copilot-chat which will exec twice
 				vim.api.nvim_buf_set_var(bufnr, buffer_rime_status, global_rime_enabled)
 				M.toggle_rime(client, function()
-					vim.api.nvim_buf_set_var(bufnr, buffer_rime_status, M.global_rime_enabled())
+					change_buf_rime_flag(bufnr, M.global_rime_enabled(), true)
 				end)
 			end
 		end,
