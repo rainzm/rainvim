@@ -1,11 +1,15 @@
 local M = {
 	{
+		"vhyrro/luarocks.nvim",
+		priority = 1000, -- We'd like this plugin to load first out of the rest
+		config = true, -- This automatically runs `require("luarocks-nvim").setup()`
+	},
+	{
 		"nvim-neorg/neorg",
-		build = ":Neorg sync-parsers",
 		-- event = "VeryLazy",
-		tag = "v7.0.0",
 		ft = "norg",
-		dependencies = { "nvim-lua/plenary.nvim", "folke/zen-mode.nvim", "nvim-neorg/neorg-telescope" },
+		version = "*",
+		dependencies = { "luarocks.nvim", "folke/zen-mode.nvim", "nvim-neorg/neorg-telescope" },
 		keys = {
 			{
 				"<Leader>nn",

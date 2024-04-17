@@ -936,6 +936,7 @@ hi! link NoicePopupmenu GruvboxFg1
 call s:HL('TSStrike', s:none, s:none, 'strikethrough,')
 " hi! link @neorg.definitions.content GruvboxNone
 hi! link @neorg.markup.strikethrough TSStrike
+hi! link @neorg.markup.verbatim GruvboxBlue
 " hi! link @neorg.headings.3.title GruvboxYellow
 " }}}
 " flash.nvim {{{
