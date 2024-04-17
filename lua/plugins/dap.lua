@@ -8,26 +8,145 @@ local function get_arguments()
 	end)
 end
 
+local function dapui_opened()
+	local lys = require("dapui.windows").layouts or {}
+	local opened = false
+	for _, ly in ipairs(lys) do
+		if ly:is_open() == true then
+			opened = true
+		end
+	end
+	return opened
+end
+
+local function wcloud_debug_close()
+	--require("dap").close()
+	require("dap").terminate()
+	if dapui_opened() then
+		require("dapui").close()
+	end
+end
+
+local function wcloud_debug(opts)
+	--local str = "host=10.0.50.50 port=12345 service=/root/host"
+	local config = {}
+
+	for k, v in string.gmatch(opts.args, "(%w+)=(%S+)") do
+		config[k] = v
+	end
+
+	if not config.host then
+		config.host = "10.0.50.50"
+	end
+
+	if not config.port then
+		config.port = 12345
+	end
+
+	if not config.service then
+		vim.notify("need service", vim.log.levels.ERROR)
+		return
+	end
+
+	local service_name = config.service:match("([^/]+)$")
+
+	local args = {}
+	if service_name == "host" then
+		args = {
+			"--common-config-file",
+			"/etc/wcloud/common.conf",
+			"--config",
+			"/etc/wcloud/host.conf",
+		}
+	else
+		args = {
+			"--config",
+			"/etc/wcloud/" .. service_name .. ".conf",
+		}
+	end
+	local dap = require("dap")
+	dap.adapters.wcloud = {
+		type = "server",
+		host = config.host,
+		port = config.port,
+	}
+	dap.run({
+		type = "wcloud",
+		request = "launch",
+		mode = "exec",
+		program = config.service,
+		args = args,
+	}, {})
+	if not dapui_opened() then
+		require("dapui").open()
+	end
+end
+
 return {
 	{
 		"rcarriga/nvim-dap-ui",
 		dependencies = {
 			"mfussenegger/nvim-dap",
-			--"theHamsta/nvim-dap-virtual-text",
 			"leoluz/nvim-dap-go",
+			--"theHamsta/nvim-dap-virtual-text",
 		},
 		lazy = true,
 		keys = { { "mb" } },
-		--cmd = { "GoDebug" },
 		config = function()
+			vim.api.nvim_create_user_command("DapWcloud", wcloud_debug, { nargs = "?" })
+			require("dapui").setup({
+				icons = {
+					expanded = "",
+					collapsed = "",
+				},
+				mappings = {
+					-- Use a table to apply multiple mappings
+					expand = { "<CR>", "<2-LeftMouse>" },
+					open = "o",
+					remove = "d",
+					edit = "e",
+					repl = "r",
+				},
+				expand_lines = false,
+				layouts = {
+					{
+						elements = {
+							{ id = "scopes", size = 0.5 },
+							{ id = "breakpoints", size = 0.2 },
+							{ id = "watches", size = 0.3 },
+						},
+						size = 50,
+						open_on_start = true,
+						position = "left", -- Can be "left" or "right"
+					},
+					{
+						--open_on_start = false,
+						elements = {
+							"repl",
+							--"console",
+						},
+						size = 0.25, -- 25% of total lines
+						position = "bottom", -- Can be "bottom" or "top"
+					},
+				},
+				floating = {
+					max_height = nil, -- These can be integers or a float between 0 and 1.
+					max_width = nil, -- Floats will be treated as percentage of your screen.
+					border = "rounded",
+					mappings = {
+						close = { "q", "<Esc>" },
+					},
+				},
+				windows = { indent = 1 },
+			})
 			local ms = require("mappings")
 			local keys = {
-				["mr"] = { f = require("go.dap").run, doc = "run" },
+				--["mr"] = { f = require("go.dap").run, doc = "run" },
 				["mc"] = { f = require("dap").continue, doc = "continue" },
 				["mn"] = { f = require("dap").step_over, doc = "step_over" },
 				["ms"] = { f = require("dap").step_into, doc = "step_into" },
 				["mo"] = { f = require("dap").step_out, doc = "step_out" },
-				["mS"] = { f = require("go.dap").stop, doc = "stop" },
+				["mS"] = { f = wcloud_debug_close, doc = "stop" },
 				["mu"] = { f = require("dap").up, doc = "up" },
 				["mD"] = { f = require("dap").down, doc = "down" },
 				["mC"] = { f = require("dap").run_to_cursor, doc = "run_to_cursor" },
@@ -84,42 +203,17 @@ return {
 	},
 	{
 		"leoluz/nvim-dap-go",
+		event = "VeryLazy",
 		config = function()
 			require("dap-go").setup({
-				-- Additional dap configurations can be added.
-				-- dap_configurations accepts a list of tables where each entry
-				-- represents a dap configuration. For more details do:
-				-- :help dap-configuration
 				dap_configurations = {
-					{
-						type = "go",
-						name = "Debug Package",
-						request = "launch",
-						program = "${fileDirname}",
-						args = get_arguments,
-					},
-				},
-				-- delve configurations
-				delve = {
-					-- the path to the executable dlv which will be used for debugging.
-					-- by default, this is the "dlv" executable on your PATH.
-					path = "dlv",
-					-- time to wait for delve to initialize the debug session.
-					-- default to 20 seconds
-					initialize_timeout_sec = 20,
-					-- a string that defines the port to start delve debugger.
-					-- default to string "${port}" which instructs nvim-dap
-					-- to start the process in a random available port
-					port = "${port}",
-					-- additional args to pass to dlv
-					args = {},
-					-- the build flags that are passed to delve.
-					-- defaults to empty string, but can be used to provide flags
-					-- such as "-tags=unit" to make sure the test suite is
-					-- compiled during debugging, for example.
-					-- passing build flags using args is ineffective, as those are
-					-- ignored by delve in dap mode.
-					build_flags = "",
+					-- {
+					-- 	type = "go",
+					-- 	name = "Debug Package",
+					-- 	request = "launch",
+					-- 	program = "${fileDirname}",
+					-- 	args = get_arguments,
+					-- },
 				},
 			})
 		end,
