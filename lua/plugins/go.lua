@@ -6,8 +6,9 @@ return {
 			"neovim/nvim-lspconfig",
 			"nvim-treesitter/nvim-treesitter",
 		},
+		enabled = false,
 		opts = {
-			luasnip = true,
+			luasnip = false,
 			icons = false, -- { breakpoint = "⛔", currentpos = "👉" },
 			verbose = true,
 			dap_debug_keymap = false,
