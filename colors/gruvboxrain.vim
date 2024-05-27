@@ -599,6 +599,7 @@ call s:HL('StatusLineNC', s:gb.darkline, s:fg4, s:inverse)
 " The column separating vertically split windows
 "call s:HL('VertSplit', s:bg3, s:vert_split)
 call s:HL('VertSplit', s:gb.darkline, s:gb.darkline)
+call s:HL('WinSeparator', s:gb.darkline, s:gb.darkline)
 
 " Current match in wildmenu completion
 call s:HL('WildMenu', s:blue, s:bg2, s:bold)
@@ -859,8 +860,9 @@ highlight! link @type GruvboxFg1
 highlight! link @type.builtin GruvboxYellow
 highlight! link @type.definition GruvboxPurple
 highlight! link @type.qualifier GruvboxOrange
-" highlight! link @variable GruvboxFg1
+highlight! link @variable GruvboxFg1
 highlight! link @variable.builtin GruvboxPurple
+highlight! link @module GruvboxFg1
 
 " }}}
 " LSP: {{{
@@ -942,6 +944,9 @@ hi! link @neorg.markup.verbatim GruvboxBlue
 " flash.nvim {{{
 call s:HL('FlashLabel', s:bg0, s:gb.bright_aqua)
 call s:HL('FlashCurrent', s:bg0, s:gb.bright_aqua)
+" }}}
+" nvim-cmp {{{
+highlight! link CmpItemKind GruvboxFg1
 " }}}
 
 

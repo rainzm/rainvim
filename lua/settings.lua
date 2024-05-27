@@ -24,7 +24,7 @@ set.shell = "/opt/homebrew/bin/fish"
 set.splitright = true
 set.splitbelow = true
 
---set.fillchars:append('vert: ')
+--set.fillchars:append("vert: ")
 
 -- colorscheme
 set.termguicolors = true
