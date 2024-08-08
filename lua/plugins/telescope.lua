@@ -146,11 +146,11 @@ function M.config()
 					["<C-n>"] = require("telescope.actions").preview_scrolling_down,
 					["<C-y>"] = "which_key",
 					["<C-Q>"] = require("telescope.actions").smart_send_to_qflist,
-					["<c-t>"] = trouble.open_with_trouble,
+					["<c-t>"] = require("trouble.sources.telescope").open,
 					["<c-s>"] = flash,
 				},
 				n = {
-					["<c-t>"] = trouble.open_with_trouble,
+					["<c-t>"] = require("trouble.sources.telescope").open,
 					["s"] = flash,
 				},
 			},

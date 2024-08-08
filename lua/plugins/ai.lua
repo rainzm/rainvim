@@ -2,6 +2,7 @@ return {
 	{
 		"zbirenbaum/copilot.lua",
 		cmd = "Copilot",
+        --enabled = false,
 		event = "InsertEnter",
 		init = function()
 			-- vim.g.copilot_proxy = "127.0.0.1:7890"
@@ -59,9 +60,12 @@ return {
 	},
 	{
 		"Exafunction/codeium.vim",
-		enabled = false,
-		init = function()
+        enabled = false,
+        init = function()
+            vim.g.codeium_disable_bindings = 1
 			vim.g.codeium_no_map_tab = true
+        end,
+		config = function()
 			vim.keymap.set("i", "<C-g>", function()
 				return vim.fn["codeium#Accept"]()
 			end, { expr = true })
@@ -83,9 +87,22 @@ return {
 			end, { expr = true, silent = true })
 		end,
 	},
+    {
+        "Exafunction/codeium.nvim",
+        enabled = false,
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "hrsh7th/nvim-cmp",
+        },
+        config = function()
+            require("codeium").setup({
+                enable_chat = true,
+        })
+        end
+    },
 	{
 		"CopilotC-Nvim/CopilotChat.nvim",
-		--enabled = false,
+		--enabled = true,
 		--branch = "canary",
 		--version = "2.0.0-1",
 		version = "v2.*",

@@ -178,7 +178,7 @@ function M.create_autocmd_toggle_rime_according_buffer_status()
 				-- hack for copilot-chat which will exec twice
 				vim.api.nvim_buf_set_var(bufnr, buffer_rime_status, global_rime_enabled)
 				M.toggle_rime(client, function()
-					change_buf_rime_flag(bufnr, M.global_rime_enabled(), true)
+					change_buf_rime_flag(bufnr, M.global_rime_enabled(), false)
 				end)
 			end
 		end,
@@ -236,7 +236,7 @@ function M.buf_get_rime_ls_client(bufnr)
 	if #current_buffer_clients > 0 then
 		for _, pclient in ipairs(current_buffer_clients) do
 			if pclient.name == "rime_ls" then
-				return client
+				return pclient
 			end
 		end
 	end
