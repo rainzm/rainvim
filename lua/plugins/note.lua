@@ -121,6 +121,7 @@ local M = {
 					["core.export"] = {},
 					["core.export.markdown"] = { config = { extensions = "all" } },
 					["core.summary"] = {},
+                    ["core.ui.calendar"] = {},
 					["core.journal"] = {
 						config = {
 							strategy = "flat",
