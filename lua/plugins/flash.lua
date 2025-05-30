@@ -67,6 +67,13 @@ return {
 		event = "VeryLazy",
 		rocks = "luautf8",
 		dependencies = "folke/flash.nvim",
+		opts = {
+			char_map = {
+				append_comma = {
+					["."] = "…",
+				},
+			},
+		},
 		keys = {
 			{
 				"f",

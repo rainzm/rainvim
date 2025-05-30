@@ -112,9 +112,9 @@ function M.config()
 			always_divide_middle = true,
 			globalstatus = false,
 			refresh = {
-				statusline = 1000,
-				tabline = 1000,
-				winbar = 1000,
+				statusline = 200,
+				tabline = 500,
+				winbar = 300,
 			},
 		},
 		sections = {

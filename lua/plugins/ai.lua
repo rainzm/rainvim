@@ -2,7 +2,7 @@ return {
 	{
 		"zbirenbaum/copilot.lua",
 		cmd = "Copilot",
-        --enabled = false,
+        enabled = true,
 		event = "InsertEnter",
 		init = function()
 			-- vim.g.copilot_proxy = "127.0.0.1:7890"
@@ -40,6 +40,83 @@ return {
 			},
 		},
 	},
+    {
+        "yetone/avante.nvim",
+        event = "VeryLazy",
+        lazy = false,
+        version = false,
+        enabled = true,
+        opts = {
+            provider = "deepseek",
+            auto_suggestions_provider = "deepseek",
+            openai = {
+                endpoint = "https://api.zhizengzeng.com",
+                model = "gpt-4o", -- your desired model (or use gpt-4o, etc.)
+                timeout = 30000, -- timeout in milliseconds
+                temperature = 0, -- adjust if needed
+                max_tokens = 4096,
+            },
+            vendors = {
+                deepseek = {
+                    __inherited_from = "openai",
+                    endpoint = "https://api.siliconflow.cn",
+                    model = "Pro/deepseek-ai/DeepSeek-V3",
+                    api_key_name = "SF_API_KEY",
+                    timeout = 30000, -- timeout in milliseconds
+                    temperature = 0, -- adjust if needed
+                    max_tokens = 4096,
+                },
+            },
+            behaviour = {
+                auto_suggestions = false,
+            },
+            mappings = {
+            --- @class AvanteConflictMappings
+                suggestion = {
+                    accept = "<C-n>",
+                    next = "<C-]>",
+                    prev = "<M-[>",
+                    dismiss = "<C-\\>",
+                },
+            },
+        },
+        build = "make",
+  -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
+        dependencies = {
+            "stevearc/dressing.nvim",
+            "nvim-lua/plenary.nvim",
+            "MunifTanjim/nui.nvim",
+            --- The below dependencies are optional,
+            "echasnovski/mini.pick", -- for file_selector provider mini.pick
+            "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
+            "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
+            "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+            "zbirenbaum/copilot.lua",
+            {
+            -- support for image pasting
+                "HakonHarnes/img-clip.nvim",
+                event = "VeryLazy",
+                opts = {
+                    -- recommended settings
+                    default = {
+                        embed_image_as_base64 = false,
+                        prompt_for_file_name = false,
+                        drag_and_drop = {
+                            insert_mode = true,
+                        },
+                    },
+                },
+            },
+            {
+            -- Make sure to set this up properly if you have lazy=true
+                'MeanderingProgrammer/render-markdown.nvim',
+                opts = {
+                    file_types = { "markdown", "Avante" },
+                },
+                ft = { "markdown", "Avante" },
+            },
+        },
+    },
 	{
 		"github/copilot.vim",
 		enabled = false,
@@ -102,7 +179,7 @@ return {
     },
 	{
 		"CopilotC-Nvim/CopilotChat.nvim",
-		--enabled = true,
+		enabled = false,
 		--branch = "canary",
 		--version = "2.0.0-1",
 		version = "v2.*",

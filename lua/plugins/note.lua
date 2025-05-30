@@ -1,15 +1,12 @@
 local M = {
 	{
-		"vhyrro/luarocks.nvim",
-		priority = 1000, -- We'd like this plugin to load first out of the rest
-		config = true, -- This automatically runs `require("luarocks-nvim").setup()`
-	},
-	{
 		"nvim-neorg/neorg",
 		-- event = "VeryLazy",
+		-- enabled = false,
 		ft = "norg",
+		lazy = false, -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
 		version = "*",
-		dependencies = { "luarocks.nvim", "folke/zen-mode.nvim", "nvim-neorg/neorg-telescope" },
+		dependencies = { "folke/zen-mode.nvim", "nvim-neorg/neorg-telescope" },
 		keys = {
 			{
 				"<Leader>nn",
@@ -93,24 +90,25 @@ local M = {
 					},
 					["core.keybinds"] = {
 						config = {
-							hook = function(keybinds)
-								keybinds.unmap("norg", "n", "<Leader>nid")
-								keybinds.remap_event("norg", "n", "<Leader>nc", "core.looking-glass.magnify-code-block")
-								keybinds.remap_event(
-									"norg",
-									"n",
-									"<Leader>ni",
-									"core.integrations.telescope.insert_link"
-								)
-								keybinds.remap_event(
-									"norg",
-									"n",
-									"<Leader>nwl",
-									"core.integrations.telescope.switch_workspace"
-								)
-								keybinds.map("norg", "n", "<Leader>np", "<Cmd>Neorg presenter start<CR>")
-							end,
-							neorg_leader = "<Leader>n",
+							default_keybinds = true,
+							-- hook = function(keybinds)
+							-- 	keybinds.unmap("norg", "n", "<Leader>nid")
+							-- 	keybinds.remap_event("norg", "n", "<Leader>nc", "core.looking-glass.magnify-code-block")
+							-- 	keybinds.remap_event(
+							-- 		"norg",
+							-- 		"n",
+							-- 		"<Leader>ni",
+							-- 		"core.integrations.telescope.insert_link"
+							-- 	)
+							-- 	keybinds.remap_event(
+							-- 		"norg",
+							-- 		"n",
+							-- 		"<Leader>nwl",
+							-- 		"core.integrations.telescope.switch_workspace"
+							-- 	)
+							-- 	keybinds.map("norg", "n", "<Leader>np", "<Cmd>Neorg presenter start<CR>")
+							-- end,
+							-- neorg_leader = "<Leader>n",
 						},
 					},
 					["core.integrations.telescope"] = {},
@@ -121,7 +119,7 @@ local M = {
 					["core.export"] = {},
 					["core.export.markdown"] = { config = { extensions = "all" } },
 					["core.summary"] = {},
-                    ["core.ui.calendar"] = {},
+					["core.ui.calendar"] = {},
 					["core.journal"] = {
 						config = {
 							strategy = "flat",
