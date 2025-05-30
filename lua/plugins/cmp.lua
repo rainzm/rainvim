@@ -189,7 +189,7 @@ function M.config()
 			{ name = "nvim_lsp" },
 		},
 	})
-	cmp.setup.filetype({ "markdown", "gitcommit", "norg", "copilot-chat" }, {
+	cmp.setup.filetype({ "markdown", "gitcommit", "copilot-chat" }, {
 		enabled = true,
 		sources = {
 			{ name = "neorg", priority = 90 },

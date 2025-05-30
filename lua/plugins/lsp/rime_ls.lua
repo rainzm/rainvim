@@ -108,7 +108,7 @@ function M.setup_rime()
 
 	local rime_on_attach = function(client, bufnr)
 		local ft = vim.api.nvim_buf_get_option(bufnr, "filetype")
-		if ft == "markdown" or ft == "norg" or ft == "copilot-chat" then
+		if ft == "markdown" or ft == "copilot-chat" then
 			M.buf_on_rime(client, bufnr)
 		else
 			change_buf_rime_flag(bufnr, false, false)
@@ -130,7 +130,6 @@ function M.setup_rime()
 		name = "rime_ls",
 		cmd = vim.lsp.rpc.connect("127.0.0.1", 9257),
 		-- cmd = { "/Users/rain/.local/bin/rime_ls" },
-		-- filetypes = { "markdown", "gitcommit", "norg", "TelescopePrompt", "go" },
 		filetypes = { "*" },
 		init_options = {
 			enabled = M.global_rime_enabled(), -- 初始关闭, 手动开启

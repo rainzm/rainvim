@@ -2,7 +2,7 @@ local M = {
 	{
 		"nvim-neorg/neorg",
 		-- event = "VeryLazy",
-		-- enabled = false,
+		enabled = false,
 		ft = "norg",
 		lazy = false, -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
 		version = "*",
@@ -91,24 +91,6 @@ local M = {
 					["core.keybinds"] = {
 						config = {
 							default_keybinds = true,
-							-- hook = function(keybinds)
-							-- 	keybinds.unmap("norg", "n", "<Leader>nid")
-							-- 	keybinds.remap_event("norg", "n", "<Leader>nc", "core.looking-glass.magnify-code-block")
-							-- 	keybinds.remap_event(
-							-- 		"norg",
-							-- 		"n",
-							-- 		"<Leader>ni",
-							-- 		"core.integrations.telescope.insert_link"
-							-- 	)
-							-- 	keybinds.remap_event(
-							-- 		"norg",
-							-- 		"n",
-							-- 		"<Leader>nwl",
-							-- 		"core.integrations.telescope.switch_workspace"
-							-- 	)
-							-- 	keybinds.map("norg", "n", "<Leader>np", "<Cmd>Neorg presenter start<CR>")
-							-- end,
-							-- neorg_leader = "<Leader>n",
 						},
 					},
 					["core.integrations.telescope"] = {},
@@ -128,7 +110,6 @@ local M = {
 					},
 				},
 			})
-
 			vim.api.nvim_create_autocmd("FileType", {
 				pattern = "norg",
 				callback = function()
@@ -139,7 +120,7 @@ local M = {
 	},
 	{
 		"3rd/image.nvim",
-		ft = { "markdown", "vimwiki", "norg" },
+		ft = { "markdown", "vimwiki" },
 		config = function()
 			require("image").setup({
 				backend = "kitty",
@@ -154,13 +135,6 @@ local M = {
 						only_render_image_at_cursor = false,
 						filetypes = { "markdown", "vimwiki" }, -- markdown extensions (ie. quarto) can go here
 					},
-					neorg = {
-						enabled = true,
-						clear_in_insert_mode = false,
-						download_remote_images = true,
-						only_render_image_at_cursor = false,
-						filetypes = { "norg" },
-					},
 				},
 				max_width = nil,
 				max_height = nil,
@@ -173,24 +147,11 @@ local M = {
 			require("mappings").nvim_load_mapping({
 				["n|<leader>li"] = "ImageRenderneorg",
 			})
-			-- vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI" }, {
-			-- 	pattern = "*.norg",
-			-- 	callback = function(args)
-			-- 		print("TextChanged")
-			-- 		local window = vim.api.nvim_get_current_win()
-			-- 		local buffer = vim.api.nvim_win_get_buf(window)
-			-- 		local images = require("image").get_images({ window = window, buffer = buffer })
-			-- 		for _, current_image in ipairs(images) do
-			-- 			print("find a current_image")
-			-- 			current_image:render()
-			-- 		end
-			-- 	end,
-			-- })
 		end,
 	},
 	{
 		"rainzm/nvim-picgo",
-		ft = { "norg", "markdown" },
+		ft = { "markdown" },
 		opts = {
 			notice = "notify",
 			image_name = false,

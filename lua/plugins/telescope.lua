@@ -123,7 +123,7 @@ function M.config()
 	vim.api.nvim_create_autocmd("User", {
 		pattern = "TelescopeFindPre",
 		callback = function()
-			if vim.bo.filetype == "markdown" or vim.bo.filetype == "norg" then
+			if vim.bo.filetype == "markdown" then
 				vim.g.cmp_enabled = true
 			else
 				vim.g.cmp_enabled = false

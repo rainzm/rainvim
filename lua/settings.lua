@@ -29,7 +29,6 @@ set.splitbelow = true
 -- colorscheme
 set.termguicolors = true
 set.background = "dark"
--- vim.cmd("autocmd Filetype norg setlocal conceallevel=2")
 vim.cmd([[
     syntax on
     syntax enable
