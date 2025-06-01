@@ -12,9 +12,9 @@ local servers = {
 		},
 	},
 	lua_ls = {
-		root_dir = function()
-			return vim.fn.getcwd()
-		end,
+		-- root_dir = function()
+		-- 	return vim.fn.getcwd()
+		-- end,
 		settings = {
 			Lua = {
 				runtime = {
@@ -35,7 +35,7 @@ local servers = {
 		},
 	},
 	bashls = {},
-	marksman = {},
+	--marksman = {},
 	clangd = {},
 	pyright = {},
 	rust_analyzer = {},
@@ -70,32 +70,10 @@ local function on_attach(client, bufnr)
 	current_function_on_attach(client)
 end
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities) -- for nvim-cmp
--- capabilities = vim.tbl_extend("keep", capabilities, require("lsp-status").capabilities)
+--local capabilities = vim.lsp.protocol.make_client_capabilities()
 
 local function showLineDiagnostic(_)
 	vim.diagnostic.open_float(0, { scope = "line" })
-end
-
-function M.attachbuffer()
-	local bufnr = vim.api.nvim_get_current_buf()
-
-	local clients = vim.lsp.get_active_clients()
-	local client_id
-	for _, client in ipairs(clients) do
-		if client.name == "rime_ls" then
-			client_id = client.id
-			break
-		end
-	end
-
-	if vim.lsp.buf_is_attached(bufnr, client_id) then
-		return
-	end
-	if client_id then
-		vim.lsp.buf_attach_client(bufnr, client_id)
-	end
 end
 
 function M.setup()
@@ -105,7 +83,6 @@ function M.setup()
 	require("plugins.lsp.format").autoformat = true
 
 	local mapping = require("mappings")
-	local lspconfig = require("lspconfig")
 
 	local opts = { noremap = true, silent = true }
 	vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
@@ -113,20 +90,18 @@ function M.setup()
 	mapping.nnoremap("<leader>e", '<cmd>lua require("telescope.builtin").diagnostics({bufnr=0})<CR>')
 	mapping.nnoremap("<leader>E", '<cmd>lua require("telescope.builtin").diagnostics()<CR>')
 	vim.api.nvim_create_user_command("DiagnosticLine", showLineDiagnostic, { force = true })
-	vim.api.nvim_create_user_command("RimeAttach", M.attachbuffer, { force = true })
 
 	opts = {
 		on_attach = on_attach,
-		capabilities = capabilities,
-		--flags = {
-		-- debounce_text_changes = 150,
-		--},
+		--capabilities = capabilities,
 	}
 	for server_name, _ in pairs(servers) do
 		local lopts = vim.tbl_deep_extend("force", opts, servers[server_name] or {})
-		lspconfig[server_name].setup(lopts)
+		vim.lsp.config(server_name, lopts)
+		vim.lsp.enable(server_name)
 	end
-	require("plugins/lsp/rime_ls").setup_rime()
+	vim.lsp.enable("rime_ls")
+	--vim.lsp.enable("iwes")
 end
 
 return M

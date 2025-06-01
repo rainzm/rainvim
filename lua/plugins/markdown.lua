@@ -1,8 +1,8 @@
 return {
 	{
-		"rainzm/mkdnflow.nvim",
-		enabled = false,
-		rocks = "luautf8",
+		"jakewvincent/mkdnflow.nvim",
+		--enabled = false,
+		--rocks = "luautf8",
 		ft = { "markdown", "vimwiki" },
 		opts = {
 			modules = {
@@ -21,9 +21,9 @@ return {
 			filetypes = { md = true, rmd = true, markdown = true },
 			create_dirs = true,
 			perspective = {
-				priority = "first",
+				priority = "root",
 				fallback = "current",
-				root_tell = false,
+				root_tell = "index.md",
 				nvim_wd_heel = false,
 				update = false,
 			},
@@ -124,6 +124,15 @@ date: {{ date }}
 		},
 	},
 	{
+		-- Make sure to set this up properly if you have lazy=true
+		"MeanderingProgrammer/render-markdown.nvim",
+		opts = {
+			file_types = { "Avante", "markdown" },
+			completion = { lsp = { enabled = true } },
+		},
+		ft = { "Avante", "markdown" },
+	},
+	{
 		"iamcco/markdown-preview.nvim",
 		build = function()
 			vim.fn["mkdp#util#install"]()
@@ -136,5 +145,11 @@ date: {{ date }}
 		config = function()
 			vim.g.mkdp_filetypes = { "markdown", "vimwiki" }
 		end,
+	},
+	{
+		-- support for image pasting
+		"HakonHarnes/img-clip.nvim",
+		event = "VeryLazy",
+		opts = {},
 	},
 }

@@ -121,6 +121,7 @@ local M = {
 	{
 		"3rd/image.nvim",
 		ft = { "markdown", "vimwiki" },
+		enabled = false,
 		config = function()
 			require("image").setup({
 				backend = "kitty",
@@ -145,18 +146,10 @@ local M = {
 				hijack_file_patterns = { "*.png", "*.jpg", "*.jpeg", "*.gif", "*.webp" },
 			})
 			require("mappings").nvim_load_mapping({
-				["n|<leader>li"] = "ImageRenderneorg",
+				["n|<leader>ie"] = { f = require("image").enable, doc = "enable image display" },
+				["n|<leader>id"] = { f = require("image").disable, doc = "disable image display" },
 			})
 		end,
-	},
-	{
-		"rainzm/nvim-picgo",
-		ft = { "markdown" },
-		opts = {
-			notice = "notify",
-			image_name = false,
-			debug = false,
-		},
 	},
 }
 

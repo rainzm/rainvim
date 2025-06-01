@@ -18,7 +18,7 @@ end
 
 -- update lualine
 function M._rime_status()
-	if require("plugins.lsp.rime_ls").global_rime_enabled() then
+	if vim.g.rime_enabled then
 		return "ㄓ"
 	else
 		return ""

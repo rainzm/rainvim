@@ -2,11 +2,7 @@ return {
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
-			{
-				"folke/neodev.nvim",
-				config = true,
-			},
-			"williamboman/mason.nvim",
+			"mason-org/mason.nvim",
 		},
 		event = { "BufReadPre", "BufNewFile" },
 		config = function()
@@ -14,11 +10,19 @@ return {
 		end,
 	},
 	{
-		"williamboman/mason.nvim",
-		cmd = "Mason",
-		dependencies = {
-			"williamboman/mason-lspconfig.nvim",
+		"folke/lazydev.nvim",
+		ft = "lua", -- only load on lua files
+		opts = {
+			library = {
+				-- See the configuration section for more details
+				-- Load luvit types when the `vim.uv` word is found
+				{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
+			},
 		},
+	},
+	{
+		"mason-org/mason.nvim",
+		cmd = "Mason",
 		config = function()
 			local icons = require("plugins.utils.icons")
 
@@ -38,18 +42,11 @@ return {
 					"flake8",
 				},
 			})
-			require("mason-lspconfig").setup({
-				automatic_installation = true,
-			})
 		end,
 	},
 	{
 		"nvimtools/none-ls.nvim",
-		dependencies = {
-			"williamboman/mason.nvim",
-		},
 		event = { "BufReadPre", "BufNewFile" },
-		--dependencies = { "mason.nvim" },
 		opts = function()
 			local nls = require("null-ls")
 			return {

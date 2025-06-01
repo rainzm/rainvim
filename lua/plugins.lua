@@ -78,6 +78,7 @@ return {
 	},
 	{
 		"dfendr/clipboard-image.nvim",
+		enabled = false,
 		ft = "markdown",
 		config = function()
 			require("clipboard-image").setup({
