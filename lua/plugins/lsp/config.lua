@@ -101,6 +101,64 @@ function M.setup()
 		vim.lsp.enable(server_name)
 	end
 	vim.lsp.enable("rime_ls")
+	-- vim.api.nvim_create_autocmd("FileType", {
+	-- 	pattern = { "copilot-chat" },
+	-- 	callback = function(env)
+	-- 		-- copilot cannot attach client automatically, we must attach manually.
+	-- 		local rime_ls_client = vim.lsp.get_clients({ name = "rime_ls" })
+	-- 		if #rime_ls_client == 0 then
+	-- 			vim.cmd("LspStart rime_ls")
+	-- 			rime_ls_client = vim.lsp.get_clients({ name = "rime_ls" })
+	-- 		end
+	-- 		if #rime_ls_client > 0 then
+	-- 			vim.lsp.buf_attach_client(env.buf, rime_ls_client[1].id)
+	-- 		end
+	-- 	end,
+	-- })
+	-- vim.api.nvim_create_autocmd("FileType", {
+	-- 	pattern = { "AvanteInput" },
+	-- 	callback = function(env)
+	-- 		-- copilot cannot attach client automatically, we must attach manually.
+	-- 		local rime_ls_client = vim.lsp.get_clients({ name = "rime_ls" })
+	-- 		if #rime_ls_client == 0 then
+	-- 			vim.cmd("LspStart rime_ls")
+	-- 			rime_ls_client = vim.lsp.get_clients({ name = "rime_ls" })
+	-- 		end
+	-- 		if #rime_ls_client > 0 then
+	-- 			vim.lsp.buf_attach_client(env.buf, rime_ls_client[1].id)
+	-- 		end
+	-- 		local bufnr = env.buf
+	-- 		local filetype = vim.bo[bufnr].filetype
+	-- 		local text = table.concat(vim.api.nvim_buf_get_lines(bufnr, 0, -1, false), "\n")
+	-- 		local pwd = os.getenv("PWD") or "."
+	-- 		vim.lsp.buf_notify(bufnr, "textDocument/didOpen", {
+	-- 			textDocument = {
+	-- 				uri = "file://" .. pwd .. "/AvanteInput",
+	-- 				languageId = filetype,
+	-- 				version = 0,
+	-- 				text = text,
+	-- 			},
+	-- 		})
+	-- 	end,
+	-- })
+
+	-- vim.api.nvim_create_autocmd("FileType", {
+	-- 	pattern = "copilot-chat",
+	-- 	callback = function(args)
+	-- 		local bufnr = args.buf
+	-- 		local filetype = vim.bo[bufnr].filetype
+	-- 		local text = table.concat(vim.api.nvim_buf_get_lines(bufnr, 0, -1, false), "\n")
+	-- 		local pwd = os.getenv("PWD") or "."
+	-- 		vim.lsp.buf_notify(bufnr, "textDocument/didOpen", {
+	-- 			textDocument = {
+	-- 				uri = "file://" .. pwd .. "/copilot-chat",
+	-- 				languageId = filetype,
+	-- 				version = 0,
+	-- 				text = text,
+	-- 			},
+	-- 		})
+	-- 	end,
+	-- })
 	--vim.lsp.enable("iwes")
 end
 

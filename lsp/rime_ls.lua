@@ -1,4 +1,30 @@
-vim.g.rime_enabled = true
+vim.g.rime_enabled = false
+
+-- not work
+local function addSpace()
+	print("Adding space mapping for Rime")
+	local cmp = require("cmp")
+	local space_map = cmp.mapping(function(fallback)
+		local entry = cmp.get_selected_entry()
+		if entry == nil then
+			entry = cmp.core.view:get_first_entry()
+		end
+		if entry and entry.source.name == "nvim_lsp" and entry.source.source.client.name == "rime_ls" then
+			cmp.confirm({
+				behavior = cmp.ConfirmBehavior.Replace,
+				select = true,
+			})
+		else
+			fallback()
+		end
+	end, { "i", "s" })
+	cmp.mapping.preset.insert()["<Space>"] = space_map
+end
+
+local function delSpace()
+	local cmp = require("cmp")
+	cmp.mapping.preset.insert()["<Space>"] = nil
+end
 
 local rime_on_attach = function(client, _)
 	local toggle_rime = function()
@@ -28,7 +54,14 @@ local rime_on_attach = function(client, _)
 		end
 	end
 	local filetype = vim.bo.filetype
-	if filetype == "text" or filetype == "markdown" or filetype == "tex" or filetype == "typst" then
+	if
+		filetype == "text"
+		or filetype == "markdown"
+		or filetype == "tex"
+		or filetype == "typst"
+		or filetype == "copilot-chat"
+		or filetype == "AvanteInput"
+	then
 		set_rime_trigger({})
 	else
 		set_rime_trigger({ ">" })
@@ -45,7 +78,7 @@ return {
 	-- cmd = { "/Users/rain/.local/bin/rime_ls" },
 	-- filetypes = { "markdown" },
 	init_options = {
-		enabled = true, -- 初始关闭, 手动开启
+		enabled = false, -- 初始关闭, 手动开启
 		shared_data_dir = "/Library/Input Methods/Squirrel.app/Contents/SharedSupport", -- rime 公共目录
 		user_data_dir = "~/.local/share/rime-ls", -- 指定用户目录, 最好新建一个
 		log_dir = "~/.local/share/rime-ls/log", -- 日志目录

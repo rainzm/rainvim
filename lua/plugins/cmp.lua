@@ -116,6 +116,9 @@ function M.config()
 				end
 			end, { "i", "s" }),
 			["<Space>"] = cmp.mapping(function(fallback)
+				if not vim.g.rime_enabled then
+					fallback()
+				end
 				local entry = cmp.get_selected_entry()
 				-- if entry == nil then
 				-- 	entry = cmp.core.view:get_first_entry()
@@ -225,6 +228,12 @@ function M.config()
 					end,
 				},
 			},
+		}),
+	})
+	cmp.setup.filetype({ "AvanteInput" }, {
+		enabled = true,
+		sources = cmp.config.sources({
+			{ name = "nvim_lsp" },
 		}),
 	})
 	-- cmp.setup.cmdline(":", {

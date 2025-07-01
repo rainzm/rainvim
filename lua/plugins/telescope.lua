@@ -6,6 +6,7 @@ local M = {
 		"nvim-lua/plenary.nvim",
 		{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 		{ "nvim-telescope/telescope-project.nvim" },
+		{ "jmacadie/telescope-hierarchy.nvim" },
 	},
 	keys = {
 		{
@@ -199,12 +200,16 @@ function M.config()
 				override_file_sorter = true, -- override the file sorter
 				case_mode = "smart_case", -- or "ignore_case" or "respect_case"
 			},
+			hierarchy = {
+				-- telescope-hierarchy.nvim config, see below
+			},
 		},
 	})
 	-- To get fzf loaded and working with telescope, you need to call
 	-- load_extension, somewhere after setup function:
 	require("telescope").load_extension("fzf")
 	require("telescope").load_extension("project")
+	require("telescope").load_extension("hierarchy")
 	-- require("telescope").load_extension("refactoring")
 
 	vim.api.nvim_set_keymap(

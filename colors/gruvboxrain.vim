@@ -948,7 +948,9 @@ call s:HL('FlashCurrent', s:bg0, s:gb.bright_aqua)
 " nvim-cmp {{{
 highlight! link CmpItemKind GruvboxFg1
 " }}}
-
+" Avante: {{{
+call s:HL("AvanteSidebarWinSeparator", s:gb.darkline, s:gb.darkline)
+" }}}
 
 " Filetype specific -----------------------------------------------------------
 " Diff: {{{

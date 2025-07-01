@@ -131,6 +131,13 @@ date: {{ date }}
 			completion = { lsp = { enabled = true } },
 		},
 		ft = { "Avante", "markdown" },
+		keys = {
+			{
+				"<Leader>rm",
+				"<cmd>RenderMarkdown buf_toggle<CR>",
+				desc = "Toggle Render Markdown in buffer",
+			},
+		},
 	},
 	{
 		"iamcco/markdown-preview.nvim",
