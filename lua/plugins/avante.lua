@@ -42,7 +42,7 @@ return {
 			require("avante").setup({
 				-- add any opts here
 				-- for example
-				provider = "copilot-claude37",
+				provider = "copilot",
 				vendors = {
 					["copilot-claude37"] = {
 						__inherited_from = "copilot",
