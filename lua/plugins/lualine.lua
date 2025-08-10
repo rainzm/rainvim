@@ -27,15 +27,6 @@ function M._codeium()
 	return " "
 end
 
--- update lualine
-function M._rime_status()
-	if vim.g.rime_enabled then
-		return "ㄓ"
-	else
-		return ""
-	end
-end
-
 function M._current_function()
 	if M.show_current_function then
 		return vim.b.lsp_current_function
@@ -156,9 +147,7 @@ function M.config()
 				--{ "copilot" },
 				{ M._codeium },
 			},
-			lualine_x = {
-				M._rime_status,
-			},
+			lualine_x = {},
 			lualine_y = {
 				"vim.bo.filetype",
 				"progress",
