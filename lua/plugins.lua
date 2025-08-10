@@ -19,14 +19,6 @@ return {
 		},
 		keys = { { '"' } },
 	},
-	-- Better windows
-	{
-		"rainzm/vim-choosewin",
-		init = function()
-			vim.g.choosewin_blink_on_land = 0
-		end,
-		cmd = { "ChooseWin", "ChooseWinCopy", "ChooseWinSwap" },
-	},
 	-- Better icons
 	{
 		"kyazdani42/nvim-web-devicons",
@@ -42,8 +34,25 @@ return {
 		event = { "BufReadPre" },
 	},
 	{
-		"echasnovski/mini.bufremove",
-		lazy = true,
+		"folke/which-key.nvim",
+		event = "VeryLazy",
+		opts = {
+			delay = function(ctx)
+				return ctx.plugin and 0 or 500
+			end,
+			icons = {
+				mappings = false,
+			},
+		},
+		keys = {
+			{
+				"<leader>?",
+				function()
+					require("which-key").show({ global = false })
+				end,
+				desc = "Buffer Local Keymaps (which-key)",
+			},
+		},
 	},
 	{
 		"m4xshen/smartcolumn.nvim",
@@ -53,6 +62,11 @@ return {
 			custom_colorcolumn = { norg = "100", markdown = "80" },
 			scope = "line",
 		},
+	},
+	{
+		"folke/persistence.nvim",
+		event = "BufReadPre", -- this will only start session saving when an actual file was opened
+		opts = {},
 	},
 	{
 		"nvim-lua/lsp-status.nvim",

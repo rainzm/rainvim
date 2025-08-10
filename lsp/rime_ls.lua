@@ -1,36 +1,49 @@
 vim.g.rime_enabled = false
 
--- not work
-local function addSpace()
-	print("Adding space mapping for Rime")
-	local cmp = require("cmp")
-	local space_map = cmp.mapping(function(fallback)
-		local entry = cmp.get_selected_entry()
-		if entry == nil then
-			entry = cmp.core.view:get_first_entry()
-		end
-		if entry and entry.source.name == "nvim_lsp" and entry.source.source.client.name == "rime_ls" then
-			cmp.confirm({
-				behavior = cmp.ConfirmBehavior.Replace,
-				select = true,
-			})
-		else
-			fallback()
-		end
-	end, { "i", "s" })
-	cmp.mapping.preset.insert()["<Space>"] = space_map
-end
-
-local function delSpace()
-	local cmp = require("cmp")
-	cmp.mapping.preset.insert()["<Space>"] = nil
-end
-
 local rime_on_attach = function(client, _)
 	local toggle_rime = function()
 		client.request("workspace/executeCommand", { command = "rime-ls.toggle-rime" }, function(_, result, ctx, _)
 			if ctx.client_id == client.id then
 				vim.g.rime_enabled = result
+				local cmp = require("cmp")
+				if vim.g.rime_enabled then
+					-- 新增自定义映射
+					print("Rime enabled, adding custom mapping for <Space>")
+					cmp.setup({
+						mapping = {
+							["<Space>"] = cmp.mapping(function(fallback)
+								if not vim.g.rime_enabled then
+									fallback()
+								end
+								local entry = cmp.get_selected_entry()
+								-- if entry == nil then
+								-- 	entry = cmp.core.view:get_first_entry()
+								-- end
+								if
+									entry
+									and entry.source.name == "nvim_lsp"
+									and entry.source.source.client.name == "rime_ls"
+								then
+									cmp.confirm({
+										behavior = cmp.ConfirmBehavior.Replace,
+										select = true,
+									})
+								else
+									fallback()
+								end
+							end, { "i" }),
+						},
+					})
+				else
+					print("Rime disabled, removing custom mapping for <Space>")
+					cmp.setup({
+						mapping = {
+							["<Space>"] = cmp.mapping(function(fallback)
+								fallback()
+							end, { "i" }),
+						},
+					})
+				end
 			end
 		end)
 	end

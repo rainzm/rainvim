@@ -2,18 +2,29 @@ local M = {
 	"nvim-lualine/lualine.nvim",
 	dependencies = {
 		{ "kyazdani42/nvim-web-devicons", opt = true },
-		{ "AndreM222/copilot-lualine" },
+		--{ "AndreM222/copilot-lualine" },
 	},
 	show_current_function = false,
 }
 
 function M._codeium()
-	local status = vim.api.nvim_call_function("codeium#GetStatusString", {})
-	return string.format("%s %s", "{…}", status)
-	-- if string.find(status, "/") then
-	-- 	return string.format("%s %s", "{…}", status)
-	-- end
-	-- return ""
+	local status = require("codeium.virtual_text").status()
+
+	if status.state == "idle" then
+		-- Output was cleared, for example when leaving insert mode
+		return " "
+	end
+
+	if status.state == "waiting" then
+		-- Waiting for response
+		return "*"
+	end
+
+	if status.state == "completions" and status.total > 0 then
+		return string.format("%d/%d", status.current, status.total)
+	end
+
+	return " "
 end
 
 -- update lualine
@@ -93,6 +104,7 @@ function M.config()
 					place = { "statusline" },
 				})
 			end,
+			desc = "Toggle Current Function",
 		},
 	}
 	require("mappings").nvim_load_mapping(keys)
@@ -141,8 +153,8 @@ function M.config()
 					update_in_insert = true,
 				},
 				{ M._current_function },
-				{ "copilot" },
-				-- { M._codeium },
+				--{ "copilot" },
+				{ M._codeium },
 			},
 			lualine_x = {
 				M._rime_status,
@@ -172,6 +184,9 @@ function M.config()
 		inactive_winbar = {},
 		extensions = {},
 	})
+	require("codeium.virtual_text").set_statusbar_refresh(function()
+		require("lualine").refresh()
+	end)
 end
 
 return M

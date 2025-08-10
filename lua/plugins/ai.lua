@@ -2,7 +2,7 @@ return {
 	{
 		"zbirenbaum/copilot.lua",
 		cmd = "Copilot",
-		enabled = true,
+		enabled = false,
 		event = "InsertEnter",
 		init = function()
 			-- vim.g.copilot_proxy = "127.0.0.1:7890"
@@ -32,7 +32,7 @@ return {
 				keymap = {
 					accept = "<C-n>",
 					accept_word = false,
-					accept_line = false,
+					accept_line = "<C-m>",
 					next = "<C-]>",
 					-- prev = "<C-[>",
 					dismiss = "<C-\\>",
@@ -41,79 +41,177 @@ return {
 		},
 	},
 	{
-		"github/copilot.vim",
+		"huggingface/llm.nvim",
 		enabled = false,
-		init = function()
-			vim.g.copilot_proxy = "127.0.0.1:7890"
-			vim.g.copilot_no_tab_map = true
-			-- imap <silent> <leader>j <Plug>(copilot-next)
-			-- imap <silent> <leader>k <Plug>(copilot-previous)
-			vim.cmd([[
-			    imap <silent><script><expr> <C-n> copilot#Accept("\<CR>")
-                imap <silent> <C-\> <Plug>(copilot-dismiss)
-            ]])
-		end,
 		config = function()
-			-- imap <silent> <C-]> <Plug>(copilot-next)
-			-- imap <silent> <C-[> <Plug>(copilot-previous)
-		end,
-	},
-	{
-		"Exafunction/codeium.vim",
-		enabled = false,
-		init = function()
-			vim.g.codeium_disable_bindings = 1
-			vim.g.codeium_no_map_tab = true
-		end,
-		config = function()
-			vim.keymap.set("i", "<C-g>", function()
-				return vim.fn["codeium#Accept"]()
-			end, { expr = true })
-			vim.keymap.set("i", "<C-n>", function()
-				return vim.fn["codeium#Accept"]()
-			end, { expr = true, silent = true })
-			vim.keymap.set("i", "<c-]>", function()
-				vim.fn["codeium#CycleCompletions"](1)
-				require("lualine").refresh({
-					scope = "window",
-					place = { "statusline" },
-				})
-			end, { expr = true, silent = true })
-			-- vim.keymap.set("i", "<c-\\>", function()
-			-- 	return vim.fn["codeium#CycleCompletions"](-1)
-			-- end, { expr = true })
-			vim.keymap.set("i", "<c-\\>", function()
-				return vim.fn["codeium#Clear"]()
-			end, { expr = true, silent = true })
-		end,
-	},
-	{
-		"Exafunction/codeium.nvim",
-		enabled = false,
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"hrsh7th/nvim-cmp",
-		},
-		config = function()
-			require("codeium").setup({
-				enable_chat = true,
+			local llm = require("llm")
+			llm.setup({
+				api_token = "SILICONFLOW_API_KEY",
+				model = "Qwen/Qwen2.5-Coder-7B-Instruct", -- the model ID, behavior depends on backend
+				backend = "ollama", -- backend ID, "huggingface" | "ollama" | "openai" | "tgi"
+				url = "https://api.siliconflow.cn",
+				request_body = {
+					parameters = {
+						max_new_tokens = 60,
+						temperature = 0.2,
+						top_p = 0.95,
+					},
+				},
+				context_window = 4096, -- max number of tokens for the context window
+				enable_suggestions_on_startup = true,
+				enable_suggestions_on_files = "*", -- pattern matching syntax to enable suggestions on specific files, either a string or a list of strings
+				disable_url_path_completion = false, -- cf Backend
+				lsp = {
+					bin_path = nil,
+					host = nil,
+					port = nil,
+					cmd_env = { LLM_LOG_LEVEL = "DEBUG" },
+					version = "0.5.3",
+				},
 			})
 		end,
 	},
 	{
-		"CopilotC-Nvim/CopilotChat.nvim",
+		{
+			"milanglacier/minuet-ai.nvim",
+			--"BohdaR/minuet-ai.nvim",
+			enabled = false,
+			config = function()
+				require("minuet").setup({
+					virtualtext = {
+						auto_trigger_ft = { "go" },
+						keymap = {
+							-- accept whole completion
+							accept = "<c-n>",
+							-- accept one line
+							accept_line = "<c-m>",
+							-- accept n lines (prompts for number)
+							-- e.g. "A-z 2 CR" will accept 2 lines
+							accept_n_lines = nil,
+							-- Cycle to prev completion item, or manually invoke completion
+							prev = nil,
+							-- Cycle to next completion item, or manually invoke completion
+							next = "<C-]>",
+							dismiss = "<C-\\>",
+						},
+						show_on_completion_menu = true,
+					},
+					provider = "openai_fim_compatible",
+					n_completions = 1, -- recommend for local model for resource saving
+					-- I recommend beginning with a small context window size and incrementally
+					-- expanding it, depending on your local computing power. A context window
+					-- of 512, serves as an good starting point to estimate your computing
+					-- power. Once you have a reliable estimate of your local computing power,
+					-- you should adjust the context window to a larger value.
+					-- context_window = 4096,
+					provider_options = {
+						openai_fim_compatible = {
+							api_key = "SILICONFLOW_API_KEY",
+							name = "SILICONFLOW",
+							end_point = "https://api.siliconflow.cn/v1/completions",
+							--model = "Pro/Qwen/Qwen2.5-Coder-7B-Instruct",
+							model = "Pro/Qwen/Qwen2.5-Coder-7B-Instruct",
+							optional = {
+								max_tokens = 256,
+								top_p = 0.9,
+							},
+						},
+						-- openai_fim_compatible = {
+						-- 	api_key = "ALIYUN_API_KEY",
+						-- 	name = "ALIYUN",
+						-- 	end_point = "https://dashscope.aliyuncs.com/compatible-mode/v1/completions",
+						-- 	--model = "Pro/Qwen/Qwen2.5-Coder-7B-Instruct",
+						-- 	model = "qwen3-coder-30b-a3b-instruct",
+						-- 	optional = {
+						-- 		max_tokens = 256,
+						-- 		top_p = 0.9,
+						-- 	},
+						-- },
+					},
+				})
+			end,
+		},
+		{ "nvim-lua/plenary.nvim" },
+	},
+	{
+		"ggml-org/llama.vim",
 		enabled = false,
+		init = function()
+			vim.g.llama_config = {
+				keymap_accept_full = "<C-n>",
+				keymap_accept_line = "<C-b>",
+				keymap_accept_word = "<C-v>",
+				show_info = 0,
+			}
+			vim.api.nvim_set_hl(0, "llama_hl_hint", { fg = "#928374", ctermfg = 245 })
+		end,
+		-- config = function()
+		-- 	vim.api.nvim_buf_set_keymap(0, "i", "<C-n>", "<Cmd>call llama#fim_accept('full')<CR>", {
+		-- 		noremap = true,
+		-- 		silent = true,
+		-- 	})
+		-- 	vim.api.nvim_buf_set_keymap(0, "i", "<C-m>", "<Cmd>call llama#fim_accept('line')<CR>", {
+		-- 		noremap = true,
+		-- 		silent = true,
+		-- 	})
+		-- end,
+	},
+	{
+		"Exafunction/windsurf.nvim",
 		dependencies = {
-			{ "github/copilot.vim" }, -- or zbirenbaum/copilot.lua
-			{ "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
+			"nvim-lua/plenary.nvim",
 		},
-		build = "make tiktoken", -- Only on MacOS or Linux
+		enabled = true,
+		config = function()
+			require("codeium").setup({
+				-- Optionally disable cmp source if using virtual text only
+				enable_cmp_source = false,
+				enable_chat = false,
+				virtual_text = {
+					enabled = true,
+					manual = false,
+					filetypes = {},
+					default_filetype_enabled = true,
+					idle_delay = 75,
+					-- Priority of the virtual text. This usually ensures that the completions appear on top of
+					-- other plugins that also add virtual text, such as LSP inlay hints, but can be modified if
+					-- desired.
+					virtual_text_priority = 65535,
+					-- Set to false to disable all key bindings for managing completions.
+					map_keys = true,
+					-- The key to press when hitting the accept keybinding but no completion is showing.
+					-- Defaults to \t normally or <c-n> when a popup is showing.
+					accept_fallback = nil,
+					-- Key bindings for managing completions in virtual text mode.
+					key_bindings = {
+						accept = "<C-n>",
+						accept_word = false,
+						accept_line = "<C-m>",
+						next = "<C-]>",
+						prev = false,
+						clear = "<C-\\>",
+					},
+				},
+			})
+		end,
+	},
+	{
+		"NickvanDyke/opencode.nvim",
+		dependencies = { "folke/snacks.nvim" },
+		---@type opencode.Config
 		opts = {
-			window = {
-				layout = "horizontal", -- | vertical
-			},
-			-- See Configuration section for options
+			-- Your configuration, if any
 		},
-		-- See Commands section for default commands if you want to lazy load on them
+        -- stylua: ignore
+        keys = {
+            { '<leader>ot', function() require('opencode').toggle() end,                           desc = 'Toggle embedded opencode', },
+            { '<leader>oa', function() require('opencode').ask() end,                              desc = 'Ask opencode',                 mode = 'n', },
+            { '<leader>oa', function() require('opencode').ask('@selection: ') end,                desc = 'Ask opencode about selection', mode = 'v', },
+            { '<leader>op', function() require('opencode').select_prompt() end,                    desc = 'Select prompt',                mode = { 'n', 'v', }, },
+            { '<leader>on', function() require('opencode').command('session_new') end,             desc = 'New session', },
+            { '<leader>oy', function() require('opencode').command('messages_copy') end,           desc = 'Copy last message', },
+            { '<leader>ou',    function() require('opencode').command('messages_half_page_up') end,   desc = 'Scroll messages up', },
+            { '<ldeader>od',    function() require('opencode').command('messages_half_page_down') end, desc = 'Scroll messages down', },
+        },
 	},
 }

@@ -951,6 +951,18 @@ highlight! link CmpItemKind GruvboxFg1
 " Avante: {{{
 call s:HL("AvanteSidebarWinSeparator", s:gb.darkline, s:gb.darkline)
 " }}}
+" Windsurf {{{
+hi! link CodeiumSuggestion Comment
+" }}}
+" Snacks: {{{
+hi! link SnacksPickerDir SnacksPickerFile
+hi! link SnacksPickerGitStatusStaged GruvboxAqua
+hi! link GitSignsChange GruvboxYellow
+" }}}
+" WhichKey: {{{
+hi! link WhichKey GruvboxOrangeBold
+hi! link WhichKeyGroup Identifier
+" }}}
 
 " Filetype specific -----------------------------------------------------------
 " Diff: {{{

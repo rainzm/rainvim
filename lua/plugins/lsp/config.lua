@@ -6,6 +6,7 @@ local servers = {
 		settings = {
 			gopls = {
 				-- --tags=linux
+				--env = { GOFLAGS = "-mod=mod", GOOS = "linux" },
 				env = { GOFLAGS = "-mod=mod" },
 				directoryFilters = { "-vendor", "-docs", "-scripts" },
 			},
@@ -87,8 +88,8 @@ function M.setup()
 	local opts = { noremap = true, silent = true }
 	vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
 	vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
-	mapping.nnoremap("<leader>e", '<cmd>lua require("telescope.builtin").diagnostics({bufnr=0})<CR>')
-	mapping.nnoremap("<leader>E", '<cmd>lua require("telescope.builtin").diagnostics()<CR>')
+	-- mapping.nnoremap("<leader>e", '<cmd>lua require("telescope.builtin").diagnostics({bufnr=0})<CR>')
+	-- mapping.nnoremap("<leader>E", '<cmd>lua require("telescope.builtin").diagnostics()<CR>')
 	vim.api.nvim_create_user_command("DiagnosticLine", showLineDiagnostic, { force = true })
 
 	opts = {

@@ -2,6 +2,7 @@ return {
 	{
 		"yetone/avante.nvim",
 		event = "VeryLazy",
+		enabled = false,
 		version = false, -- Never set this value to "*"! Never!
 		-- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
 		build = "make",
@@ -22,19 +23,6 @@ return {
 			{
 				-- support for image pasting
 				"HakonHarnes/img-clip.nvim",
-				event = "VeryLazy",
-				opts = {
-					-- recommended settings
-					default = {
-						embed_image_as_base64 = false,
-						prompt_for_file_name = false,
-						drag_and_drop = {
-							insert_mode = true,
-						},
-						-- required for Windows users
-						use_absolute_path = true,
-					},
-				},
 			},
 			"MeanderingProgrammer/render-markdown.nvim",
 		},
@@ -42,8 +30,39 @@ return {
 			require("avante").setup({
 				-- add any opts here
 				-- for example
-				provider = "copilot",
-				vendors = {
+				provider = "glm",
+				providers = {
+					kimi = {
+						__inherited_from = "openai",
+						api_key_name = "SILICONFLOW_API_KEY", -- Set this to your SiliconFlow API key environment variable name
+						endpoint = "https://api.siliconflow.cn/v1",
+						model = "Pro/moonshotai/Kimi-K2-Instruct",
+						extra_request_body = {
+							temperature = 0.75,
+							max_tokens = 32768,
+						},
+					},
+					qwen3 = {
+						__inherited_from = "openai",
+						api_key_name = "ALIYUN_API_KEY", -- Set this to your SiliconFlow API key environment variable name
+						endpoint = "https://dashscope.aliyuncs.com/compatible-mode/v1",
+						model = "qwen3-coder-plus",
+						--model = "Moonshot-Kimi-K2-Instruct",
+						extra_request_body = {
+							temperature = 0.75,
+							max_tokens = 65536,
+						},
+					},
+					glm = {
+						__inherited_from = "openai",
+						api_key_name = "ZHIPU_API_KEY", -- Set this to your SiliconFlow API key environment variable name
+						endpoint = "https://open.bigmodel.cn/api/paas/v4",
+						model = "GLM-4.5",
+						extra_request_body = {
+							temperature = 0.75,
+							max_tokens = 32768,
+						},
+					},
 					["copilot-claude37"] = {
 						__inherited_from = "copilot",
 						model = "claude-3.7-sonnet",

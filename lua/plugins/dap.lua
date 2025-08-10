@@ -51,7 +51,7 @@ local function wcloud_debug(opts)
 	local service_name = config.service:match("([^/]+)$")
 
 	local args = {}
-	if service_name == "host" then
+	if service_name == "host" or service_name == "host-deployer" then
 		args = {
 			"--common-config-file",
 			"/etc/wcloud/common.conf",
@@ -76,6 +76,12 @@ local function wcloud_debug(opts)
 		mode = "exec",
 		program = config.service,
 		args = args,
+        substitutePath = {
+        {
+            from = "/Users/rain/code/go/wcloud/backend",
+            to = "git.wcloud.cool/wcloud/backend"
+        }
+    }
 	}, {})
 	if not dapui_opened() then
 		require("dapui").open()
@@ -88,6 +94,7 @@ return {
 		dependencies = {
 			"mfussenegger/nvim-dap",
 			"leoluz/nvim-dap-go",
+			"nvim-neotest/nvim-nio",
 			--"theHamsta/nvim-dap-virtual-text",
 		},
 		lazy = true,

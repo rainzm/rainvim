@@ -115,23 +115,23 @@ function M.config()
 					end
 				end
 			end, { "i", "s" }),
-			["<Space>"] = cmp.mapping(function(fallback)
-				if not vim.g.rime_enabled then
-					fallback()
-				end
-				local entry = cmp.get_selected_entry()
-				-- if entry == nil then
-				-- 	entry = cmp.core.view:get_first_entry()
-				-- end
-				if entry and entry.source.name == "nvim_lsp" and entry.source.source.client.name == "rime_ls" then
-					cmp.confirm({
-						behavior = cmp.ConfirmBehavior.Replace,
-						select = true,
-					})
-				else
-					fallback()
-				end
-			end, { "i", "s" }),
+			-- ["<Space>"] = cmp.mapping(function(fallback)
+			-- 	if not vim.g.rime_enabled then
+			-- 		fallback()
+			-- 	end
+			-- 	local entry = cmp.get_selected_entry()
+			-- 	-- if entry == nil then
+			-- 	-- 	entry = cmp.core.view:get_first_entry()
+			-- 	-- end
+			-- 	if entry and entry.source.name == "nvim_lsp" and entry.source.source.client.name == "rime_ls" then
+			-- 		cmp.confirm({
+			-- 			behavior = cmp.ConfirmBehavior.Replace,
+			-- 			select = true,
+			-- 		})
+			-- 	else
+			-- 		fallback()
+			-- 	end
+			-- end, { "i", "s" }),
 			["<C-d>"] = function()
 				if cmp.visible_docs() then
 					cmp.close_docs()
