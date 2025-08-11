@@ -105,6 +105,11 @@ return {
 		end,
 	},
 	{
+		"windwp/nvim-autopairs",
+		config = true,
+	},
+
+	{
 		"ThePrimeagen/refactoring.nvim",
 		enabled = false,
 		dependencies = {

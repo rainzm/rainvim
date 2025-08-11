@@ -72,6 +72,7 @@ return {
 		notifier = {
 			enabled = true,
 			timeout = 3000,
+			level = vim.log.levels.WARN,
 		},
 		image = {
 			enabled = true,

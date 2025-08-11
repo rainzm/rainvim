@@ -79,15 +79,16 @@ return {
 			config = function()
 				require("minuet").setup({
 					virtualtext = {
-						auto_trigger_ft = { "go" },
+						auto_trigger_ft = { "*" },
+						auto_trigger_ignore_ft = { "snacks_picker_input" },
 						keymap = {
 							-- accept whole completion
 							accept = "<c-n>",
 							-- accept one line
-							accept_line = "<c-m>",
+							accept_line = "<c-b>",
 							-- accept n lines (prompts for number)
 							-- e.g. "A-z 2 CR" will accept 2 lines
-							accept_n_lines = nil,
+							accept_n_lines = "<c-;>",
 							-- Cycle to prev completion item, or manually invoke completion
 							prev = nil,
 							-- Cycle to next completion item, or manually invoke completion
@@ -97,22 +98,41 @@ return {
 						show_on_completion_menu = true,
 					},
 					provider = "openai_fim_compatible",
-					n_completions = 1, -- recommend for local model for resource saving
+					n_completions = 3, -- recommend for local model for resource saving
 					-- I recommend beginning with a small context window size and incrementally
 					-- expanding it, depending on your local computing power. A context window
 					-- of 512, serves as an good starting point to estimate your computing
 					-- power. Once you have a reliable estimate of your local computing power,
 					-- you should adjust the context window to a larger value.
-					-- context_window = 4096,
+					context_window = 1024,
+					-- request_timeout = 2.5,
+					-- throttle = 1500, -- Increase to reduce costs and avoid rate limits
+					-- debounce = 600, -- Increase to reduce costs and avoid rate limits
 					provider_options = {
+						openai_compatible = {
+							api_key = "ZHIPU_API_KEY",
+							end_point = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
+							model = "glm-4.5-airx",
+							name = "ZHIPU",
+							optional = {
+								max_tokens = 56,
+								top_p = 0.9,
+								provider = {
+									-- Prioritize throughput for faster completion
+									sort = "throughput",
+								},
+							},
+							-- For Windows users, TERM may not be present in environment variables.
+							-- Consider using APPDATA instead.
+						},
 						openai_fim_compatible = {
 							api_key = "SILICONFLOW_API_KEY",
-							name = "SILICONFLOW",
+							name = "Qwen",
 							end_point = "https://api.siliconflow.cn/v1/completions",
 							--model = "Pro/Qwen/Qwen2.5-Coder-7B-Instruct",
-							model = "Pro/Qwen/Qwen2.5-Coder-7B-Instruct",
+							model = "Qwen/Qwen2.5-Coder-7B-Instruct",
 							optional = {
-								max_tokens = 256,
+								max_tokens = 56,
 								top_p = 0.9,
 							},
 						},
@@ -148,6 +168,7 @@ return {
 	},
 	{
 		"Exafunction/windsurf.nvim",
+		enabled = true,
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 		},
@@ -159,7 +180,7 @@ return {
 				virtual_text = {
 					enabled = true,
 					manual = false,
-					filetypes = {},
+					filetypes = { snacks_picker_input = false },
 					default_filetype_enabled = true,
 					idle_delay = 75,
 					-- Priority of the virtual text. This usually ensures that the completions appear on top of
@@ -167,7 +188,7 @@ return {
 					-- desired.
 					virtual_text_priority = 65535,
 					-- Set to false to disable all key bindings for managing completions.
-					map_keys = false,
+					map_keys = true,
 					-- The key to press when hitting the accept keybinding but no completion is showing.
 					-- Defaults to \t normally or <c-n> when a popup is showing.
 					accept_fallback = nil,
@@ -175,7 +196,7 @@ return {
 					key_bindings = {
 						accept = "<C-n>",
 						accept_word = false,
-						accept_line = "<C-m>",
+						accept_line = "<C-b>",
 						next = "<C-]>",
 						prev = false,
 						clear = "<C-\\>",
@@ -219,13 +240,13 @@ return {
 		},
         -- stylua: ignore
         keys = {
-            { '<leader>ot',  function() require('opencode').toggle() end,                           desc = 'Toggle embedded opencode',  mode = 'n'},
-            { '<leader>oa',  function() require('opencode').ask() end,                              desc = 'Ask opencode',                 mode = 'n', },
-            { '<leader>oc',  function() require('opencode').ask('@buffer: ') end,                              desc = 'Ask opencode about buffer',                 mode = 'n', },
-            { '<leader>oa',  function() require('opencode').ask('@selection: ') end,                desc = 'Ask opencode about selection', mode = 'v', },
-            { '<leader>op',  function() require('opencode').select_prompt() end,                    desc = 'Select prompt',                mode = { 'n', 'v', }, },
-            { '<leader>on',  function() require('opencode').command('session_new') end,             desc = 'New session', },
-            { '<leader>oy',  function() require('opencode').command('messages_copy') end,           desc = 'Copy last message', },
+            { '<leader>ot', function() require('opencode').toggle() end,                 desc = 'Toggle embedded opencode',     mode = 'n' },
+            { '<leader>oa', function() require('opencode').ask() end,                    desc = 'Ask opencode',                 mode = 'n', },
+            { '<leader>oc', function() require('opencode').ask('@buffer: ') end,         desc = 'Ask opencode about buffer',    mode = 'n', },
+            { '<leader>oa', function() require('opencode').ask('@selection: ') end,      desc = 'Ask opencode about selection', mode = 'v', },
+            { '<leader>op', function() require('opencode').select_prompt() end,          desc = 'Select prompt',                mode = { 'n', 'v', }, },
+            { '<leader>on', function() require('opencode').command('session_new') end,   desc = 'New session', },
+            { '<leader>oy', function() require('opencode').command('messages_copy') end, desc = 'Copy last message', },
             -- { '<leader>ou',  function() require('opencode').command('messages_half_page_up') end,   desc = 'Scroll messages up', },
             -- { '<leader>od', function() require('opencode').command('messages_half_page_down') end, desc = 'Scroll messages down', },
         },

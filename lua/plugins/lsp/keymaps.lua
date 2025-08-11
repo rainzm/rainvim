@@ -8,7 +8,7 @@ local function keymappings(client, bufnr)
 
 	-- Key mappings
 	buf_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-	buf_keymap(bufnr, "i", "<C-t>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+	--buf_keymap(bufnr, "i", "<C-t>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
 	buf_keymap(bufnr, "n", "<leader>wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", opts)
 	buf_keymap(bufnr, "n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
 	buf_keymap(bufnr, "n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
