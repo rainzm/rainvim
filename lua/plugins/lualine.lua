@@ -145,7 +145,7 @@ function M.config()
 				},
 				{ M._current_function },
 				--{ "copilot" },
-				{ M._codeium },
+				--{ M._codeium },
 			},
 			lualine_x = {},
 			lualine_y = {

@@ -145,23 +145,12 @@ return {
 			}
 			vim.api.nvim_set_hl(0, "llama_hl_hint", { fg = "#928374", ctermfg = 245 })
 		end,
-		-- config = function()
-		-- 	vim.api.nvim_buf_set_keymap(0, "i", "<C-n>", "<Cmd>call llama#fim_accept('full')<CR>", {
-		-- 		noremap = true,
-		-- 		silent = true,
-		-- 	})
-		-- 	vim.api.nvim_buf_set_keymap(0, "i", "<C-m>", "<Cmd>call llama#fim_accept('line')<CR>", {
-		-- 		noremap = true,
-		-- 		silent = true,
-		-- 	})
-		-- end,
 	},
 	{
 		"Exafunction/windsurf.nvim",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 		},
-		enabled = true,
 		config = function()
 			require("codeium").setup({
 				-- Optionally disable cmp source if using virtual text only
@@ -178,7 +167,7 @@ return {
 					-- desired.
 					virtual_text_priority = 65535,
 					-- Set to false to disable all key bindings for managing completions.
-					map_keys = true,
+					map_keys = false,
 					-- The key to press when hitting the accept keybinding but no completion is showing.
 					-- Defaults to \t normally or <c-n> when a popup is showing.
 					accept_fallback = nil,
@@ -200,18 +189,45 @@ return {
 		dependencies = { "folke/snacks.nvim" },
 		---@type opencode.Config
 		opts = {
+			terminal = {
+				-- No reason to prefer normal mode - can't scroll TUI like a normal buffer
+				--auto_insert = true,
+				win = {
+					position = "right",
+					-- I usually want to `toggle` and then immediately `ask` — seems like a sensible default
+					width = 0.3,
+					enter = false,
+					keys = {
+						u = function()
+							require("opencode").command("messages_half_page_up")
+						end,
+						d = function()
+							require("opencode").command("messages_half_page_down")
+						end,
+						y = function()
+							require("opencode").command("messages_copy")
+						end,
+					},
+				},
+				env = {
+					-- Other themes have visual bugs in embedded terminals: https://github.com/sst/opencode/issues/445
+					OPENCODE_THEME = "system",
+				},
+			},
+
 			-- Your configuration, if any
 		},
         -- stylua: ignore
         keys = {
-            { '<leader>ot', function() require('opencode').toggle() end,                           desc = 'Toggle embedded opencode', },
-            { '<leader>oa', function() require('opencode').ask() end,                              desc = 'Ask opencode',                 mode = 'n', },
-            { '<leader>oa', function() require('opencode').ask('@selection: ') end,                desc = 'Ask opencode about selection', mode = 'v', },
-            { '<leader>op', function() require('opencode').select_prompt() end,                    desc = 'Select prompt',                mode = { 'n', 'v', }, },
-            { '<leader>on', function() require('opencode').command('session_new') end,             desc = 'New session', },
-            { '<leader>oy', function() require('opencode').command('messages_copy') end,           desc = 'Copy last message', },
-            { '<leader>ou',    function() require('opencode').command('messages_half_page_up') end,   desc = 'Scroll messages up', },
-            { '<ldeader>od',    function() require('opencode').command('messages_half_page_down') end, desc = 'Scroll messages down', },
+            { '<leader>ot',  function() require('opencode').toggle() end,                           desc = 'Toggle embedded opencode',  mode = 'n'},
+            { '<leader>oa',  function() require('opencode').ask() end,                              desc = 'Ask opencode',                 mode = 'n', },
+            { '<leader>oc',  function() require('opencode').ask('@buffer: ') end,                              desc = 'Ask opencode about buffer',                 mode = 'n', },
+            { '<leader>oa',  function() require('opencode').ask('@selection: ') end,                desc = 'Ask opencode about selection', mode = 'v', },
+            { '<leader>op',  function() require('opencode').select_prompt() end,                    desc = 'Select prompt',                mode = { 'n', 'v', }, },
+            { '<leader>on',  function() require('opencode').command('session_new') end,             desc = 'New session', },
+            { '<leader>oy',  function() require('opencode').command('messages_copy') end,           desc = 'Copy last message', },
+            -- { '<leader>ou',  function() require('opencode').command('messages_half_page_up') end,   desc = 'Scroll messages up', },
+            -- { '<leader>od', function() require('opencode').command('messages_half_page_down') end, desc = 'Scroll messages down', },
         },
 	},
 }

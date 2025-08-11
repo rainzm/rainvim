@@ -1,5 +1,5 @@
 " -----------------------------------------------------------------------------
-" File: gruvbox.vim
+" File: gruvboxrain.vim
 " Description: Retro groove color scheme for Vim
 " Author: morhetz <morhetz@gmail.com>
 " Source: https://github.com/morhetz/gruvbox
@@ -336,36 +336,36 @@ let s:gb.orange = s:orange
 " Setup Terminal Colors For Neovim: {{{
 
 if has('nvim')
-  let g:terminal_color_0 = s:bg0[0]
-"  let g:terminal_color_0 = s:gray[0]
+  "let g:terminal_color_0 = s:bg0[0]
+  let g:terminal_color_0 = s:gray[0]
   let g:terminal_color_8 = s:gray[0]
 
-  let g:terminal_color_1 = s:gb.neutral_red[0]
-"  let g:terminal_color_1 = s:red[0]
+  "let g:terminal_color_1 = s:gb.neutral_red[0]
+  let g:terminal_color_1 = s:red[0]
   let g:terminal_color_9 = s:red[0]
 
-  let g:terminal_color_2 = s:gb.neutral_green[0]
-"  let g:terminal_color_2 = s:green[0]
+  "let g:terminal_color_2 = s:gb.neutral_green[0]
+  let g:terminal_color_2 = s:green[0]
   let g:terminal_color_10 = s:green[0]
 
-  let g:terminal_color_3 = s:gb.neutral_yellow[0]
-"  let g:terminal_color_3 = s:yellow[0]
+  "let g:terminal_color_3 = s:gb.neutral_yellow[0]
+  let g:terminal_color_3 = s:yellow[0]
   let g:terminal_color_11 = s:yellow[0]
 
-  let g:terminal_color_4 = s:gb.neutral_blue[0]
-"  let g:terminal_color_4 = s:blue[0]
+  "let g:terminal_color_4 = s:gb.neutral_blue[0]
+  let g:terminal_color_4 = s:blue[0]
   let g:terminal_color_12 = s:blue[0]
 
-  let g:terminal_color_5 = s:gb.neutral_purple[0]
-"  let g:terminal_color_5 = s:purple[0]
+  "let g:terminal_color_5 = s:gb.neutral_purple[0]
+  let g:terminal_color_5 = s:purple[0]
   let g:terminal_color_13 = s:purple[0]
 
-  let g:terminal_color_6 = s:gb.neutral_aqua[0]
-"  let g:terminal_color_6 = s:aqua[0]
+  "let g:terminal_color_6 = s:gb.neutral_aqua[0]
+  let g:terminal_color_6 = s:aqua[0]
   let g:terminal_color_14 = s:aqua[0]
 
-  let g:terminal_color_7 = s:fg4[0]
-"  let g:terminal_color_7 = s:fg1[0]
+  "let g:terminal_color_7 = s:fg4[0]
+  let g:terminal_color_7 = s:fg1[0]
   let g:terminal_color_15 = s:fg1[0]
 endif
 
@@ -921,13 +921,9 @@ hi! link NvimTreeEmptyFolderName GruvboxAqua
 hi! link NvimTreeFolderIcon GruvboxGreen
 call s:HL('NvimTreeWindowPicker',   s:gb.darkline, s:gb.bright_blue, 'inverse,bold,')
 " }}}
-" Leap: {{{
-call s:HL('LeapLabelPrimary', s:bg0, s:gb.bright_aqua)
-" hi! link LeapLabelSecondary GruvboxBlue
-" }}}
 " Gitsigns: {{{
 hi! link GitSignsAdd GruvboxAqua
-hi! link GitSignsChange GruvboxGreen
+hi! link GitSignsChange GruvboxYellow
 hi! link GitSignsDelete GruvboxRed
 " }}}
 " Noice: {{{
@@ -957,7 +953,6 @@ hi! link CodeiumSuggestion Comment
 " Snacks: {{{
 hi! link SnacksPickerDir SnacksPickerFile
 hi! link SnacksPickerGitStatusStaged GruvboxAqua
-hi! link GitSignsChange GruvboxYellow
 " }}}
 " WhichKey: {{{
 hi! link WhichKey GruvboxOrangeBold

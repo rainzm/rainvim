@@ -68,26 +68,14 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 	desc = "Format markdown files with autocorrect on save",
 })
 
--- 1. 先声明该保存哪些 shada
--- vim.opt.shada = { "'10", "<0", "s10", "h" }
-
--- 2. 只在 BufReadPost 里做一次恢复光标即可
--- local grp = vim.api.nvim_create_augroup("RestorePersistentCursor", { clear = true })
--- vim.api.nvim_create_autocmd("BufReadPost", {
--- 	group = grp,
--- 	pattern = "*",
--- 	callback = function(args)
--- 		print("Restoring cursor position for buffer: " .. args.buf)
--- 		local buf = args.buf
--- 		local ok, mark = pcall(vim.api.nvim_buf_get_mark, buf, '"')
--- 		-- mark 形如 { line, col }
--- 		if ok then
--- 			print("mark found for buffer " .. buf .. ": " .. vim.inspect(mark))
--- 		else
--- 			print("no mark found for buffer " .. buf)
--- 		end
--- 		if ok and mark[1] > 0 and mark[1] <= vim.api.nvim_buf_line_count(buf) then
--- 			vim.api.nvim_win_set_cursor(0, mark)
--- 		end
--- 	end,
--- })
+vim.api.nvim_create_autocmd("User", {
+	pattern = "OpencodeEvent",
+	callback = function(args)
+		-- See the available event types and their properties
+		vim.notify(vim.inspect(args.data), vim.log.levels.DEBUG)
+		-- Do something interesting, like show a notification when opencode finishes responding
+		if args.data.type == "session.idle" then
+			vim.notify("opencode finished responding", vim.log.levels.INFO)
+		end
+	end,
+})
