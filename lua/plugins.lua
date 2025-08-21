@@ -105,31 +105,7 @@ return {
 		end,
 	},
 	{
-		"dfendr/clipboard-image.nvim",
-		enabled = false,
-		ft = "markdown",
-		config = function()
-			require("clipboard-image").setup({
-				default = {
-					img_dir = "/Users/rain/Documents/notes/images", -- Use table for nested dir (New feature form PR #20)
-					img_dir_txt = "/Users/rain/Documents/notes/images", -- Use table for nested dir (New feature form PR #20)
-					affix = ".image %s",
-				},
-			})
-		end,
-	},
-	{
 		"windwp/nvim-autopairs",
 		config = true,
-	},
-
-	{
-		"ThePrimeagen/refactoring.nvim",
-		enabled = false,
-		dependencies = {
-			{ "nvim-lua/plenary.nvim" },
-			{ "nvim-treesitter/nvim-treesitter" },
-		},
-		opts = {},
 	},
 }

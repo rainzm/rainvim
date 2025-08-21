@@ -1,7 +1,6 @@
 return {
 	{
 		"jakewvincent/mkdnflow.nvim",
-		--enabled = false,
 		--rocks = "luautf8",
 		ft = { "markdown", "vimwiki" },
 		opts = {
@@ -163,36 +162,4 @@ date: {{ date }}
 			-- vim.keymap.set("n", "<leader>mpd", fns.details_tags_toggle)
 		end,
 	},
-	{
-		"iamcco/markdown-preview.nvim",
-		enabled = false,
-		build = function()
-			vim.fn["mkdp#util#install"]()
-		end,
-		ft = "markdown",
-		cmd = { "MarkdownPreview" },
-		init = function()
-			vim.g.mkdp_theme = "light"
-		end,
-		config = function()
-			vim.g.mkdp_filetypes = { "markdown", "vimwiki" }
-		end,
-	},
-	-- {
-	-- 	-- support for image pasting
-	-- 	"HakonHarnes/img-clip.nvim",
-	-- 	event = "VeryLazy",
-	-- 	opts = {
-	-- 		-- recommended settings
-	-- 		default = {
-	-- 			embed_image_as_base64 = false,
-	-- 			prompt_for_file_name = false,
-	-- 			-- drag_and_drop = {
-	-- 			-- 	insert_mode = true,
-	-- 			-- },
-	-- 			-- required for Windows users
-	-- 			use_absolute_path = true,
-	-- 		},
-	-- 	},
-	-- },
 }
