@@ -167,8 +167,7 @@ return {
 		end,
 	},
 	{
-		"Exafunction/windsurf.nvim",
-		enabled = true,
+		"rainzm/windsurf.nvim",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 		},
@@ -180,7 +179,7 @@ return {
 				virtual_text = {
 					enabled = true,
 					manual = false,
-					filetypes = { snacks_picker_input = false },
+					filetypes = { snacks_picker_input = false, vim = false },
 					default_filetype_enabled = true,
 					idle_delay = 75,
 					-- Priority of the virtual text. This usually ensures that the completions appear on top of
@@ -217,7 +216,7 @@ return {
 					position = "right",
 					-- I usually want to `toggle` and then immediately `ask` — seems like a sensible default
 					width = 0.3,
-					enter = false,
+					-- enter = true,
 					keys = {
 						u = function()
 							require("opencode").command("messages_half_page_up")
@@ -235,17 +234,52 @@ return {
 					OPENCODE_THEME = "system",
 				},
 			},
-
-			-- Your configuration, if any
+			prompts = {
+				---@class opencode.Prompt
+				---@field description? string Description of the prompt, show in selection menu.
+				---@field prompt? string The prompt to send to opencode, with placeholders for context like `@cursor`, `@buffer`, etc.
+				explain = {
+					description = "解释光标附近的代码",
+					prompt = "解释 @cursor 及其上下文",
+				},
+				explain_selection = {
+					description = "解释选择的代码",
+					prompt = "解释 @selection",
+				},
+				fix = {
+					description = "修复诊断",
+					prompt = "修复这些 @diagnostics",
+				},
+				optimize = {
+					description = "优化选择",
+					prompt = "优化 @selection 的性能和可读性",
+				},
+				document = {
+					description = "文档化选择",
+					prompt = "为 @selection 添加文档注释",
+				},
+				test = {
+					description = "为选择添加测试",
+					prompt = "为 @selection 添加测试",
+				},
+				review_buffer = {
+					description = "审查缓冲区",
+					prompt = "审查 @buffer 的正确性和可读性",
+				},
+				review_diff = {
+					description = "审查 git 差异",
+					prompt = "审查以下 git 差异的正确性和可读性：\n@diff",
+				},
+			},
 		},
         -- stylua: ignore
         keys = {
-            { '<leader>ot', function() require('opencode').toggle() end,                 desc = 'Toggle embedded opencode',     mode = 'n' },
-            { '<leader>oa', function() require('opencode').ask() end,                    desc = 'Ask opencode',                 mode = 'n', },
-            { '<leader>oc', function() require('opencode').ask('@buffer: ') end,         desc = 'Ask opencode about buffer',    mode = 'n', },
-            { '<leader>oa', function() require('opencode').ask('@selection: ') end,      desc = 'Ask opencode about selection', mode = 'v', },
-            { '<leader>op', function() require('opencode').select_prompt() end,          desc = 'Select prompt',                mode = { 'n', 'v', }, },
-            { '<leader>on', function() require('opencode').command('session_new') end,   desc = 'New session', },
+            { '<leader>2', function() require('opencode').toggle() end, desc = 'Toggle opencode', mode = { 'n', 't' } },
+            { '<leader>oa', function() require('opencode').ask() end, desc = 'Ask opencode', mode = 'n', },
+            { '<leader>oc', function() require('opencode').ask('@buffer: ') end, desc = 'Ask opencode about buffer', mode = 'n', },
+            { '<leader>oa', function() require('opencode').ask('@selection: ') end, desc = 'Ask opencode about selection', mode = 'v', },
+            { '<leader>op', function() require('opencode').select_prompt() end, desc = 'Select prompt', mode = { 'n', 'v', }, },
+            { '<leader>on', function() require('opencode').command('session_new') end, desc = 'New session', },
             { '<leader>oy', function() require('opencode').command('messages_copy') end, desc = 'Copy last message', },
             -- { '<leader>ou',  function() require('opencode').command('messages_half_page_up') end,   desc = 'Scroll messages up', },
             -- { '<leader>od', function() require('opencode').command('messages_half_page_down') end, desc = 'Scroll messages down', },

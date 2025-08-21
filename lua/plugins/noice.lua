@@ -58,6 +58,15 @@ return {
 				},
 				{
 					filter = {
+						error = true,
+						any = {
+							{ find = "/lua/vim/treesitter/highlighter.lua:370" },
+						},
+					},
+					opts = { skip = true },
+				},
+				{
+					filter = {
 						event = "notify",
 						min_height = 10,
 					},

@@ -4,10 +4,10 @@ return {
 	-- Library used by other plugins
 	{ "nvim-lua/plenary.nvim", module = "plenary", lazy = true },
 	-- Git
-	{
-		"tpope/vim-fugitive",
-		cmd = { "G", "Git", "Gstatus", "Gblame", "Gpush", "Gpull" },
-	},
+	-- {
+	-- 	"tpope/vim-fugitive",
+	-- 	cmd = { "G", "Git", "Gstatus", "Gblame", "Gpush", "Gpull" },
+	-- },
 	-- Better reg
 	{
 		"tversteeg/registers.nvim",
@@ -18,6 +18,20 @@ return {
 			},
 		},
 		keys = { { '"' } },
+	},
+	{
+		"lewis6991/gitsigns.nvim",
+		event = { "BufReadPre", "BufNewFile" },
+		opts = {
+			preview_config = {
+				-- Options passed to nvim_open_win
+				border = "rounded",
+				style = "minimal",
+				relative = "cursor",
+				row = 0,
+				col = 1,
+			},
+		},
 	},
 	-- Better icons
 	{
@@ -38,7 +52,7 @@ return {
 		event = "VeryLazy",
 		opts = {
 			delay = function(ctx)
-				return ctx.plugin and 0 or 500
+				return ctx.plugin and 0 or 1000
 			end,
 			icons = {
 				mappings = false,

@@ -127,10 +127,11 @@ date: {{ date }}
 		-- Make sure to set this up properly if you have lazy=true
 		"MeanderingProgrammer/render-markdown.nvim",
 		opts = {
-			file_types = { "Avante", "markdown" },
+			enabled = false,
+			file_types = { "markdown" },
 			completion = { lsp = { enabled = true } },
 		},
-		ft = { "Avante", "markdown" },
+		ft = { "markdown" },
 		keys = {
 			{
 				"<Leader>rm",
@@ -140,7 +141,31 @@ date: {{ date }}
 		},
 	},
 	{
+		"wallpants/github-preview.nvim",
+		cmd = { "GithubPreviewToggle" },
+		--keys = { "<leader>mpt" },
+		opts = {
+			single_file = false,
+
+			theme = {
+				-- "system" | "light" | "dark"
+				name = "light",
+				high_contrast = false,
+			},
+		},
+		config = function(_, opts)
+			local gpreview = require("github-preview")
+			gpreview.setup(opts)
+
+			-- local fns = gpreview.fns
+			-- vim.keymap.set("n", "<leader>mpt", fns.toggle)
+			-- vim.keymap.set("n", "<leader>mps", fns.single_file_toggle)
+			-- vim.keymap.set("n", "<leader>mpd", fns.details_tags_toggle)
+		end,
+	},
+	{
 		"iamcco/markdown-preview.nvim",
+		enabled = false,
 		build = function()
 			vim.fn["mkdp#util#install"]()
 		end,

@@ -58,7 +58,7 @@ local M = {
 				border = "rounded", -- Defaults to `vim.o.winborder` on nvim 0.11+ or 'padded' when not defined/<=0.10
 				winblend = 0,
 				winhighlight = "Normal:BlinkCmpSignatureHelp,FloatBorder:BlinkCmpSignatureHelpBorder",
-				direction_priority = { "s", "n" },
+				direction_priority = { "n", "s" },
 				-- Can accept a function if you need more control
 				-- direction_priority = function()
 				--   if condition then return { 'n', 's' } end

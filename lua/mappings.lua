@@ -135,10 +135,4 @@ M.nnoremap("/", ":set hlsearch<cr>/")
 M.nnoremap("*", "*:set hlsearch<cr>")
 M.nnoremap("gm", ":set nohlsearch<cr>")
 
-M.nvim_load_mapping({
-	["n|gwg"] = "ChooseWin",
-	["n|gwc"] = "ChooseWinCopy",
-	["n|gws"] = "ChooseWinSwap",
-})
-
 return M

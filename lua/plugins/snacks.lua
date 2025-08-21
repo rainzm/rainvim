@@ -59,20 +59,20 @@ return {
 		explorer = {
 			enabled = true,
 			replace_netrw = true,
-			win = {
-				list = {
-					keys = {
-						["w"] = "pick_win, jump",
-					},
-				},
-			},
 		},
 		indent = { enabled = false },
 		input = { enabled = true },
 		notifier = {
 			enabled = true,
 			timeout = 3000,
-			level = vim.log.levels.WARN,
+			level = vim.log.levels.INFO,
+		},
+		lazygit = {
+			--os = { editPreset = "" },
+			win = {
+				height = 0.8,
+				width = 0.8,
+			},
 		},
 		image = {
 			enabled = true,
@@ -86,9 +86,15 @@ return {
 			enabled = true,
 			sources = {
 				explorer = {
+					follow_file = false,
+					--auto_close = true,
+					on_show = function(picker)
+						vim.cmd("wincmd =")
+					end,
 					win = {
 						list = {
 							keys = {
+								--["w"] = { "pick_win", "jump" },
 								["n"] = "explorer_add",
 								["v"] = { { "pick_win", "edit_vsplit" }, mode = { "i", "n" } },
 								["s"] = { { "pick_win", "edit_split" }, mode = { "i", "n" } },
@@ -105,6 +111,34 @@ return {
 							},
 						},
 					},
+				},
+				buffers = {
+					format = function(item, picker)
+						local ret = {}
+						ret[#ret + 1] = { Snacks.picker.util.align(tostring(item.buf), 3), "SnacksPickerBufNr" }
+						ret[#ret + 1] = { " " }
+						vim.list_extend(ret, Snacks.picker.format.filename(item, picker))
+						return ret
+					end,
+				},
+				command_history = { layout = { preset = "rainselect" } },
+				diagnostics_buffer = { layout = { preset = "rain" } },
+				icons = { layout = { preset = "rainselect" } },
+				lsp_declarations = {
+					layout = { preset = "rain" },
+					jump = { tagstack = true, reuse_win = false },
+				},
+				lsp_definitions = {
+					layout = { preset = "rain" },
+					jump = { tagstack = true, reuse_win = false },
+				},
+				lsp_references = {
+					layout = { preset = "rain" },
+					jump = { tagstack = true, reuse_win = false },
+				},
+				lsp_implementations = {
+					layout = { preset = "rain" },
+					jump = { tagstack = true, reuse_win = false },
 				},
 			},
 			actions = {
@@ -215,6 +249,11 @@ return {
 				width = 0.7,
 				border = "rounded",
 				backdrop = false,
+				on_win = function(win)
+					if win and not win:is_floating() then
+						vim.cmd("wincmd =")
+					end
+				end,
 			},
 		},
 	},
@@ -230,6 +269,10 @@ return {
 			"<leader>v",
 			function()
 				Snacks.explorer.reveal()
+				local ex = Snacks.picker.get({ source = "explorer" })
+				if ex and #ex > 0 then
+					ex[1]:focus()
+				end
 			end,
 			desc = "File Explorer Reveal",
 		},
@@ -238,7 +281,7 @@ return {
 			function()
 				Snacks.picker.get({ source = "explorer" })[1]:focus()
 			end,
-			desc = "File Explorer Force",
+			desc = "File Explorer Focus",
 		},
 		-- Top Pickers & Explorer
 		{
@@ -322,6 +365,14 @@ return {
 			desc = "Git Log",
 		},
 		{
+			"<leader>4",
+			function()
+				Snacks.lazygit()
+			end,
+			desc = "Lazygit",
+			mode = { "n", "t" },
+		},
+		{
 			"<leader>gL",
 			function()
 				Snacks.picker.git_log_line()
@@ -397,7 +448,7 @@ return {
 		{
 			"<leader>lc",
 			function()
-				Snacks.picker.command_history({ layout = { preset = "rainselect" } })
+				Snacks.picker.command_history()
 			end,
 			desc = "Command History",
 		},
@@ -418,7 +469,7 @@ return {
 		{
 			"<leader>e",
 			function()
-				Snacks.picker.diagnostics_buffer({ layout = { preset = "rain" } })
+				Snacks.picker.diagnostics_buffer()
 			end,
 			desc = "Buffer Diagnostics",
 		},
@@ -446,7 +497,7 @@ return {
 		{
 			"<leader>lI",
 			function()
-				Snacks.picker.icons({ layout = { preset = "rainselect" } })
+				Snacks.picker.icons()
 			end,
 			desc = "Icons",
 		},
@@ -493,6 +544,13 @@ return {
 			desc = "Search for Plugin Spec",
 		},
 		{
+			"<leader>lP",
+			function()
+				Snacks.picker.lsp_config()
+			end,
+			desc = "Lsp Config",
+		},
+		{
 			"<leader>lq",
 			function()
 				Snacks.picker.qflist()
@@ -517,31 +575,57 @@ return {
 		{
 			"gd",
 			function()
-				Snacks.picker.lsp_definitions({ layout = { preset = "rain" } })
+				Snacks.picker.lsp_definitions()
 			end,
 			desc = "Goto Definition",
 		},
 		{
 			"gD",
 			function()
-				Snacks.picker.lsp_declarations({ layout = { preset = "rain" } })
+				Snacks.picker.lsp_declarations()
 			end,
 			desc = "Goto Declaration",
 		},
 		{
 			"gr",
 			function()
-				Snacks.picker.lsp_references({ layout = { preset = "rain" } })
+				Snacks.picker.lsp_references()
 			end,
 			nowait = true,
 			desc = "References",
 		},
 		{
-			"gI",
+			"gi",
 			function()
-				Snacks.picker.lsp_implementations({ layout = { preset = "rain" } })
+				Snacks.picker.lsp_implementations()
 			end,
 			desc = "Goto Implementation",
+		},
+		{
+			"gs",
+			function()
+				Snacks.picker.lsp_symbols({ layout = { preset = "rainselect" } })
+			end,
+			desc = "LSP Symbols",
+		},
+		{
+			"gw",
+			function()
+				local current_win = vim.api.nvim_get_current_win()
+				local win = Snacks.picker.util.pick_win({
+					--main = current_win,
+					float = false,
+					filter = function(win, buf)
+						return true
+						--return not vim.bo[buf].filetype:find("^snacks")
+					end,
+				})
+				if win then
+					vim.api.nvim_set_current_win(win)
+				end
+			end,
+			desc = "Goto Window",
+			mode = { "n", "t" },
 		},
 		-- {
 		-- 	"gy",
@@ -550,13 +634,6 @@ return {
 		-- 	end,
 		-- 	desc = "Goto T[y]pe Definition",
 		-- },
-		{
-			"<leader>2",
-			function()
-				Snacks.picker.lsp_symbols({ layout = { preset = "rainselect" } })
-			end,
-			desc = "LSP Symbols",
-		},
 		{
 			"<leader>ls",
 			function()

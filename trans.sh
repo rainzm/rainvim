@@ -60,7 +60,7 @@ mkdir -p "$dest_dir"
 # regex1='s/[^!()[]]*(\[[^]]+\])\(([^.)]+)(\.md)?\)/\1(\2.html)/g'
 regex1='s/[^!()[]]*(\[[^]]+\])\(([^.)]+)(\.md)?\)/ \1(\2.html)/g'
 # [^!\[\])(]*(\[[^\]]+\])\(([^).]+)(\.md)?\)
-pandoc_input=$(cat "$src" | sed -r "$regex1")
+pandoc_input=$(cat "$src" | /opt/homebrew/opt/gnu-sed/libexec/gnubin/sed -r "$regex1")
 pandoc_output=$(echo "$pandoc_input" | $pandoc_template)
 
 # POSTPANDOC PROCESSING
@@ -68,4 +68,4 @@ pandoc_output=$(echo "$pandoc_input" | $pandoc_template)
 # Removes "file" from ![pic of sharks](file:../sharks.jpg)
 regex3='s/file://g'
 
-echo "$pandoc_output" | sed -r $regex3 > "$dest"
+echo "$pandoc_output" | /opt/homebrew/opt/gnu-sed/libexec/gnubin/sed -r $regex3 > "$dest"

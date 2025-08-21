@@ -1,6 +1,7 @@
 local set = vim.opt
 
-set.sessionoptions:append("globals")
+--set.sessionoptions:append("globals")
+set.sessionoptions = { "buffers", "curdir", "folds", "help", "winsize", "terminal", "globals" }
 set.autoread = true
 set.backspace = "2"
 set.pumheight = 15
