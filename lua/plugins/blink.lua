@@ -1,7 +1,7 @@
 local M = {
 	"saghen/blink.cmp",
-	--dependencies = { "rafamadriz/friendly-snippets" },
-	dependencies = { "L3MON4D3/LuaSnip" },
+	dependencies = { "rafamadriz/friendly-snippets" },
+	--dependencies = { "L3MON4D3/LuaSnip" },
 
 	version = "1.*",
 	opts = {
@@ -37,7 +37,7 @@ local M = {
 			},
 			completion = { menu = { auto_show = false } },
 		},
-		snippets = { preset = "luasnip" },
+		--snippets = { preset = "luasnip" },
 
 		accept = { auto_brackets = { enabled = true } },
 

@@ -83,7 +83,7 @@ return {
 				MkdnYankFileAnchorLink = { "n", "yfa" },
 				MkdnIncreaseHeading = { "n", "+" },
 				MkdnDecreaseHeading = { "n", "-" },
-				MkdnToggleToDo = { { "n", "v" }, "<C-Space>" },
+				MkdnToggleToDo = { { "n", "v" }, "<S-Space>" },
 				MkdnNewListItem = false,
 				MkdnNewListItemBelowInsert = { "n", "o" },
 				MkdnNewListItemAboveInsert = { "n", "O" },
@@ -133,7 +133,7 @@ date: {{ date }}
 		ft = { "markdown" },
 		keys = {
 			{
-				"<Leader>rm",
+				"<Leader>mr",
 				"<cmd>RenderMarkdown buf_toggle<CR>",
 				desc = "Toggle Render Markdown in buffer",
 			},
@@ -161,5 +161,19 @@ date: {{ date }}
 			-- vim.keymap.set("n", "<leader>mps", fns.single_file_toggle)
 			-- vim.keymap.set("n", "<leader>mpd", fns.details_tags_toggle)
 		end,
+	},
+	{
+		-- support for image pasting
+		"HakonHarnes/img-clip.nvim",
+		event = "VeryLazy",
+		opts = {
+			-- recommended settings
+			default = {
+				drag_and_drop = {
+					enabled = false,
+				},
+			},
+		},
+        keys = { {"<leader>mp", "<cmd>PasteImage<cr>", desc = "Paste image from system clipboard"} },
 	},
 }

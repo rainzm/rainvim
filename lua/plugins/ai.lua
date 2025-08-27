@@ -49,7 +49,7 @@ return {
 					position = "right",
 					-- I usually want to `toggle` and then immediately `ask` — seems like a sensible default
 					width = 0.3,
-					-- enter = true,
+					enter = false,
 					keys = {
 						u = function()
 							require("opencode").command("messages_half_page_up")
@@ -79,6 +79,10 @@ return {
 					description = "解释选择的代码",
 					prompt = "解释 @selection",
 				},
+				translate_selection = {
+					description = "翻译并替换",
+					prompt = "将下列内容翻译为英文并替换原文：\n @selection",
+				},
 				fix = {
 					description = "修复诊断",
 					prompt = "修复这些 @diagnostics",
@@ -107,7 +111,7 @@ return {
 		},
         -- stylua: ignore
         keys = {
-            { '<leader>2', function() require('opencode').toggle() end, desc = 'Toggle opencode', mode = { 'n', 't' } },
+            { '<leader>oo', function() require('opencode').toggle() end, desc = 'Toggle opencode', mode = { 'n', 't' } },
             { '<leader>oa', function() require('opencode').ask() end, desc = 'Ask opencode', mode = 'n', },
             { '<leader>oc', function() require('opencode').ask('@buffer: ') end, desc = 'Ask opencode about buffer', mode = 'n', },
             { '<leader>oa', function() require('opencode').ask('@selection: ') end, desc = 'Ask opencode about selection', mode = 'v', },

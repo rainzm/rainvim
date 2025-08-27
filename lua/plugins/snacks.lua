@@ -488,7 +488,7 @@ return {
 			desc = "Highlights",
 		},
 		{
-			"<leader>li",
+			"<leader>mh",
 			function()
 				Snacks.image.hover()
 			end,
@@ -602,7 +602,7 @@ return {
 			desc = "Goto Implementation",
 		},
 		{
-			"gs",
+			"<leader>2",
 			function()
 				Snacks.picker.lsp_symbols({ layout = { preset = "rainselect" } })
 			end,

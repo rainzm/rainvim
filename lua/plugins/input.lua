@@ -1,26 +1,54 @@
 return {
-	"keaising/im-select.nvim",
-	enabled = false,
-	config = function()
-		require("im_select").setup({
-			default_im_select = "com.apple.keylayout.ABC",
-			default_command = "macism",
+	{
+		"jake-stewart/multicursor.nvim",
+		branch = "1.0",
+		config = function()
+			local mc = require("multicursor-nvim")
+			mc.setup()
 
-			-- Restore the default input method state when the following events are triggered
-			-- "VimEnter" and "FocusGained" were removed for causing problems, add it by your needs
-			--set_default_events = { "InsertLeave", "CmdlineLeave" },
-			set_default_events = { "InsertLeave", "CmdlineLeave", "TermLeave" },
+			local set = vim.keymap.set
 
-			-- Restore the previous used input method state when the following events
-			-- are triggered, if you don't want to restore previous used im in Insert mode,
-			-- e.g. deprecated `disable_auto_restore = 1`, just let it empty
-			-- as `set_previous_events = {}`
-			set_previous_events = { "InsertEnter", "TermEnter" },
-			--set_previous_events = {},
+			set({ "n", "x" }, "<leader>c", mc.toggleCursor)
 
-			-- Show notification about how to install executable binary when binary missed
-			keep_quiet_on_no_binary = false,
-			async_switch_im = true,
-		})
-	end,
+			mc.addKeymapLayer(function(layerSet)
+				-- Select a different cursor as the main one.
+				layerSet({ "n", "x" }, "<left>", mc.prevCursor)
+				layerSet({ "n", "x" }, "<right>", mc.nextCursor)
+				layerSet({ "n", "x" }, "<up>", function()
+					mc.lineAddCursor(-1)
+				end)
+				layerSet({ "n", "x" }, "<down>", function()
+					mc.lineAddCursor(1)
+				end)
+				layerSet({ "n", "x" }, "<leader><up>", function()
+					mc.lineSkipCursor(-1)
+				end)
+				layerSet({ "n", "x" }, "<leader><down>", function()
+					mc.lineSkipCursor(1)
+				end)
+
+				-- Delete the main cursor.
+				-- layerSet({ "n", "x" }, "<leader>x", mc.deleteCursor)
+
+				-- Enable and clear cursors using escape.
+				layerSet("n", "<esc>", function()
+					if not mc.cursorsEnabled() then
+						mc.enableCursors()
+					else
+						mc.clearCursors()
+					end
+				end)
+			end)
+
+			-- Customize how cursors look.
+			local hl = vim.api.nvim_set_hl
+			hl(0, "MultiCursorCursor", { reverse = true })
+			hl(0, "MultiCursorVisual", { link = "Visual" })
+			hl(0, "MultiCursorSign", { link = "SignColumn" })
+			hl(0, "MultiCursorMatchPreview", { link = "Search" })
+			hl(0, "MultiCursorDisabledCursor", { reverse = true })
+			hl(0, "MultiCursorDisabledVisual", { link = "Visual" })
+			hl(0, "MultiCursorDisabledSign", { link = "SignColumn" })
+		end,
+	},
 }
