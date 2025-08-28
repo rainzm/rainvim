@@ -106,6 +106,7 @@ return {
 	},
 	{
 		"windwp/nvim-autopairs",
+		enabled = false,
 		config = true,
 	},
 }
