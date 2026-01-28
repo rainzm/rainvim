@@ -19,7 +19,7 @@ set.smartindent = true
 vim.cmd("autocmd Filetype yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab")
 
 -- 将 g:python3_host_prog 设置为你的虚拟环境中的 Python 解释器
-vim.g.python3_host_prog = '/Users/rain/venvs/neovim/bin/python'
+vim.g.python3_host_prog = "/Users/rain/venvs/neovim/bin/python"
 
 set.incsearch = true
 set.wildmenu = true
