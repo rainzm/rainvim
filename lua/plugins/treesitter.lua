@@ -23,7 +23,7 @@ return {
 			},
 			ensure_installed = {
 				"bash",
-				"help",
+				"vimdoc",
 				"go",
 				"objc",
 				"json",
@@ -40,6 +40,13 @@ return {
 				"rust",
 				"fish",
 				"vimdoc",
+				"css",
+				"html",
+				"javascript",
+				"scss",
+				"svelte",
+				"typst",
+				"vue",
 			},
 			textobjects = {
 				select = {
