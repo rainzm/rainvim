@@ -27,6 +27,11 @@ function M._codeium()
 	return " "
 end
 
+function M._fittencode()
+	local emoji = { " ", "", " ", " ", " ", " " }
+	return "🅕 " .. emoji[require("fittencode").get_current_status()]
+end
+
 function M._current_function()
 	if M.show_current_function then
 		return vim.b.lsp_current_function
@@ -155,7 +160,8 @@ function M.config()
 				-- 	display_on_idle = true,
 				-- },
 				--{ "copilot" },
-				{ M._codeium },
+				--{ M._codeium },
+				{ M._fittencode },
 			},
 			lualine_x = {},
 			lualine_y = {
@@ -183,9 +189,9 @@ function M.config()
 		inactive_winbar = {},
 		extensions = {},
 	})
-	require("codeium.virtual_text").set_statusbar_refresh(function()
-		require("lualine").refresh()
-	end)
+	-- require("codeium.virtual_text").set_statusbar_refresh(function()
+	-- 	require("lualine").refresh()
+	-- end)
 end
 
 return M
