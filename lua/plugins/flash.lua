@@ -54,6 +54,14 @@ return {
                 "Flash Treesitter"
             },
             -- {
+            --     'S',
+            --     mode = { 'n', 'o', 'x' },
+            --     function()
+            --         require('flash').treesitter_search()
+            --     end,
+            --     desc = 'Flash Treesitter Search',
+            -- },
+            -- {
             --     "r",
             --     mode = "o",
             --     function() require("flash").remote() end,
