@@ -21,4 +21,10 @@ ls.add_snippets("go", {
 			i(1),
 		})
 	),
+	s({trig = "li", descr = "(li) \"log Infof\"", priority = -1000, trigEngine = te("w")}, {
+		t"log.Infof(\"", i(1, "", {key = "i1"}), t"\")"
+	}),
+	s({trig = "le", descr = "(lp) \"log Errorf\"", priority = -1000, trigEngine = te("w")}, {
+		t"log.Errorf(\"", i(1, "", {key = "i1"}), t"\")"
+	}),
 })
