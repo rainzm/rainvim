@@ -39,8 +39,6 @@ local M = {
 		},
 		snippets = { preset = "luasnip" },
 
-		accept = { auto_brackets = { enabled = false } },
-
 		-- appearance = {
 		-- 	nerd_font_variant = "mono",
 		-- },
@@ -72,6 +70,7 @@ local M = {
 
 		completion = {
 			documentation = { auto_show = false },
+			accept = { auto_brackets = { enabled = true } },
 			menu = {
 				draw = {
 					padding = 0,
