@@ -1,7 +1,6 @@
 return {
 	{
 		"rainzm/windsurf.nvim",
-		enabled = false,
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 		},
@@ -40,7 +39,7 @@ return {
 	},
 	{
 		"luozhiya/fittencode.nvim",
-		enabled = true,
+		enabled = false,
 		config = function()
 			require("fittencode").setup({
 				action = {
