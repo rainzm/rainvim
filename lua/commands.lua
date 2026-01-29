@@ -18,9 +18,8 @@ local function rg(opts)
 	else
 		Snacks.picker.grep_word({
 			layout = { preset = "rain" },
-			search = function(_)
-				return opts.args
-			end,
+			args = {},
+			search = opts.args,
 		})
 	end
 end
